@@ -4,7 +4,7 @@ class EProvincia{
     //Atributos
     private $idprovincia;
     private $iddepartamento;
-    private $provincia;
+    private $nombreprovincia;
 
     //Metodo magico para obtener valor del atributo
     public function __GET($campo){

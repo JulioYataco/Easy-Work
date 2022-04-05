@@ -11,14 +11,14 @@ class Contacto{
     public function __CONSTRUCT(){
         $conexion = new Conexion();
         //Almacenamos la conexion en la variable $pdo
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
     //Registrar
     public function registrarContacto($entidadContacto){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 arry(
                     $entidadContacto->__GET('idredsocial'),
@@ -35,7 +35,7 @@ class Contacto{
     //Listar
     public function listarContacto(){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -47,7 +47,7 @@ class Contacto{
     //Modificar
     public function modificarContacto($entidadContacto){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadProveedor->__GET('idcontacto'),
@@ -65,7 +65,7 @@ class Contacto{
     //Eliminar
     public function eliminarContacto($idcontacto){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(array($idcontacto));
         }
         catch(Exception $e){

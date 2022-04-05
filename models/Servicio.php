@@ -11,13 +11,13 @@ class Servicio{
     public function __CONSTRUCT(){
         $conexion = new Conexion();
         //Almacenamos la conexion en la variable $pdo
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //Metodos CRUD
     public function registrarServicio($entidadServicio){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadServicio->__GET('idproveedor'),
@@ -37,7 +37,7 @@ class Servicio{
     //Listar
     public function listarServicio(){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -49,7 +49,7 @@ class Servicio{
     //Modificar 
     public function modificarServicio($entidadServicio){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadServicio->__GET('idservicio'),
@@ -70,7 +70,7 @@ class Servicio{
     //Eliminar 
     public function eliminarServicio($idservicio){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(array($idservicio));
         }
         catch(Exception $e){

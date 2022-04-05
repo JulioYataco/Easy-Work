@@ -3,7 +3,7 @@
 class EDepartamento{
     //Atributos
     private $iddepartamento;
-    private $departamento;
+    private $nombredepartamento;
 
     //Metodo magico para obtener valor del atributo
     public function __GET($campo){

@@ -4,7 +4,7 @@ class EDistrito{
     //Atributo
     private $iddistrito;
     private $idprovincia;
-    private $distrito;
+    private $nombredistrito;
 
     //Metodo magico para obtener valor del atributo
     public function __GET($campo){

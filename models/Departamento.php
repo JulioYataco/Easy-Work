@@ -10,30 +10,15 @@ class Departamento{
     //Constructor
     public function __CONSTRUCT(){
         $conexion = new Conexion();
-        //Almacenamos la conexion en la variable $pdo
-        $this->$pdo = $conexion->getConexion(); 
+        $this->pdo = $conexion->getConexion(); 
     }
 
     //METODOS CRUD
-    //Registrar
-    public function RegistrarDepartamento($entidaddepartamento){
-        try{
-            $comando = $this->$pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidaddepartamento->__GET('departamento')
-                )
-            );
-        }
-        catch(Exception $e){
-            die($e->getMessage());
-        }
-    }
 
     //Listar
     public function ListarDepartamentos(){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("CALL spu_departamentos_listar()");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }

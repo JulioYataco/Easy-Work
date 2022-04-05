@@ -10,17 +10,17 @@ class Distrito{
     //Constructor
     public function __CONSTRUCT(){
         $conexion = new Conexion();
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
     //Registrar
     public function RegistrarDistrito($entidadDistrito){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
-                    $entidadDistrito->__GET('distrito')
+                    $entidadDistrito->__GET('nombredistrito')
                 )
             );
         }
@@ -30,10 +30,11 @@ class Distrito{
     }
 
     //Listar
-    public function ListarDistrito(){
+    public function ListarDistritos($idprovincia){
         try{
-            $comando = $this->$pdo->prepare("");
-            $comando->execute();
+            $comando = $this->pdo->prepare("CALL spu_distritos_listar(?)");
+            $comando->execute(array($idprovincia));
+            
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
         catch(Exception $e){

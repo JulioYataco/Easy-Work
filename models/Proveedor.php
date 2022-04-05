@@ -11,14 +11,24 @@ class Proveedor{
     public function __CONSTRUCT(){
         $conexion = new Conexion();
         //Almacenamos la conexion en la variable $pdo
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
+    public function login($correo){
+        try{
+            $comando = $this->pdo->prepare("CALL spu_proveedor_login(?)");
+            $comando->execute(array($correo));
+            return $comando->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
     //METODOS CRUD
     //Registrar
     public function registrarProveedor($entidadProveedor){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("CALL spu_proveedores_registrar(?,?,?,?,?,?,?,?,?)");
             $comando->execute(
                 array(
                     $entidadProveedor->__GET('iddistrito'),
@@ -27,8 +37,9 @@ class Proveedor{
                     $entidadProveedor->__GET('fechanac'),
                     $entidadProveedor->__GET('telefono'),
                     $entidadProveedor->__GET('correo'),
-                    $entidadProveedor->__GET('clave'),
-                    $entidadProveedor->__GET('fotoperfil')
+                    password_hash($entidadProveedor->__GET('clave'), PASSWORD_BCRYPT),
+                    $entidadProveedor->__GET('fotoperfil'),
+                    $entidadProveedor->__GET('nivelacceso')
 
                 )
             );
@@ -41,7 +52,7 @@ class Proveedor{
     //Listar
     public function listarProveedores(){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -53,7 +64,7 @@ class Proveedor{
     //Modificar
     public function modificarProveedor($entidadProveedor){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadProveedor->__GET('idproveedor'),
@@ -76,7 +87,7 @@ class Proveedor{
     //Eliminar
     public function eliminarProveedor($idproveedor){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(array($idproveedor));
         }
         catch(Exception $e){

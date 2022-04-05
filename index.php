@@ -1,8 +1,17 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['login'])){
+  //No sabemos si el usuario inicio sesion
+  if ($_SESSION['login']){
+    header("Location:main.php");
+  }
+}
+
+?>
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
+
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -17,7 +26,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 
   <!-- Favicon para mi app web -->
-  <link rel="shortcut icon" sizes="32x32" href="img/icono-pagina.png" type="image/x-icon">
+  <link rel="shortcut icon" sizes="32x32" href="dist/img/icono-pagina.png" type="image/x-icon">
+
+  <!-- Inputs deslisables con buscador incluido-->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <!-- MIS CSS -->
+  <link href="dist/css/slider.css" rel="stylesheet"/>
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,14 +40,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.html" class="nav-link">Home</a>
+        <a href="index.php" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -74,7 +88,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="index.php" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text">EASY-WORK</span>
     </a>
@@ -83,14 +97,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
-      </div>
+        <nav class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item menu-close">
+              <a href="#" class="nav-link active">
+                <i class="fas fa-sign-in-alt nav-icon"></i>
+                <p>
+                  Mi cuenta
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="index.php?view=login" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Iniciar Sesión</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="index.php?view=registrar-login" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Registrarse</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
 
       <!-- SidebarSearch Form -->
       <div class="form-inline">
@@ -109,32 +142,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-close">
-            <a href="#" class="nav-link active">
-              <i class="fas fa-sign-in-alt nav-icon"></i>
-              <p>
-                Mi cuenta
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.html?view=login" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Iniciar Sesión</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="index.html?view=registrar-login" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Registrarse</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          
           <!--Opciones personalizadas -->
           <li class="nav-item">
-            <a href="index.html?view=servicios" class="nav-link">
+            <a href="index.php?view=servicio" class="nav-link">
               <i class="fab fa-angellist nav-icon"></i>
               <p>Servicios</p>
             </a>
@@ -175,10 +186,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item">
-              <a href="index.html?view=portafolio" class="nav-link">
+              <a href="index.php?view=portafolio" class="nav-link">
                 <i class="fab fa-apple nav-icon"></i>
                 <p>Portafolio</p>
               </a>
+          </li>
+          <li class="nav-item">
+            <a href="index.php?view=graficosEstatico" class="nav-link">
+              <i class="fab fa-angellist nav-icon"></i>
+              <p>Graficos Estadisticos</p>
+            </a>
           </li>
           <!-- / Opciones personalizadas-->
         </ul>
@@ -242,7 +259,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
+
 <!-- REQUIRED SCRIPTS -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
@@ -256,22 +279,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
 
+
 <script>
+  //Evento ready = Página lista/cargá por completo
   $(document).ready(function (){
 
-    //Evento ready = Página lista/cargá por completo
     let content = getParam("view");
     console.log(content);
 
     if (content == false){
 
-      $("#contenido").load('views/bienvenido.html');
+      $("#contenido").load('views/bienvenido.php');
     }else{
       //La variable/KEY "view" tiene un valor (nombre del archivo abrir)
-      $("#contenido").load('views/' + content + '.html');
+      $("#contenido").load('views/' + content + '.php');
     }
-    
-  })
+  });
 </script>
+
 </body>
 </html>

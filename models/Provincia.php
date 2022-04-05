@@ -11,17 +11,17 @@ class Provincia{
     public function __CONSTRUCT(){
         $conexion = new Conexion();
         //Almacenamos la conexion en la variable $pdo
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
     //Registrar
     public function RegistrarProvincia($entidadProvincia){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
-                    $entidadProvincia->__GET('provincia')
+                    $entidadProvincia->__GET('nombreprovincia')
                 )
             );
 
@@ -32,10 +32,11 @@ class Provincia{
     }
 
     //Listar
-    public function ListarDepartamentos(){
+    public function ListarProvincias($iddepartamento){
         try{
-            $comando = $this->$pdo->prepare("");
-            $comando->execute();
+            $comando = $this->pdo->prepare("CALL spu_provincias_listar(?)");
+            $comando->execute(array($iddepartamento));
+
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
         catch(Exception $e){

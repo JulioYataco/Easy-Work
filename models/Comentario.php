@@ -11,14 +11,14 @@ class Comentario{
     public function __CONSTRUCT(){
         $conexion = new Conexion();
         //Almacenamos la conexion en la variable $pdo
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
     //Registrar
     public function registrarComentario($entidadComentario){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadComentario->__GET('idproveedor'),
@@ -35,7 +35,7 @@ class Comentario{
     //Listar
     public function listarComentario(){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -47,7 +47,7 @@ class Comentario{
     //Modificar
     public function modificarComentario($entidadComentario){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadComentario->__GET('idcomentario'),
@@ -65,7 +65,7 @@ class Comentario{
     //Eliminar
     public function eliminarComentario($idcomentario){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(array($idcomentario));
         }
         catch(Exception $e){

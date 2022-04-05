@@ -10,7 +10,7 @@ class Detalleservicio{
     //Constructor
     public function __CONSTRUCT(){
         $conexion = new Conexion();
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
@@ -18,7 +18,7 @@ class Detalleservicio{
     //Listar
     public function listarDetalleservicio(){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }

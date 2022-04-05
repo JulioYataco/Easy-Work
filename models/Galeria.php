@@ -10,14 +10,14 @@ class Galeria{
     //Constructor
     public function __CONSTRUCT(){
         $conexion = new Conexion();
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
     //Registrar
     public function registrarGaleria($entidadGaleria){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadGaleria->__GET('foto'),
@@ -33,7 +33,7 @@ class Galeria{
     //Listar
     public function listarGaleria($entidadGaleria){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -45,7 +45,7 @@ class Galeria{
     //Modificar
     public function modificarGaleria($entidadGaleria){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadGaleria->__GET('idgaleria'),
@@ -62,7 +62,7 @@ class Galeria{
     //Eliminar
     public function eliminarGaleria($idgaleria){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(array($idgaleria));
         }
         catch(Exception $e){

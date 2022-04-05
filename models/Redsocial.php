@@ -11,14 +11,14 @@ class Redsocial{
     public function __CONSTRUCT(){
         $conexion = new Conexion();
         //Almacenamos la conexion en la variable $pdo
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
     //Registrar
     public function registrarRedsocial($entidadRedsocial){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadRedsocial->__GET('redsocial')
@@ -33,7 +33,7 @@ class Redsocial{
     //Listar
     public function listarRedsocial(){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -45,7 +45,7 @@ class Redsocial{
     //Modificar
     public function modificarRedsocial($entidadRedsocial){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadRedsocial->__GET('idresocial'),
@@ -61,7 +61,7 @@ class Redsocial{
     //Eliminar
     public function eliminarRedsocial($idredsocial){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(array($idredsocial));
         }
         catch(Exception $e){

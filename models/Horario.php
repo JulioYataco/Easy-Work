@@ -10,14 +10,14 @@ class Horario{
     //Constructor
     public function __CONSTRUCT(){
         $conexion = new Conexion();
-        $this->$pdo = $conexion->getConexion();
+        $this->pdo = $conexion->getConexion();
     }
 
     //METODOS CRUD
     //Registrar
     public function registrarHorario($entidadHorario){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadHorario->__GET('idproveedor'),
@@ -35,7 +35,7 @@ class Horario{
     //Listar
     public function listarHorario($entidadHorario){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute();
             return $comando->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -47,7 +47,7 @@ class Horario{
     //Modificar
     public function modificarHorario($entidadHorario){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(
                 array(
                     $entidadHorario->__GET('idhorario'),
@@ -66,7 +66,7 @@ class Horario{
     //Eliminar
     public function eliminarHorario($idhorario){
         try{
-            $comando = $this->$pdo->prepare("");
+            $comando = $this->pdo->prepare("");
             $comando->execute(array($idhorario));
         }
         catch(Exception $e){

@@ -7,10 +7,10 @@ class EProveedor{
     private $nombres;
     private $apellidos;
     private $fechanac;
+    private $telefono;
     private $correo;
     private $clave;
     private $fotoperfil;
-    private $telefono;
     private $nivelacceso;
 
     //Metodo magico para obtener valor del atributo
