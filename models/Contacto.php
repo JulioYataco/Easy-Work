@@ -1,61 +1,44 @@
 <?php
 
 //Obtenemos la clase conexion
-require_once 'Conexion.php';
+require_once '../core/model.master.php';
 
-class Contacto{
-    // Objeto PDO : Almacenará la conexión activa
-    private $pdo;
-
-    //Constructor
-    public function __CONSTRUCT(){
-        $conexion = new Conexion();
-        //Almacenamos la conexion en la variable $pdo
-        $this->pdo = $conexion->getConexion();
-    }
+class Contacto extends ModelMaster{
+    
 
     //METODOS CRUD
     //Registrar
-    public function registrarContacto($entidadContacto){
+    public function registrarContacto(array $data){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                arry(
-                    $entidadContacto->__GET('idredsocial'),
-                    $entidadContacto->__GET('telefono'),
-                    $entidadContacto->__GET('correoelectronico')
-                )
-            );
+            parent::execProcedure($data, "spu_contactos_registrar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
 
-    //Listar
-    public function listarContacto(){
+
+    public function oneDataContacto(array $data){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute();
-            return $comando->fetchAll(PDO::FETCH_ASSOC);
+            return parent::execProcedure($data, "spu_contactos_onedata", true);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
 
-    //Modificar
-    public function modificarContacto($entidadContacto){
+    public function listarOneDataProveedor(array $idproveedor){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadProveedor->__GET('idcontacto'),
-                    $entidadProveedor->__GET('idredsocial'),
-                    $entidadProveedor->__GET('telefono'),
-                    $entidadProveedor->__GET('correo electronico')
-                )
-            );
+            return parent::execProcedure($idproveedor, "spu_contactos_listar_onecontacto_proveedor", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function modificarContacto(array $idproveedor){
+        try{
+            parent::execProcedure($idproveedor, "spu_contactos_modificar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -63,14 +46,45 @@ class Contacto{
     }
 
     //Eliminar
-    public function eliminarContacto($idcontacto){
+    public function eliminarContacto(array $data){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(array($idcontacto));
+            parent::execProcedure($data, "spu_eliminar_contacto", false);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
+
+
+
+
+
+
+
+
+
+
+    public function listarOneContacto(array $idcontacto){
+        try{
+            return parent::execProcedure($idcontacto, "spu_list_one_data_contac", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function listarContacto(array $idproveedor){
+        try{
+            return parent::execProcedure($idproveedor, "spu_listar_contacto", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+
+
+
+
 }
 ?>

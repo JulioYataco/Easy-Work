@@ -1,41 +1,14 @@
 <?php
 
 //Obtenemos la clase conexion
-require_once 'Conexion.php';
+require_once '../core/model.master.php';
 
-class Distrito{
-    // Objeto PDO : Almacenará la conexión activa
-    private $pdo;
-
-    //Constructor
-    public function __CONSTRUCT(){
-        $conexion = new Conexion();
-        $this->pdo = $conexion->getConexion();
-    }
-
-    //METODOS CRUD
-    //Registrar
-    public function RegistrarDistrito($entidadDistrito){
-        try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadDistrito->__GET('nombredistrito')
-                )
-            );
-        }
-        catch(Exception $e){
-            die($e->getMessage());      
-        }
-    }
-
+class Distrito extends ModelMaster{
+    
     //Listar
-    public function ListarDistritos($idprovincia){
+    public function listarDistritos(array $data){
         try{
-            $comando = $this->pdo->prepare("CALL spu_distritos_listar(?)");
-            $comando->execute(array($idprovincia));
-            
-            return $comando->fetchAll(PDO::FETCH_ASSOC);
+            return parent::execProcedure($data, "spu_distritos_listar", true);
         }
         catch(Exception $e){
             die($e->getMessage());

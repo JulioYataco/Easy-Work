@@ -1,43 +1,24 @@
 <?php
 
 //Obtenemos la clase conexion
-require_once 'Conexion.php';
+require_once '../core/model.master.php';
 
-class Horario{
-    // Objeto PDO : Almacenará la conexión activa
-    private $pdo;
-
-    //Constructor
-    public function __CONSTRUCT(){
-        $conexion = new Conexion();
-        $this->pdo = $conexion->getConexion();
-    }
+class Horario extends ModelMaster{
 
     //METODOS CRUD
     //Registrar
-    public function registrarHorario($entidadHorario){
+    public function registrarHorario(array $datosEnviar){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadHorario->__GET('idproveedor'),
-                    $entidadHorario->__GET('dialaborable'),
-                    $entidadHorario->__GET('horainicio'),
-                    $entidadHorario->__GET('horafinal')
-                )
-            );
+            parent::execProcedure($datosEnviar, "spu_horario_registrar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
-
     //Listar
-    public function listarHorario($entidadHorario){
+    public function listarHorario(array $idproveedor){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute();
-            return $comando->fetchAll(PDO::FETCH_ASSOC);
+            return parent::execProcedure($idproveedor, "spu_horario_listar", true);
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -45,18 +26,9 @@ class Horario{
     }
 
     //Modificar
-    public function modificarHorario($entidadHorario){
+    public function modificarHorario(array $idproveedor){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadHorario->__GET('idhorario'),
-                    $entidadHorario->__GET('idproveedor'),
-                    $entidadHorario->__GET('dialaborable'),
-                    $entidadHorario->__GET('horainicio'),
-                    $entidadHorario->__GET('horafinal')
-                )
-            );
+            parent::execProcedure($idproveedor, "spu_horario_modificar", false);
         }
         catch(Exception $e){
             die($e->getMessage());

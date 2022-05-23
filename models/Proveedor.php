@@ -1,99 +1,67 @@
 <?php 
 
 //Obtenemos la clase conexion
-require_once 'Conexion.php';
+require_once '../core/model.master.php';
 
-class Proveedor{
-    // Objeto PDO : Almacenará la conexión activa
-    private $pdo;
-
-    //Constructor
-    public function __CONSTRUCT(){
-        $conexion = new Conexion();
-        //Almacenamos la conexion en la variable $pdo
-        $this->pdo = $conexion->getConexion();
-    }
-
-    public function login($correo){
+class Proveedor extends ModelMaster{
+    
+    //Login
+    public function login(array $data){
         try{
-            $comando = $this->pdo->prepare("CALL spu_proveedor_login(?)");
-            $comando->execute(array($correo));
-            return $comando->fetch(PDO::FETCH_ASSOC);
+            return parent::execProcedure($data, "spu_proveedor_login", true);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
-    //METODOS CRUD
+
     //Registrar
-    public function registrarProveedor($entidadProveedor){
+    public function registrarProveedor(array $datosEnviar){
         try{
-            $comando = $this->pdo->prepare("CALL spu_proveedores_registrar(?,?,?,?,?,?,?,?,?)");
-            $comando->execute(
-                array(
-                    $entidadProveedor->__GET('iddistrito'),
-                    $entidadProveedor->__GET('nombres'),
-                    $entidadProveedor->__GET('apellidos'),
-                    $entidadProveedor->__GET('fechanac'),
-                    $entidadProveedor->__GET('telefono'),
-                    $entidadProveedor->__GET('correo'),
-                    password_hash($entidadProveedor->__GET('clave'), PASSWORD_BCRYPT),
-                    $entidadProveedor->__GET('fotoperfil'),
-                    $entidadProveedor->__GET('nivelacceso')
-
-                )
-            );
+            parent::execProcedure($datosEnviar, "spu_proveedores_registrar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
 
-    //Listar
-    public function listarProveedores(){
+    public function listarProveedores(array $data){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute();
-            return $comando->fetchAll(PDO::FETCH_ASSOC);
+            return parent::execProcedure($data, "spu_proveedores_listar", true);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
 
-    //Modificar
-    public function modificarProveedor($entidadProveedor){
+    public function modificarProveedor(array $data){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadProveedor->__GET('idproveedor'),
-                    $entidadProveedor->__GET('iddistrito'),
-                    $entidadProveedor->__GET('nombres'),
-                    $entidadProveedor->__GET('apellidos'),
-                    $entidadProveedor->__GET('fechanac'),
-                    $entidadProveedor->__GET('telefono'),
-                    $entidadProveedor->__GET('correo'),
-                    $entidadProveedor->__GET('clave'),
-                    $entidadProveedor->__GET('fotoperfil')
-                )
-            );
+            parent::execProcedure($data, "spu_proveedores_modificar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
 
-    //Eliminar
-    public function eliminarProveedor($idproveedor){
+    public function modificarClaveProveedor(array $idproveedor){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(array($idproveedor));
+            parent::execProcedure($idproveedor, "spu_proveedor_clave_modificar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
         }
     }
+
+    //grafico
+    public function getProveedorDashboard(){
+        try{
+          return parent::getRows("spu_proveedores_grafico_listar");
+        }
+        catch(Exception $error){
+          die($error->getMessage());
+        }
+    }
+
 }
 
 ?>

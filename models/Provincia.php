@@ -1,43 +1,14 @@
 <?php
 
 //Obtenemos la clase conexion
-require_once 'Conexion.php';
+require_once '../core/model.master.php';
 
-class Provincia{
-    // Objeto PDO : Almacenará la conexión activa
-    private $pdo;
-
-    //Atributo
-    public function __CONSTRUCT(){
-        $conexion = new Conexion();
-        //Almacenamos la conexion en la variable $pdo
-        $this->pdo = $conexion->getConexion();
-    }
-
-    //METODOS CRUD
-    //Registrar
-    public function RegistrarProvincia($entidadProvincia){
-        try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadProvincia->__GET('nombreprovincia')
-                )
-            );
-
-        }
-        catch(Exception $e){
-            die($e->getMessage());      
-        }
-    }
+class Provincia extends ModelMaster{
 
     //Listar
-    public function ListarProvincias($iddepartamento){
+    public function listarProvincias(array $data){
         try{
-            $comando = $this->pdo->prepare("CALL spu_provincias_listar(?)");
-            $comando->execute(array($iddepartamento));
-
-            return $comando->fetchAll(PDO::FETCH_ASSOC);
+            return parent::execProcedure($data, "spu_provincias_listar", true);
         }
         catch(Exception $e){
             die($e->getMessage());

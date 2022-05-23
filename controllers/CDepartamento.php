@@ -1,19 +1,17 @@
 <?php
 
-require_once '../entities/EDepartamento.php';
+// Integrando al modelo y la entidad BD
+require_once '../models/Departamento.php';
+
+//Instanciamos el modelo
+$departamento = new Departamento();
 
 if (isset($_GET['operacion'])){
-
-    // Integrando al modelo y la entidad BD
-    require_once '../models/Departamento.php';
-
-    //Instanciamos el modelo
-    $departamento = new Departamento();
 
     //Almacenamos la variable operación en una variable
     $operacion = $_GET['operacion'];
 
-    if ($operacion == 'listarCategorias'){
+    if ($operacion == 'ListarDepartamentos'){
 
         // Alamcenar en un objeto
         $tabla = $departamento->ListarDepartamentos();
@@ -22,7 +20,7 @@ if (isset($_GET['operacion'])){
             //Contiene datos que podemos mostrar
             echo "<option value=''>Departamento</option>";
             foreach($tabla as $registro){
-                echo "<option value='{$registro['iddepartamento']}'>{$registro['nombredepartamento']}</option>";
+                echo "<option value='{$registro->iddepartamento}'>{$registro->nombredepartamento}</option>";
             }
         }else{
             echo "<option value=''>No se encontraron datos</option>";

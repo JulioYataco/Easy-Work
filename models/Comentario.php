@@ -1,31 +1,25 @@
 <?php
 
 //Obtenemos la clase conexion
-require_once 'Conexion.php';
+require_once '../core/model.master.php';
 
-class Comentario{
-    // Objeto PDO : Almacenará la conexión activa
-    private $pdo;
+class Comentario extends ModelMaster{
 
-    //Constructor
-    public function __CONSTRUCT(){
-        $conexion = new Conexion();
-        //Almacenamos la conexion en la variable $pdo
-        $this->pdo = $conexion->getConexion();
+    //Obtenemos datos del proveedor
+    public function obtenerOneDataProveedor($datosEnviar){
+        try{
+            return parent::execProcedure($datosEnviar, "spu_proveedores_obtener_ondata", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
     }
 
     //METODOS CRUD
     //Registrar
-    public function registrarComentario($entidadComentario){
+    public function registrarComentario($datosEnviar){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadComentario->__GET('idproveedor'),
-                    $entidadComentario->__GET('comentario'),
-                    $entidadComentario->__GET('puntuacion')
-                )
-            );
+            parent::execProcedure($datosEnviar, "spu_comentarios_registrar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -33,11 +27,9 @@ class Comentario{
     }
 
     //Listar
-    public function listarComentario(){
+    public function listarComentarios(array $idservicio){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute();
-            return $comando->fetchAll(PDO::FETCH_ASSOC);
+            return parent::execProcedure($idservicio, "spu_comentarios_listar", true);
         }
         catch(Exception $e){
             die($e->getMessage());

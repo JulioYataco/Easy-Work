@@ -18,21 +18,21 @@
 }
 
 .contenido-slider:nth-child(1){
-    background: rgb(241, 118, 86);
+    background: rgba(8, 119, 211, 0.808);
     color: #fff;
     border-radius: 10px;
 }
 .contenido-slider:nth-child(2){
-    background: rgb(241, 118, 86);
+    background: rgba(8, 119, 211, 0.808);
     color: #fff;
 }
 
 .contenido-slider:nth-child(3){
-    background: rgb(241, 118, 86);
+    background: rgba(8, 119, 211, 0.808);
     color: #fff;
 }
 .contenido-slider:nth-child(4){
-    background: rgb(241, 118, 86);
+    background: rgba(8, 119, 211, 0.808);
     color: #fff;
 }
 

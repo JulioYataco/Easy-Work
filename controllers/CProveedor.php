@@ -2,22 +2,26 @@
 
 session_start();
 
+ //Invocamos al modelo y la entidad
+ require_once '../models/Proveedor.php';
+
+ //Creamos una instancia del modelo
+ $proveedor = new Proveedor();
+
+//Hora zonal
+date_default_timezone_set("America/Lima");
+
 //Nos preguntamos si existe la operacion que nos este enviando el view
 if (isset($_GET['operacion'])){
-
-    //Invocamos al modelo y la entidad
-    //require_once '../entities/EProveedor.php';  
-    require_once '../models/Proveedor.php';
-    //Creamos una instancia del modelo
-    $proveedor = new Proveedor();
 
     //capturo la operacion dentro de una variable
     $operacion = $_GET['operacion'];
 
     //Si esxiste la operacion login
     if ($operacion == 'login'){
+        
         //Creamos una tabla donde obtenemos un dato (correo) devuelve una fila
-        $tabla = $proveedor->login($_GET['correo']);
+        $tabla = $proveedor->login(["correo" => $_GET['correo']]);
         //obetenemos la clave ingresada por usuario
         $claveingresada = $_GET['clave'];
 
@@ -25,22 +29,54 @@ if (isset($_GET['operacion'])){
         if ($tabla){
             //Encontramos al usuario
             //obtenemos la clave verdadera
-            $claveencriptada = $tabla['clave']; //Se refiere a la clave guardada en la base de datos.
+            $claveencriptada = $tabla[0]['clave'];//Se refiere a la clave guardada en la base de datos.
 
             //COMPARAMOS: Si la clave imgresada, es igual a la claveencriptada, damos acceso
             if (password_verify($claveingresada, $claveencriptada)){
                 //La contraseña es correcta
-                $_SESSION['datosUsuario'] = $tabla['apellidos'] . ' ' . $tabla['nombres'];
+                $_SESSION['idproveedor'] = $tabla[0]['idproveedor'];
+                $_SESSION['iddistrito'] = $tabla[0]['iddistrito'];
+                $_SESSION['nombredistrito'] = $tabla[0]['nombredistrito'];
+                $_SESSION['nombres'] = $tabla[0]['nombres'];;
+                $_SESSION['apellidos'] = $tabla[0]['apellidos'];
+                $_SESSION['fechanac'] = $tabla[0]['fechanac'];
+                $_SESSION['telefono'] = $tabla[0]['telefono'];
+                $_SESSION['correo'] = $tabla[0]['correo'];
+                $_SESSION['clave'] = $tabla[0]['clave'];
+                $_SESSION['fotoperfil'] = $tabla[0]['fotoperfil'];
+                $_SESSION['nivelacceso'] = $tabla[0]['nivelacceso'];
+                
                 $_SESSION['login'] = true;      //Es como si fuera una llave
                 echo "";
             }else{
                 //Si la clave es incorrecta
-                $_SESSION['datosUsuario'] = "";
+                $_SESSION['idproveedor'] = "";
+                $_SESSION['iddistrito'] = "";
+                $_SESSION['nombredistrito'] = "";
+                $_SESSION['nombres'] = "";
+                $_SESSION['apellidos'] = "";
+                $_SESSION['fechanac'] = "";
+                $_SESSION['telefono'] = "";
+                $_SESSION['correo'] = "";
+                $_SESSION['clave'] = "";
+                $_SESSION['fotoperfil'] = "";
+                $_SESSION['nivelacceso'] = "";
                 $_SESSION['login'] = false;
                 echo "Error en la contraseña";
             }
         }else{
             //No encontramos al usuario
+            $_SESSION['idproveedor'] = "";
+            $_SESSION['iddistrito'] = "";
+            $_SESSION['nombredistrito'] = "";
+            $_SESSION['nombres'] = "";
+            $_SESSION['apellidos'] = "";
+            $_SESSION['fechanac'] = "";
+            $_SESSION['telefono'] = "";
+            $_SESSION['correo'] = "";
+            $_SESSION['clave'] = "";
+            $_SESSION['fotoperfil'] = "";
+            $_SESSION['nivelacceso'] = "";
             $_SESSION['login'] = false;
             echo "El proveedor no existe";
         }
@@ -54,41 +90,100 @@ if (isset($_GET['operacion'])){
 
     //Registrar usuario
     if ($operacion == 'registrarProveedor'){
-        //Instanciamos la entidad Proveedores
-        $entProveedor = new EProveedor();
 
-        //Llenar de datos a la entidad
-        $entProveedor->__SET('iddistrito',      $_GET['iddistrito']);
-        $entProveedor->__SET('nombres',         $_GET['nombres']);
-        $entProveedor->__SET('apellidos',       $_GET['apellidos']);
-        $entProveedor->__SET('fechanac',        $_GET['fechanac']);
-        $entProveedor->__SET('telefono',        $_GET['telefono']);
-        $entProveedor->__SET('correo',          $_GET['correo']);
-        $entProveedor->__SET('clave',           $_GET['clave']);
-        $entProveedor->__SET('fotoperfil',  '');
-        $entProveedor->__SET('nivelacceso',     'U');
+        //Array asociativo con todos los datos
+        $datos = [
+            "iddistrito"    =>  $_GET["iddistrito"],
+            "nombres"       =>  $_GET["nombres"],
+            "apellidos"     =>  $_GET["apellidos"],
+            "fechanac"      =>  $_GET["fechanac"],
+            "telefono"      =>  $_GET["telefono"],   
+            "correo"        =>  $_GET["correo"],
+            "clave"         =>  password_hash($_GET["clave"], PASSWORD_BCRYPT),
+            "fotoperfil"    =>  "",
+            "nivelacceso"   =>  "U"
+        ];
 
         //Llamamos al metodo registrar
-        $valor = $proveedor->registrarProveedor($entProveedor);
+        $proveedor->registrarProveedor($datos);
     }
+
+    //Listar proveedores
+    if ($operacion == 'listarProveedores'){
+
+        //$error = true;
+        $tabla = $proveedor->listarProveedores(["idproveedor" => $_SESSION['idproveedor']]);
+
+        if(count($tabla[0]) > 0){
+            echo json_encode($tabla[0]);
+        }
+    }
+
+    //Modificar Proveedores
+    if ($operacion == 'modificarProveedor'){
+        
+        // Almacenar en un Array Asociativo
+        $data = [
+            "idproveedor"   => $_SESSION['idproveedor'],
+            "nombres"       =>  $_GET["nombres"],
+            "apellidos"     =>  $_GET["apellidos"],
+            "fechanac"      =>  $_GET["fechanac"],
+            "telefono"      =>  $_GET["telefono"],   
+            "correo"        =>  $_GET["correo"]
+        ];
+            //Enviamos los datos a la base de datos mediante el metodo registrar
+            $proveedor->modificarProveedor($data);
+    }
+
+    //Modificar clave
+    if ($operacion == 'modificarClaveProveedor'){
+
+        $claveOriginal = $_GET['clave1'];
+        $claveNueva = $_GET['clave2'];
+
+        if(password_verify($claveOriginal, $_SESSION['clave'])){
+
+            $datosEnviar = [
+                "idproveedor" => $_SESSION['idproveedor'],
+                "clave" => password_hash($claveNueva, PASSWORD_BCRYPT)
+            ];
+
+            $proveedor->modificarClaveProveedor($datosEnviar);
+            echo "";
+        }else{
+            echo "La clave original ingresada no es correcta";
+        }
+    }
+
+    if ($operacion == 'getProveedorDashboard'){
+
+        $data = $proveedor->getProveedorDashboard();
+        echo json_encode($data);
+    }
+
+
 }
+
 
 if (isset($_POST['operacion'])){
 
     //Variable operacion
     $operacion = $_POST['operacion'];
 
-    if ($operacion == 'registrarProveedor'){
-        $entProveedor = new EProveedor();
+    /*if ($_POST['operacion'] == 'registrarProveedor'){
 
-        // Almacenar en la entidad
-        $entProveedor->__SET('iddistrito',      $_POST['iddistrito']);
-        $entProveedor->__SET('nombres',         $_POST['nombres']);
-        $entProveedor->__SET('apellidos',       $_POST['apellidos']);
-        $entProveedor->__SET('fechanac',        $_POST['fechanac']);
-        $entProveedor->__SET('telefono',        $_POST['telefono']);
-        $entProveedor->__SET('correo',          $_POST['correo']);
-        $entProveedor->__SET('clave',           $_POST['clave']);
+        // Almacenar en un Array Asociativo
+        $datos = [
+            "iddistrito"    =>  $_POST["iddistrito"],
+            "nombres"       =>  $_POST["nombres"],
+            "apellidos"     =>  $_POST["apellidos"],
+            "fechanac"      =>  $_POST["fechanac"],
+            "telefono"      =>  $_POST["telefono"],   
+            "correo"        =>  $_POST["correo"],
+            "clave"         =>  $_POST["clave"],
+            "fotoperfil"    =>  "",
+            "nivelacceso"   =>  "U"
+        ];
 
         $nombreimg = "";
 
@@ -100,16 +195,15 @@ if (isset($_POST['operacion'])){
         }
 
         // Asignando la foto
-        $entProveedor->__SET('fotoperfil', $nombreimg);
+        $_FILES['fotoperfil']->__SET($nombreimg);
 
         // Con el método registrar enviamos los datos a la base de datos
-        $proveedor->registrarProveedor($entProveedor);
+        $proveedor->registrarProveedor($datos);
 
         if (move_uploaded_file($_FILES['fotoperfil']['tmp_name'], "../dist/img/" .$nombreimg)){
             //Archivo subido correctamente
         }
-
-    }
+    }*/
 }
 
 ?>

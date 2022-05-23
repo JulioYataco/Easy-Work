@@ -1,19 +1,20 @@
 <?php
 
+// Integrando al modelo y la entidad BD
+require_once '../models/Provincia.php';
+
+//Instanciamos la clase de modelo
+$provincia = new Provincia();
+
 if (isset($_GET['operacion'])){
-
-    require_once '../models/Provincia.php';
-
-    //Instanciamos la clase de modelo
-    $provincia = new Provincia();
 
     $operacion = $_GET['operacion'];
 
     if ($operacion == 'ListarProvincias'){
 
-        $tabla = $provincia->ListarProvincias($_GET['iddepartamento']);
+        $tabla = $provincia->ListarProvincias(["iddepartamento" => $_GET['iddepartamento']]);
         
-        if (count($tabla) > 0){
+        if(count($tabla) > 0){
             //Contiene datos que podemos mostrar
             echo "<option value=''>Provincia</option>";
             foreach($tabla as $registro){

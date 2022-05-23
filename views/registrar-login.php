@@ -85,7 +85,7 @@
     $(document).ready(function (){
 
         // Aplicar mascaras RUC: 11 digitos
-        $("#txtTelefono").mask('(00) 000 000 000');
+        $("#txtTelefono").mask('000 000 000');
             
         function registrarProveedor(){
             //1. Validación comprobar que se cuenta con la información mínima
@@ -109,10 +109,10 @@
                     alert("Las contraseñas no coinciden, revise por favor.");
                 }else{
 
+                    //Confirmamos si estamos seguros
                     if(confirm("¿Estas seguro de guardar registro?")){
 
                         //2. Crear el array asociativo $_GET'' controlador
-                        //¿Estamos INSERTANDO nuevos datos o ACTUALIZANDO uno ya existente?
                         var datos = {
                             'operacion'     : 'registrarProveedor',
                             'iddistrito'    : iddistrito,
@@ -130,7 +130,6 @@
                             type:   'GET',
                             data:   datos,
                             success: function(e){
-                                //Confirmamos si estamos seguros
                                 alert("Se a registrado exitosamente");
                                 //4. Regresar todo a su estado original
                                 $("#formRegistroProveedor")[0].reset();
@@ -147,7 +146,7 @@
             $.ajax({
                 url:    'controllers/CDepartamento.php',
                 type:   'GET',
-                data:   'operacion=listarCategorias',
+                data:   'operacion=ListarDepartamentos',
                 success: function (e){
                     //Renderizar las etiquetas que vienen desde controllers
                     $("#txtDepartamento").html(e); //html e Inyecta nuenvas etiquetas e 
@@ -162,6 +161,7 @@
                 'operacion'         : 'ListarProvincias',
                 'iddepartamento'    : $(this).val()
             };
+            console.log($(this).val());
 
             $.ajax({
                 url: 'controllers/CProvincia.php',
@@ -193,7 +193,7 @@
         });
             
 
-            //Eventos asociados a botones
+        //Eventos asociados a botones
         $("#btnRegistrarProveedor").click(registrarProveedor);
 
         //Ejecutar metodos al iniciar

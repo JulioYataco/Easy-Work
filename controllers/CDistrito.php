@@ -13,7 +13,7 @@ if (isset($_GET['operacion'])){
 
     if ($operacion == 'ListarDistritos'){
 
-        $tabla = $distrito->ListarDistritos($_GET['idprovincia']);
+        $tabla = $distrito->ListarDistritos(["idprovincia" => $_GET['idprovincia']]);
 
         if (count($tabla) > 0){
 

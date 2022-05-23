@@ -1,41 +1,57 @@
 <?php
 
 //Obtenemos la clase conexion
-require_once 'Conexion.php';
+require_once '../core/model.master.php';
 
-class Redsocial{
-    // Objeto PDO : Almacenará la conexión activa
-    private $pdo;
-
-    //Constructor
-    public function __CONSTRUCT(){
-        $conexion = new Conexion();
-        //Almacenamos la conexion en la variable $pdo
-        $this->pdo = $conexion->getConexion();
-    }
+class Redsocial extends ModelMaster{
+    
 
     //METODOS CRUD
     //Registrar
-    public function registrarRedsocial($entidadRedsocial){
+    public function registrarRedSocial(array $data){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadRedsocial->__GET('redsocial')
-                )
-            );
+            parent::execProcedure($data, "spu_redessociales_registrar", false);
         }
         catch(Exception $e){
-            die($e->getMessage());      
+            die($e->getMessage());
         }
     }
 
     //Listar
-    public function listarRedsocial(){
+    public function listarRedSocialProveedor(array $data){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute();
-            return $comando->fetchAll(PDO::FETCH_ASSOC);
+            return parent::execProcedure($data, "spu_redessociales_listar_onedata", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+
+    //Eliminar
+    public function eliminarRedSocial(array $data){
+        try{
+            parent::execProcedure($data, "spu_rededssociales_eliminar", false);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+
+    //Listar redes sociales por cada proveedor
+    public function listarRedessociales(array $idproveedor){
+        try{
+            return parent::execProcedure($idproveedor, "spu_listar_redessociales", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function listarOneRedessociales(array $idredsocial){
+        try{
+            return parent::execProcedure($idredsocial, "spu_list_one_data_redsoci", true);
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -43,26 +59,9 @@ class Redsocial{
     }
 
     //Modificar
-    public function modificarRedsocial($entidadRedsocial){
+    public function modificarRedessociales(array $idproveedor){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadRedsocial->__GET('idresocial'),
-                    $entidadRedsocial->__GET('redsocial')
-                )
-            );
-        }
-        catch(Exception $e){
-            die($e->getMessage());
-        }
-    }
-
-    //Eliminar
-    public function eliminarRedsocial($idredsocial){
-        try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(array($idredsocial));
+            parent::execProcedure($idproveedor, "spu_redessociales_modificar", false);
         }
         catch(Exception $e){
             die($e->getMessage());

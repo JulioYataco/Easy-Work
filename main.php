@@ -27,13 +27,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- MIS CSS -->
   <link href="dist/css/slider.css" rel="stylesheet" />
+  <!-- Card para los servicios publicados -->
+  <link href="dist/css/cards.css" rel="stylesheet" />
+  <!-- Portafolio -->
+  <link href="dist/css/protafolio.css" rel="stylesheet" />
+  <!-- Theme style -->
+  <link href="dist/css/adminlte.css" rel="stylesheet"/>
+  <!-- Estilos de modales -->
+  <!-- <link href="dist/css/modals.css" rel="stylesheet"/> -->
 
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light fixed">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -46,10 +54,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+      
       <!-- Navbar Search -->
       <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas f a-search"></i>
+          <i class="fas fa-search"></i>
         </a>
         <div class="navbar-search-block">
           <form class="form-inline">
@@ -67,7 +76,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </form>
         </div>
       </li>
-      
+
       <!-- Maximizar a pantalla completa -->
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -83,7 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Brand Logo -->
     <a href="main.php" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="dist/img/logo1.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text">EASY-WORK</span>
     </a>
 
@@ -96,8 +105,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">
-            <?php echo $_SESSION['datosUsuario']; ?>
+          <a href="main.php?view=proveedor-vista" class="d-block">
+            <?php echo $_SESSION['nombres'] . ' ' . $_SESSION['apellidos'];  ?>
           </a>
         </div>
       </div>
@@ -119,7 +128,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-close">
+          <li class="nav-item menu-open">
             <a href="#" class="nav-link active">
               <i class="fas fa-sign-in-alt nav-icon"></i>
               <p>
@@ -129,67 +138,85 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editar Perfil</p>
+                <a href="main.php?view=proveedor-vista" class="nav-link">
+                 <i class="nav-icon fas fa-user-edit"></i>
+                  <p>Ver Perfil</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="main.php?view=cambiar-clave-vista" class="nav-link">
+                  <i class="nav-icon fas fa-key"></i>
+                  <p>Cambiar contraseña</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="controllers/CProveedor.php?operacion=cerrar-sesion" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="nav-icon fas fa-window-close"></i>
                   <p>Cerrar sesion</p>
                 </a>
               </li>
             </ul>
           </li>
-          <!--Opciones personalizadas -->
+
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fab fa-angellist nav-icon"></i>
+            <a href="main.php?view=servicio-vista" class="nav-link">
+              <i class="nav-icon fas fa-briefcase"></i>
               <p>Servicios</p>
             </a>
           </li>
-          <li class="nav-item menu-close">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Categorias
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Carpinteria</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Albañileria</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Soldador</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mecanico</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          
           <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="fab fa-apple nav-icon"></i>
+              <a href="main.php?view=portafolio" class="nav-link">
+                <i class="nav-icon fas fa-id-badge"></i>
                 <p>Portafolio</p>
               </a>
           </li>
+
+          <!--Opciones personalizadas para administrador-->
+          <?php
+            if ($_SESSION['nivelacceso'] == 'A'){
+              echo '
+                <li class="nav-item">
+                  <a href="main.php?view=categoria-vista" class="nav-link">
+                    <i class="nav-icon fas fa-layer-group"></i>
+                    <p>
+                      Categorias
+                    </p>
+                  </a>
+              </li>
+              ';
+            }
+          ?>
+
+          <!--Opciones personalizadas -->
+          <?php
+            if ($_SESSION['nivelacceso'] == 'A'){
+              echo '
+                <li class="nav-item">
+                  <a href="main.php?view=tiporedsocial-vista" class="nav-link">
+                    <i class="nav-icon fas fa-layer-group"></i>
+                    <p>
+                      Tipo de red social
+                    </p>
+                  </a>
+              </li>
+              ';
+            }
+          ?>
+
+          <?php
+            if ($_SESSION['nivelacceso'] == 'A'){
+              echo '
+              <li class="nav-item">
+                <a href="main.php?view=graficosEstatico" class="nav-link">
+                  <i class="nav-icon far fa-chart-bar"></i>
+                  <p>Graficos Estadisticos</p>
+                </a>
+              </li>
+              ';
+            }
+          ?>
+          
           <!-- / Opciones personalizadas-->
         </ul>
       </nav>
@@ -201,23 +228,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
-    
     <!-- Content Header (Page header) -->
-    
     <!-- <div class="content-header"> -->
       <!-- <div class="container-fluid"> -->
         <!-- <div class="row mb-2"> -->
           <!-- <div class="col-sm-6"> -->
             <!-- <h1 class="m-0">Encuentra a chamba</h1> -->
-          <!--</div> /.col -->
-        <!--</div> /.row -->
-      <!--</div> /.container-fluid -->
-    <!-- </div> -->
+          <!-- </div> /.col -->
+        <!-- </div> /.row -->
+      <!-- </div> /.container-fluid -->
+    <!-- </div  -->
     <!-- /.content-header -->
     
 
     <!-- Main content -->
-    <div class="content">
+    <div class="container">
       <div class="container-fluid" id="contenido2">
 
 
@@ -253,6 +278,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+<!--Fin de librerias JS para  DataTable -->
 
 <!-- Librería para formatear cajas de textos -->
 <script src="plugins/jquery-mask/jquery.mask.min.js"></script>
@@ -267,23 +297,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Libreria para cargar view en Dashboard-->
 <script src="dist/js/loadweb.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
-
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script> 
 
 <script>
   //Evento ready = Página lista/cargá por completo
   $(document).ready(function (){
 
     let content = getParam("view");
-    console.log(content);
+    //console.log(content);
 
     if (content == false){
 
-      $("#contenido").load('views/bienvenido.php');
+      $("#contenido2").load('views/servicio-vista.php');
     }else{
       //La variable/KEY "view" tiene un valor (nombre del archivo abrir)
-      $("#contenido").load('views/' + content + '.php');
+      $("#contenido2").load('views/' + content + '.php');
     }
+
   });
 </script>
 
