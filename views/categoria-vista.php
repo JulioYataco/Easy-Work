@@ -3,7 +3,6 @@
 <button type="button" class="btn btn-success" id="" data-toggle="modal" data-target="#ModalRegisCategoria">
          Categoria <i class="fas fa-plus-square"></i></i>
 </button>
-<hr>
 <br>
 
 <!-- MODAL PARA AÑADIR CATEGORIA -->
@@ -32,6 +31,33 @@
     </div>
   </div>
 </div>
+
+<!-- MODAL PARA Modificar CATEGORIA -->
+<div class="modal fade" id="ModalModCategoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Mofidicar categoria</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12">
+            
+            <div class="inputs">
+              <label for="">Categoria</label>
+              <input class="form-control form-control-border" type="text" placeholder="Escriba el nonbre de la categoria" id="txtModCategoria">
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnModCategoria">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
 <hr>
 
 
@@ -54,7 +80,9 @@
   $(document).ready(function(){
 
     var idcategoria = "";
+    var nombrecategoria = "";
 
+    //Lista
     function listarCategoria(){
       $.ajax({
         url: 'controllers/CCategoria.php',
@@ -66,6 +94,7 @@
       });
     }
 
+    //Registra
     function registrarCategoria(){
 
       //Capturamos al input
@@ -96,28 +125,85 @@
       }
     }
 
-    //Actualizar
-    $("#tabla-categoria").on("click", ".btnEditarTipoRed", function(){
+    //Obtener el id para modificar 
+    $("#tabla-categoria").on("click", ".btnEditarCat", function(){
 
-      idtiporedsocial = $(this).attr('data-idtiporedsocial');
-      console.log(idtiporedsocial);
+      idcategoria = $(this).attr('data-idcategoria');
+
       $.ajax({
-        url: 'controllers/CTiporedsocial.php',
+        url: 'controllers/CCategoria.php',
         type: 'GET',
-        data: 'operacion=oneDataTipoRed&idtiporedsocial' + idtiporedsocial,
+        data: 'operacion=onDataCategoria&idcategoria=' + idcategoria,
         success: function(e){
           console.log(e);
               
             if(e != ""){
               var data = JSON.parse(e);
 
-              $("#txtModRedSocial").val(data.redsocial);
+              $("#txtModCategoria").val(data.nombrecategoria);
 
-              $("#ModalModificarRedSocial").modal('show');
+              $("#ModalModCategoria").modal('show');
             }
         }
       });   
     });
+
+    //Modificar contactos
+    $("#btnModCategoria").click(function(){
+
+      nombrecategoria = $("#txtModCategoria").val();
+
+      var datos = {
+        'operacion'       : 'modificarCategoria',
+        'idcategoria'     : idcategoria,
+        'nombrecategoria' : nombrecategoria
+      };
+
+      if(confirm("¿Estas seguro de modificar esta categoria?")){
+
+        $.ajax({
+          url: 'controllers/CCategoria.php',
+          type: 'GET',
+          data: datos,
+          success: function(e){
+            console.log(e);
+
+            listarCategoria();
+            alert("Se a modificado Correctamente");
+          }
+        
+        });
+      }
+    });
+
+    //Eliminar un tipo de red social
+    $("#tabla-categoria").on("click", ".btnEliminarCat", function(){
+
+          //Capturamos el id
+          idcategoria = $(this).attr('data-idcategoria');
+          
+          var datos = {
+            'operacion'   : 'eliminarCategoria',
+            'idcategoria' : idcategoria
+          };
+
+          if(confirm("¿Estas seguro de eliminar esta categoria?")){
+
+            $.ajax({
+              url: 'controllers/CCategoria.php',
+              type: 'GET',
+              data: datos,
+              success: function(e){
+                console.log(e);
+                if(e == ""){
+                  listarCategoria();
+                  alert("Se elimino correctamente");
+                  
+                }
+              }
+            });
+          }
+    })
 
     //Boton que ejecuta la funcion registrar tipo red
     $("#btnRegistrarCategoria").click(registrarCategoria);

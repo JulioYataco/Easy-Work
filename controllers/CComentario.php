@@ -36,6 +36,40 @@ if(isset($_GET['operacion'])){
         //Llamamos al metodo registrar
         $comentario->registrarComentario($datos);
     }
+
+    if($operacion == 'listarComentarios'){
+
+        $tabla = $comentario->listarComentarios(["idproveedor" => $_GET['idproveedor']]);
+
+        if (count($tabla) > 0) {
+            // Contiene los datos que podemos mostrar
+            foreach ($tabla as $registroComent){
+                echo "
+                    <thead>
+                        <tr>
+                            <th scope='col'>{$registroComent['nombreyapellido']}</th>
+                            <th scope='col'></th>
+                            <th scope='col'></th>
+                            <th scope='col'>{$registroComent['fechahora']}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <td colspan='3'>{$registroComent['comentario']}  </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th scope='row' colspan='2'>Puntuacion :</th>
+                            <td colspan='1'>{$registroComent['puntuacion']}</td>
+                            <td></td>                            
+                        </tr>
+                    </tbody>
+                    <hr> <hr>
+                ";
+            }
+        }
+    }
 }
 
 ?>

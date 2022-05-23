@@ -52,7 +52,7 @@ CREATE TABLE categorias
 (
 idcategoria			INT AUTO_INCREMENT PRIMARY KEY,
 nombrecategoria	VARCHAR(50) NOT NULL,
-fechacategoria 	DATETIME NOT NULL DEFAULT NOW(),
+fechacategoria 	DATETIME 		NOT NULL DEFAULT NOW(),
 CONSTRAINT uk_categoria_nombrecategoria UNIQUE (nombrecategoria)
 )ENGINE = INNODB;
 

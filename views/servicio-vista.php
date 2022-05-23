@@ -37,25 +37,22 @@ session_start();
                 <form autocomplete="off">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="Celular">Celular</label>
-                            <input class="form-control" type="text" id="txtCelular" disabled="disabled">
+                            <label for="Celular">Celular </label>
+                            <a href="tel: + 51 + 956712345"><input class="form-control" type="text" id="txtCelular" disabled="disabled"></a>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="Celular">Telefono</label>
                             <input class="form-control" type="text" id="txtTelefono" disabled="disabled">
+                            
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="form-group col-md-12">
                             <label for="Celular">Email:</label>
-                            <input class="form-control" type="text" id="txtEmail" disabled="disabled">
+                            <a href="https://mail.google.com/mail/u/0/?tab=rm#inbox"><input class="form-control" type="text" id="txtEmail" disabled="disabled"></a>
                         </div>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>
@@ -75,8 +72,12 @@ session_start();
                 <div class='col-md'>
                     <div class='inputs'>
                         <label>Lista de Comentarios</label><br>
-                        <div style='border : 1px solid; width: 100%; height: 230px;'>
-                            <!-- Aqui se cargaran los datos de forma asincrona -->
+                            <div id="div-coment" style='border : 1px solid; width: 100%; height: 230px; padding: 10px;'>
+                                
+                                    <table border="0" id="tabComent">
+                                        <!-- Aqui se cargaran los datos de forma asincrona -->
+                                    </table>
+                            </div>
                         </div>
                         <hr>
                     </div>
@@ -84,7 +85,7 @@ session_start();
                         <label>Escriba un comentario</label>
                         <div style='display:flex;'>
                             <textarea style='padding: 10px;' id='areaComent' cols='50' rows='2' placeholder='Comente algo ....'></textarea>
-                                <button class='btn btn-sm btn-primary' id='btnComentarRegis' data-dismiss='modal'>Enviar<i class='nav-icon fas fa-paper-plane'></i></button>
+                                <button class='btn btn-sm btn-primary' id='btnComentarRegis'>Enviar<i class='nav-icon fas fa-paper-plane'></i></button>
                         </div>
                         <div class="input-group">
                             <select class="custom-select form-control form-control-border" id="txtpuntuacion">
@@ -98,9 +99,6 @@ session_start();
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class='modal-footer'>
-                <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancelar</button>
             </div>
         </div>
     </div>
@@ -233,7 +231,7 @@ session_start();
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" id="btn-guardar-servicio" class="btn btn-primary">Guardar</button>
+                <button type="button" id="btn-guardar-servicio" data-dismiss="modal" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
@@ -304,6 +302,8 @@ session_start();
         </div>
     </div>
 </div>-->
+
+
 
 <script>
     $(document).ready(function (){
@@ -801,11 +801,30 @@ session_start();
             });
         });
 
+        function listarComentario(idproveedor){
+            //Enviamos x ajax
+           
+            var datos = {
+                'operacion'     : 'listarComentarios',
+                'idproveedor'   : idproveedor
+            };
+            $.ajax({
+                url  : 'controllers/CComentario.php',
+                type : 'GET',
+                data : datos,
+                success : function (e){
+                    console.log(e);
+                    //Renderizar las etiquetas que vienen
+                    $("#tabComent").html(e);
+                }
+            });
+        }
+
         //Obtenemos los datos de un proveedor para poder hacer un comentario
-        $("#card-servicio").on("click", ".actualizarcoment", function(){
+        $("#card-servicios").on("click", ".btn-comentario", function(){
             //Capturamos el ID
-            idproveedor = $(this).attr('data-idproveedor');
-            console.log(idproveedor);
+            idproveedor = $(this).attr('data-idcode');
+            listarComentario(idproveedor);
             $.ajax({
                 url: 'controllers/CComentario.php',
                 type: 'GET',
@@ -814,7 +833,8 @@ session_start();
                     
                     var datos = JSON.parse(e);
                     console.log(datos);
-                    
+
+                    $("#ModalComentario").modal('show');
                 }
             })
         });
@@ -843,7 +863,9 @@ session_start();
                         type: 'GET',
                         data: datos,
                         success: function(e){
-                            console.log(e);
+                            
+                            //console.log(e);
+                            listarComentario(idproveedor);
                             alert("Se publico tu comentario correctamente");
                         }
                     });

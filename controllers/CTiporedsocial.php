@@ -39,7 +39,6 @@ if(isset($_GET['operacion'])){
                             <button data-idtiporedsocial='{$registro->idtiporedsocial}' class='btn btn-sm btn-danger btnEliminarTipoRed'><i class='nav-icon fas fa-trash'></i></button>
                         </td>
                     </tr>";
-            
             }
         }else{
             echo "
@@ -77,32 +76,27 @@ if(isset($_GET['operacion'])){
         $tiporedsocial->ModificarTiporedsocial($datos);
     }
 
-    //Listar un contacto
+    //Listar un tipo red social
     if($operacion == 'oneDataTipoRed'){
 
         $tabla = $tiporedsocial->oneDataTipoRed(["idtiporedsocial" => $_GET["idtiporedsocial"]]);
 
         if(count($tabla) > 0){
 
-            // CONTINE DATOS QUE VAMOS A MOSTRAR
-            foreach($tabla as $registro){
-                echo "
-                    <tr>
-                        <td class='col'>{$registro['idtiporedsocial']}</td>
-                        <td class='col'>{$registro['redsocial']}</td>
-                        <td class='col'>
-                            <button data-idtipo='{$registro['idtiporedsocial']}' class='btn btn-sm btn-warning btnEditarTipoRed'><i class='nav-icon fas fa-edit'></i></button>
-                            <button data-idtipo='{$registro['idtiporedsocial']}' class='btn btn-sm btn-danger btnEliminarTipoRed'><i class='nav-icon fas fa-trash'></i></button>
-                        </td>
-                    </tr>";
+            echo json_encode($tabla[0]);
             
-            }
-        }else{
-            echo "
-                <td class='col'> No se encontraron datos de tipo de red </td>
-            ";
         }
         
+    }
+
+    //Eliminar 
+    if($operacion == 'eliminarTipoRedSocial'){
+
+        $data = [
+            "idtiporedsocial" => $_GET['idtiporedsocial']
+        ];
+        
+        $tiporedsocial->eliminarTipoRedSocial($data);
     }
 }
 

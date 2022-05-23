@@ -17,7 +17,7 @@ class Contacto extends ModelMaster{
         }
     }
 
-
+    //Listar un dato de contacto
     public function oneDataContacto(array $data){
         try{
             return parent::execProcedure($data, "spu_contactos_onedata", true);
@@ -27,6 +27,7 @@ class Contacto extends ModelMaster{
         }
     }
 
+    //Listar los contactos de acuerdo al proveedor
     public function listarOneDataProveedor(array $idproveedor){
         try{
             return parent::execProcedure($idproveedor, "spu_contactos_listar_onecontacto_proveedor", true);

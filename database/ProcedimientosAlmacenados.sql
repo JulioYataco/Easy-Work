@@ -225,11 +225,11 @@ DELIMITER $$
 CREATE PROCEDURE spu_servicios_listar_ondata(IN _idproveedor INT)
 BEGIN
 	SELECT SERV.idservicio, PROV.idproveedor, PROV.nombres, PROV.apellidos, CAT.nombrecategoria,
-					SERV.servicio, SERV.descripcion, SERV.ubicacion, SERV.nivel, SERV.fotoportada
+					SERV.servicio, SERV.descripcion, SERV.ubicacion, SERV.nivel, SERV.fotoportada, SERV.estado
 		FROM servicios SERV 
 		INNER JOIN proveedores PROV ON PROV.idproveedor = SERV.idproveedor
 		INNER JOIN categorias CAT ON CAT.idcategoria = SERV.idcategoria
-		WHERE PROV.idproveedor = 2 ORDER BY idservicio DESC;
+		WHERE PROV.idproveedor = _idproveedor AND SERV.estado = '1' ORDER BY idservicio DESC;
 END $$
 
 -- Listar contactos al seleccionar un servicio
@@ -456,9 +456,12 @@ CALL spu_listar_redessociales(2)
 DELIMITER $$
 CREATE PROCEDURE spu_list_one_data_redsoci(IN _idredsocial INT)
 BEGIN 
-	SELECT * FROM redessociales WHERE idredsocial = 21 AND estado = '1';
+	SELECT * FROM redessociales WHERE idredsocial = _idredsocial AND estado = '1';
 END $$
 
+CALL spu_list_one_data_redsoci(4)
+
+SELECT * FROM comentarios
 
 -- ---------------------------------------------------------------------------------------------
 													-- CRUD DE HORARIOS
@@ -637,7 +640,7 @@ CREATE PROCEDURE spu_proveedores_obtener_ondata
 	IN _idproveedor INT
 )
 BEGIN
-	SELECT * FROM proveedores WHERE idproveedor = _idproveedor;
+	SELECT * FROM proveedores WHERE idproveedor = 2;
 END $$
 
 -- Registrar
@@ -659,22 +662,19 @@ SELECT * FROM proveedores
 CALL spu_comentarios_registrar(2, 2, 'Excelente servicio', '5');
 
 SELECT * FROM comentarios
+
 -- Listar Comentarios
 -- --------------------------------------------------------------
 DELIMITER $$
-CREATE PROCEDURE spu_comentarios_listar(IN _idservicio INT)
+CREATE PROCEDURE spu_comentarios_listar(IN _idproveedor INT)
 BEGIN
-	SELECT CMT.`idcomentario`, CMT.`idusuariocomenta`, CMT.`puntuacion`, CMT.`comentario`,
-			CMT.`fechahora`
-		FROM comentarios CMT
-		INNER JOIN proveedores PROV ON PROV.`idproveedor` = CMT.`idusuariocomenta`
-		INNER JOIN servicios SERV ON SERV.`idproveedor` = CMT.`idproveedor`
-		WHERE SERV.`idservicio` = _idservicio
-		ORDER BY CMT.`fechahora` AND CMT.`estado` = '1';
+	SELECT PROV.idproveedor, COM.idcomentario, COM.idusuariocomenta,
+	CONCAT(PROV.nombres,' ',PROV.apellidos) AS nombreyapellido,
+        COM.comentario , COM.fechahora, COM.puntuacion
+	FROM comentarios COM
+	INNER JOIN proveedores PROV ON PROV.idproveedor = COM.idproveedor
+	WHERE PROV.estado = 1 AND COM.idproveedor = _idproveedor;
 END $$
-
-CALL spu_comentarios_listar(1)
-
 
 
 -- ---------------------------------------------------------------------------------------------
@@ -729,7 +729,17 @@ BEGIN
 	ORDER BY idtiporedsocial;
 END $$
 
-SELECT * FROM tiporedessociales
+-- Eliminar un Tipo red
+-- ---------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_tiporededssociales_eliminar
+(
+	IN _idtiporedsocial INT
+)
+BEGIN
+	UPDATE tiporedessociales SET estado = '0'
+		WHERE idtiporedsocial	= _idtiporedsocial;
+END $$
 
 
 -- ---------------------------------------------------------------------------------------------
@@ -752,9 +762,42 @@ CALL spu_categorias_registrar('Albaliñeria');
 DELIMITER $$
 CREATE PROCEDURE spu_categorias_listar()
 BEGIN
-	SELECT * FROM categorias ORDER BY idcategoria;
+	SELECT * FROM categorias
+	WHERE estado = '1' ORDER BY idcategoria;
 END $$
 
-CALL spu_categorias_listar();
+
+-- Listar un dato
+-- -----------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_categorias_onedata(IN _idcategoria INT)
+BEGIN
+	SELECT * FROM categorias WHERE idcategoria = _idcategoria ORDER BY idcategoria AND estado = '1';
+END $$
+
+-- Modificar
+-- -----------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_categorias_modificar
+( 
+	IN _idcategoria INT,
+	IN _nombrecategoria VARCHAR(50)
+)
+BEGIN
+	UPDATE categorias SET
+		nombrecategoria = _nombrecategoria
+	WHERE idcategoria = _idcategoria;
+END $$
 
 
+-- Eliminar un Tipo red
+-- ---------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_categorias_eliminar
+(
+	IN _idcategoria INT
+)
+BEGIN
+	UPDATE categorias SET estado = '0'
+		WHERE idcategoria	= _idcategoria;
+END $$

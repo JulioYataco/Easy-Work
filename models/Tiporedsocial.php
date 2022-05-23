@@ -15,7 +15,7 @@ class Tiporedsocial extends ModelMaster{
         }
     }
 
-    //Listar
+    //Listar en modal
     public function listarTiporedsocialModal(){
         try{
             return parent::getRows("spu_tiporedessociales_listar");
@@ -55,6 +55,15 @@ class Tiporedsocial extends ModelMaster{
         }
     }
 
+    //Eliminar
+    public function eliminarTipoRedSocial(array $data){
+        try{
+            parent::execProcedure($data, "spu_tiporededssociales_eliminar", false);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 }
 
 ?>

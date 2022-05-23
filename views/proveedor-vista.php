@@ -158,7 +158,7 @@ session_start();
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalHorarioRegis">
         Registrar Horario <i class="nav-icon fas fa-calendar-plus"></i>
     </button>
-    <button type="button" class="btn btn-success" id="btnModificarHorario" data-toggle="modal" data-target="#ModalHorarioModifi">
+    <button type="button" class="btn btn-warning" id="btnModificarHorario" data-toggle="modal" data-target="#ModalHorarioModifi">
         Modificar Horario <i class="nav-icon fas fa-edit"></i>
     </button>
     <br>
@@ -169,10 +169,10 @@ session_start();
 <div class="table-responsive-sm">
   <table border="1" class="table">
       <thead>
-          <tr >
-              <th scope="col" class="bg-primary">Dias Lavorables</th>
-              <th scope="col" class="bg-primary">Hora de Inicio</th>
-              <th scope="col" class="bg-primary">Hora Termino</th>
+          <tr class="bg-success">
+              <th scope="col">Dias Lavorables</th>
+              <th scope="col">Hora de Inicio</th>
+              <th scope="col">Hora Termino</th>
           </tr>
       </thead>
     <tbody>
@@ -258,7 +258,7 @@ session_start();
 <hr>
 
 <!-- Boton para agregar contacto -->
-<button type="button" class="btn btn-success" id="" data-toggle="modal" data-target="#ModalRegisContac">
+<button type="button" class="btn btn-primary" id="" data-toggle="modal" data-target="#ModalRegisContac">
     Añadir Contacto <i class="nav-icon fas fa-address-book"></i>
 </button>
 
@@ -355,9 +355,8 @@ session_start();
 </div>
 <hr>
 
-
 <!-- Boton para agregar red social -->
-<button type="button" class="btn btn-success" id="" data-toggle="modal" data-target="#ModalRegisRedSocial">
+<button type="button" class="btn btn-primary" id="" data-toggle="modal" data-target="#ModalRegisRedSocial">
         Añadir red Social <i class="nav-icon fas fa-edit"></i>
 </button>
 
@@ -371,9 +370,9 @@ session_start();
     <thead class="bg-info">
       <tr>
         <th scope="col">Redes Sociales</th>
-        <th scope="col">Cuenta</th>
-        <th scope="col">Link</th>
-        <th scope="col">Operación</th>
+        <th>Cuenta</th>
+        <th>Link</th>
+        <th>Operación</th>
       </tr>
     </thead>
     <tbody id="tab_redes">
@@ -384,24 +383,6 @@ session_start();
 <br>
 <hr>
 
-<!-- BOTON PARA AGREGAR SERVICIO -->
-<div class="row content-header">
-    <div class="col-xl-5 col-md-6 col-sm-12 form-group">
-        <form class="form-inline">
-            <label class="my-1 mr-2" for="filtro-categorias">Filtrar:</label>
-            <div class="input-group">
-                <select class="custom-select form-control" id="filtro-categorias">
-                    <!-- Cargados de manera asincrónica -->
-                </select>
-
-                <div class="input-group-append" id="button-addon4">
-                    <button class="btn btn-outline-success" id="btn-registrar-servicio" type="button" title="Registrar nuevo servicio" data-toggle="modal" data-target="#modal-servicios"><i class="fas fa-plus-square"></i> Nuevo Publicación</button>
-                    <!-- <button class="btn btn-outline-primary" id="btn-aviso-registro" type="button" title="Registrar nuevo servicio" data-toggle="modal" data-target="#modal-iniciarsesion" style="margin-top: 1em">Ingresar</button> -->
-                </div>
-            </div>
-        </form>
-    </div>  
-</div>
 
 <h4 align="center">MIS SERVICIOS</h4>
 
@@ -535,6 +516,7 @@ session_start();
             }
         }
 
+        //Listar
         function listarHorario(){
 
             $.ajax({
@@ -559,6 +541,7 @@ session_start();
             });
         }
 
+        //Modificar
         function modificarHorario(){
 
             //validamos los campos
@@ -661,6 +644,7 @@ session_start();
           });
         }
 
+        //Eliminar una red social
         $("#tab_redes").on("click", ".btnEliminarRedSocial", function(){
           //Capturamos el id
           idredsocial = $(this).attr("data-idredsocial");
@@ -693,18 +677,10 @@ session_start();
           idredsocial = $(this).attr("data-idredsocial");
           console.log(idredsocial);
 
-          var datos = {
-            'operacion'     : 'modificarRedessociales',
-            'idredsocial'   : idredsocial,
-            'idtiporedsocial'     : redsocial,
-            'nombrecuenta'  : nombrecuenta,
-            'link'          : link
-          };
-
           $.ajax({
             url: 'controllers/CRedsocial.php',
             type: 'GET',
-            data: datos,
+            data: 'operacion=listarOneRedessociales&idredsocial=' + idredsocial,
             success: function(e){
               console.log(e);
               
@@ -713,7 +689,7 @@ session_start();
 
                 datosNuevos = false;
 
-                $("#txtModtipoRed").val(data.redsocial);
+                $("#txtModtipoRed").val(data.idtiporedsocial);
                 $("#txtModNombreCuenta").val(data.nombrecuenta);
                 $("#txtModLink").val(data.link);
 
@@ -723,9 +699,8 @@ session_start();
           });
         });
 
-
         //Modificar contactos
-        $("#ModalModModSocial").on("click", "#btnModRedSocial", function(){
+        $("#btnModRedSocial").click(function(){
 
           redsocial = $("#txtModtipoRed").val();
           nombrecuenta = $("#txtModNombreCuenta").val();
@@ -734,33 +709,27 @@ session_start();
           var datos = {
             'operacion'     : 'modificarRedessociales',
             'idredsocial'   : idredsocial,
-            'redsocial'     : redsocial,
+            'idtiporedsocial' : redsocial,
             'nombrecuenta'  : nombrecuenta,
             'link'          : link
           };
 
-          $.ajax({
-            url: 'controllers/CRedsocial.php',
-            type: 'GET',
-            data: datos,
-            success: function(e){
-              console.log(e);
-              if(confirm("¿Estas seguro de modificar esta red social?")){
+          if(confirm("¿Estas seguro de modificar esta red social?")){
 
-                var datosServer = JSON.parse(e);
-
-                $("#txtModtipoRed").val(datosServer.redsocial);
-                $("#txtModNombreCuenta").val(datosServer.nombrecuenta);
-                $("#txtModLink").val(datosServer.link);
+            $.ajax({
+              url: 'controllers/CRedsocial.php',
+              type: 'GET',
+              data: datos,
+              success: function(e){
+                console.log(e);
 
                 listarRedSocial();
                 alert("Se a modificado Correctamente");
               }
-            }
-          });
-
+            
+            });
+          }
         });
-
 
         /**CRUD DE CONTACTOS */
         function registrarContactos(){  

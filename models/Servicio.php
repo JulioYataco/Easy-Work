@@ -79,9 +79,20 @@ class Servicio extends ModelMaster{
         }
     }
 
+    //Listar los servicios por cada proveedor
     public function oneDataServicioProveedor(array $idproveedor){
         try{
             return parent::execProcedure($idproveedor, "spu_servicios_listar_ondata", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Listar redes sociales por cada proveedor
+    public function oneDataRedSocialProveedor(array $data){
+        try{
+            return parent::execProcedure($data, "spu_servicio_redessociales_proveedor", true);
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -96,15 +107,6 @@ class Servicio extends ModelMaster{
             die($e->getMessage());
         }
     }*/
-
-    public function oneDataRedSocialProveedor(array $data){
-        try{
-            return parent::execProcedure($data, "spu_servicio_redessociales_proveedor", true);
-        }
-        catch(Exception $e){
-            die($e->getMessage());
-        }
-    }
     
 }
 ?>

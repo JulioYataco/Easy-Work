@@ -27,7 +27,6 @@ class Redsocial extends ModelMaster{
         }
     }
 
-
     //Eliminar
     public function eliminarRedSocial(array $data){
         try{

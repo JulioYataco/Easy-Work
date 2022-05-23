@@ -106,7 +106,7 @@ if (isset ($_GET['operacion'])){
                                     <span>Nivel: {$registro->nivel}</span>
                                     <div class='buttonService'>
                                         <button data-idcode='{$registro->idproveedor}' class='btnContactoListar btn-sm btn-primary'>Contactar</button>
-                                        <button class='btn-comentario btn-sm btn-info'>Comentar</button>
+                                        <button data-idcode='{$registro->idproveedor}' class='btn-comentario btn-sm btn-info'>Comentar</button>
                                     </div>
                                 </div>
                             </div>
@@ -187,11 +187,14 @@ if (isset ($_GET['operacion'])){
                             </div>
                             <div class='content-message-services'>
                                 <p>Ubicanos en: {$registro['ubicacion']}</p>
+                                
                             </div>
-                            <div class='content-message-services'>
-                                <p>Nivel: {$registro['nivel']}</p>
-                                    <button class='buttonService btnContactoListar btn-sm btn-primary'>Contactar</button>
-                                    <button class='buttonService2 btn-comentario btn-sm btn-info'>Comentar</button>
+                            <div class='content-message' style='display: flex;'>
+                                    <span>Nivel: {$registro['nivel']}</span>
+                                    <div class='buttonService'>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btnContactoListar btn-sm btn-primary'>Contactar</button>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btn-comentario btn-sm btn-info'>Comentar</button>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -240,8 +243,7 @@ if (isset ($_GET['operacion'])){
                 echo "
                         <div class='form-group col-md-8'>
                             <div class='header-card'>
-                                <h4>{$registro['servicio']}</h4> 
-                                <i class='nav-icon ml-auto fas fa-ellipsis-h'></i>
+                                <h4>{$registro['servicio']}</h4>
                             <div class='options-icon'>";
 
                             if(isset($_SESSION['idproveedor'])){
@@ -276,8 +278,6 @@ if (isset ($_GET['operacion'])){
                             </div>
                             <div class='content-message-services'>
                                 <p>Nivel: {$registro['nivel']}</p>
-                                    <button class='buttonService btnContactoListar btn-sm btn-primary'>Contactar</button>
-                                    <button class='buttonService2 btn-comentario btn-sm btn-info'>Comentar</button>
                             </div>
                         </div>
                     </div>
@@ -395,7 +395,7 @@ if (isset ($_GET['operacion'])){
             }
         }
     }
-    
+   
 }
 
 if (isset($_POST['operacion'])){

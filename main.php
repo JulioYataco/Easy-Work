@@ -181,9 +181,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <i class="nav-icon fas fa-layer-group"></i>
                     <p>
                       Categorias
+                      <i class="fas fa-cog"></i>
                     </p>
                   </a>
-              </li>
+                </li>
               ';
             }
           ?>
@@ -197,6 +198,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <i class="nav-icon fas fa-layer-group"></i>
                     <p>
                       Tipo de red social
+                      <i class="fas fa-cog"></i>
                     </p>
                   </a>
               </li>
@@ -204,18 +206,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
           ?>
 
-          <?php
-            if ($_SESSION['nivelacceso'] == 'A'){
-              echo '
-              <li class="nav-item">
-                <a href="main.php?view=graficosEstatico" class="nav-link">
-                  <i class="nav-icon far fa-chart-bar"></i>
-                  <p>Graficos Estadisticos</p>
-                </a>
-              </li>
-              ';
-            }
-          ?>
+          
           
           <!-- / Opciones personalizadas-->
         </ul>

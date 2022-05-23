@@ -62,7 +62,7 @@ if (isset($_GET['operacion'])){
 
         $tabla = $categoria->onDataCategoria(["idcategoria" => $_GET['idcategoria']]);
 
-        if(count($tabla[0]) > 0){
+        if(count($tabla) > 0){
             echo json_encode($tabla[0]);
         }
     }
@@ -74,6 +74,26 @@ if (isset($_GET['operacion'])){
         ];
 
         $categoria->registrarCategoria($datos);
+    }
+
+    if($operacion == 'modificarCategoria'){
+
+        $datos = [
+            "idcategoria" => $_GET['idcategoria'],
+            "nombrecategoria" => $_GET['nombrecategoria']
+        ];
+
+        $categoria->modificarCategoria($datos);
+    }
+
+    //Eliminar 
+    if($operacion == 'eliminarCategoria'){
+
+        $data = [
+            "idcategoria" => $_GET['idcategoria']
+        ];
+        
+        $categoria->eliminarCategoria($data);
     }
 
 }

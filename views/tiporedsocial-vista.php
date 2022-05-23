@@ -47,7 +47,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnRegistrarRedSocial">Guardar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnModificarTipoRedSocial">Guardar</button>
       </div>
     </div>
   </div>
@@ -58,7 +58,6 @@
          Red Social <i class="fas fa-plus-square"></i></i>
 </button>
 <hr>
-<br>
 
 <div class="table-responsive-sm">
   <table border="1" class="table">
@@ -121,27 +120,84 @@
       }
     }
 
-    //Actualizar
+    //Obtener el id para modificar
     $("#tabla-tipoRed").on("click", ".btnEditarTipoRed", function(){
 
-      var idtiporedsocial = $(this).attr('data-idtiporedsocial');
+      idtiporedsocial = $(this).attr('data-idtiporedsocial');
       $.ajax({
         url: 'controllers/CTiporedsocial.php',
         type: 'GET',
-        data: 'operacion=oneDataTipoRed&idtiporedsocial' + idtiporedsocial,
+        data: 'operacion=oneDataTipoRed&idtiporedsocial=' + idtiporedsocial,
         success: function(e){
           console.log(e);
               
             if(e != ""){
               var data = JSON.parse(e);
 
-              $("#txtModRedSocial").val(data.redsocial)[0];
+              $("#txtModRedSocial").val(data.redsocial);
 
               $("#ModalModificarRedSocial").modal('show');
             }
         }
       });   
     });
+
+    //Modificar contactos
+    $("#btnModificarTipoRedSocial").click(function(){
+
+      redsocial = $("#txtModRedSocial").val();
+
+      var datos = {
+        'operacion'         : 'ModificarTiporedsocial',
+        'idtiporedsocial'   : idtiporedsocial,
+        'redsocial'         : redsocial
+      };
+
+      if(confirm("¿Estas seguro de modificar este tipo de red social?")){
+
+        $.ajax({
+          url: 'controllers/CTiporedsocial.php',
+          type: 'GET',
+          data: datos,
+          success: function(e){
+            console.log(e);
+
+            listarTipoRed();
+            alert("Se a modificado Correctamente");
+          }
+        
+        });
+      }
+    });
+
+    //Eliminar un tipo de red social
+    $("#tabla-tipoRed").on("click", ".btnEliminarTipoRed", function(){
+
+          //Capturamos el id
+          idtiporedsocial = $(this).attr('data-idtiporedsocial');
+          
+          var datos = {
+            'operacion'   : 'eliminarTipoRedSocial',
+            'idtiporedsocial' : idtiporedsocial
+          };
+
+          if(confirm("¿Estas seguro de eliminar esta red social?")){
+
+            $.ajax({
+              url: 'controllers/CTiporedsocial.php',
+              type: 'GET',
+              data: datos,
+              success: function(e){
+                console.log(e);
+                if(e == ""){
+                  listarTipoRed();
+                  alert("Se elimino correctamente");
+                  
+                }
+              }
+            });
+          }
+    })
 
     //Boton que ejecuta la funcion registrar tipo red
     $("#btnRegistrarRedSocial").click(registrarTipoRed);
