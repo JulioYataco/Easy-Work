@@ -15,6 +15,7 @@ class Servicio extends ModelMaster{
         }
     }
 
+    //Listar todos los servicios
     public function listarServicios(){
         try{
             return parent::getRows("spu_servicios_listar");
@@ -24,6 +25,7 @@ class Servicio extends ModelMaster{
         }
     }
 
+    //Lista los servicios por categorias
     public function onDataCategoria(array $idcategoria){
         try{
             return parent::execProcedure($idcategoria, "spu_servicio_categoria_listar", true);
@@ -33,6 +35,37 @@ class Servicio extends ModelMaster{
         }
     }
 
+    //Lista los servicios por departamentos
+    public function listarServiciosDepartamento(array $iddepartamento){
+        try{
+            return parent::execProcedure($iddepartamento, "spu_servicio_departamentos_listar", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Lista los servicios por provincias
+    public function listarServiciosProvincia(array $idprovincia){
+        try{
+            return parent::execProcedure($idprovincia, "spu_servicio_provincia_listar", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Lista los servicios por distritos
+    public function listarServiciosDistrito(array $iddistrito){
+        try{
+            return parent::execProcedure($iddistrito, "spu_servicio_distrito_listar", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Modifica un servicio
     public function modificarServicio(array $idservicio){
         try{
             parent::execProcedure($idservicio, "spu_servicios_modificar", false);
@@ -42,6 +75,7 @@ class Servicio extends ModelMaster{
         }
     }
 
+    //Obtiene un servicio
     public function oneDataServicio(array $idservicio){
         try{
             return parent::execProcedure($idservicio, "spu_servicio_onedata", true);
@@ -51,6 +85,7 @@ class Servicio extends ModelMaster{
         }
     }
 
+    //Elimina un servicio (update a estado 0)
     public function eliminarServicio(array $idservicio){
         try{
             parent::execProcedure($idservicio, "spu_servicios_elimimar", false);
@@ -60,10 +95,20 @@ class Servicio extends ModelMaster{
         }
     }
 
-    //PRUEBAS
+    //Lista el contacto por proveedor
     public function oneDataContacto(array $data){
         try{
             return parent::execProcedure($data, "spu_contactos_onedata", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Lista las redes sociales por proveedor
+    public function oneDataRedsocial(array $idproveedor){
+        try{
+            return parent::execProcedure($idproveedor, "spu_redessociales_listar_onedata", true);
         }
         catch(Exception $e){
             die($e->getMessage());

@@ -15,7 +15,7 @@ if(isset($_GET['operacion'])){
     $operacion = $_GET['operacion'];
 
     //Obtenemos datos de un proveedor
-    if($operacion == 'obtenerOneDataProveedor'){
+    if ($operacion == 'obtenerOneDataProveedor'){
 
         $tabla = $comentario->obtenerOneDataProveedor(["idproveedor" => $_GET['idproveedor']]);
 
@@ -24,7 +24,8 @@ if(isset($_GET['operacion'])){
         }
     }
 
-    if($operacion == 'registrarComentario'){
+    //Registra un comentario
+    if ($operacion == 'registrarComentario'){
 
         $datos = [
             "idproveedor"      => $_GET["idproveedor"],
@@ -37,7 +38,8 @@ if(isset($_GET['operacion'])){
         $comentario->registrarComentario($datos);
     }
 
-    if($operacion == 'listarComentarios'){
+    //Lista los comentarios
+    if ($operacion == 'listarComentarios'){
 
         $tabla = $comentario->listarComentarios(["idproveedor" => $_GET['idproveedor']]);
 
@@ -62,7 +64,14 @@ if(isset($_GET['operacion'])){
                         <tr>
                             <th scope='row' colspan='2'>Puntuacion :</th>
                             <td colspan='1'>{$registroComent['puntuacion']}</td>
-                            <td></td>                            
+                            <td>
+                                <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-warning btnEditarComentario'>
+                                <i class='nav-icon fas fa-edit'></i>
+                                </button>
+                                <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-danger btnDeleteComentario'>
+                                    <i class='nav-icon fas fa-trash'></i>{$registroComent['idcomentario']}
+                                </button>
+                            </td>                            
                         </tr>
                     </tbody>
                     <hr> <hr>
@@ -70,6 +79,37 @@ if(isset($_GET['operacion'])){
             }
         }
     }
+
+    //Listar un comentario
+    if ($operacion == 'listarOneDataComentarios'){
+
+        $tabla = $comentario->listarOneDataComentarios(["idcomentario" => $_GET["idcomentario"]]);
+
+        if($tabla){
+            echo json_encode($tabla[0]);
+        }
+    }
+
+    //Modificar
+    if ($operacion == 'modificarComentario'){
+        //Array asociativo
+        $data = [
+            "idcomentario"  => $_GET["idcomentario"],
+            "comentario"    => $_GET["comentario"],
+            "puntuacion"    => $_GET["puntuacion"]
+        ];
+        $comentario->modificarComentario($data);
+    }
+
+    //Eliminar
+    if ($operacion == 'eliminarComentario'){
+        //Array asociativo
+        $data = [
+            "idcomentario"  => $_GET["idcomentario"]
+        ];
+        $comentario->eliminarComentario($data);
+    }
+
 }
 
 ?>

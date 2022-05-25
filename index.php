@@ -52,7 +52,7 @@ if (isset($_SESSION['login'])){
   <!-- /MIS CSS -->
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
   
 <div class="wrapper">
 
@@ -253,6 +253,9 @@ if (isset($_SESSION['login'])){
 
 <!-- Libreria para cargar view en Dashboard-->
 <script src="dist/js/loadweb.js"></script>
+
+<!-- ChartJS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
 

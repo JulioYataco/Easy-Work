@@ -31,10 +31,57 @@ if (isset($_GET['operacion'])){
 
     if($operacion == 'listarHorario'){
         $error = true;
-        $tabla = $horario->listarHorario(["idproveedor" => $_SESSION['idproveedor']]);
+
+        $idproveedor;
+        //Condicion para cuando se destruya el localStorage
+        if($_GET['idproveedor'] == -1){
+            //Cuando se destruye
+            $idproveedor = $_SESSION['idproveedor'];
+        }else{
+           $idproveedor = $_GET['idproveedor'];
+        }
+
+        $tabla = $horario->listarHorario(["idproveedor" => $idproveedor]);
 
         if(count($tabla[0]) > 0){
-            echo json_encode($tabla[0]);
+            // CONTINE DATOS QUE VAMOS A MOSTRAR
+            foreach($tabla as $registro){
+                echo "
+                    <tr>
+                        <td class='col'>";
+                        if(isset($_SESSION['idproveedor'])){
+    
+                            if ($_SESSION['idproveedor'] == $registro['idproveedor']){
+                                echo "
+                                    <button data-idhorario='{$registro['idhorario']}' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#ModalHorarioRegis'>Registrar Horario <i class='nav-icon fas fa-calendar-plus'></i></button>
+                                    <button data-idhorario='{$registro['idhorario']}' class='btn btn-sm btn-warning' id='btnModificarHorario' data-toggle='modal' data-target='#ModalHorarioModifi'><i class='nav-icon fas fa-edit'></i></button>
+                                ";
+                            }
+                        }
+                echo "
+                        </td>
+                        <td class='col'>{$registro['dialaborable']}</td>
+                        <td class='col'>{$registro['horainicio']}</td>
+                        <td class='col'>{$registro['horafinal']}</td>
+                    </tr>";
+                
+            }
+        }else{
+            echo "
+            <tr>
+                <td colspan='4'>No tienes contactos agregados</td>
+            </tr>
+                ";
+        }
+    }
+
+    //Listar un horario
+    if($operacion == 'listarOneDataHorario'){
+
+        $idhorario = $horario->listarOneDataHorario(["idhorario" => $_GET["idhorario"]]);
+
+        if($idhorario){
+            echo json_encode($idhorario[0]);
         }
     }
 

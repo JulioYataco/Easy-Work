@@ -61,6 +61,7 @@ if (isset ($_GET['operacion'])){
                             <div class='form-group col-md-8'>
                                 <div class='header-card'>
                                     <h4>{$registro->servicio}</h4>
+                                    <h4 data-idproveedores='{$registro->idproveedor}' class='CapIdproveedor'>{$registro->proveedor}</h4>
                                 <div class='options-icon'>";
 
                                 if(isset($_SESSION['idproveedor'])){
@@ -116,6 +117,7 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Lista los servicios por categorias
     if($operacion == 'onDataCategoria'){
 
         $tabla = $servicio->onDataCategoria(["idcategoria" => $_GET['idcategoria']]);
@@ -204,9 +206,283 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Lista los servicios por departamentos
+    if($operacion == 'listarServiciosDepartamento'){
+
+        $tabla = $servicio->listarServiciosDepartamento(["iddepartamento" => $_GET['iddepartamento']]);
+
+        //Enviamos datos que se insertaran en la tabla
+        if($tabla){
+            
+            // Variable para saber si tiene imagen o no
+            $imagen = "";
+
+            foreach($tabla as $registro){
+                //Si existe una imagen en la BD
+                if ($registro['fotoportada'] == "" || $registro['fotoportada'] == "null"){
+                    //La imagen que se mostrara por defecto
+                    $imagen = "image-portada-default.png";
+                } 
+                else{
+                    //Se muestra la imagen que esta almacenada en la BD
+                    $imagen = $registro['fotoportada'];
+                }
+    
+                echo "<div class='card'>
+                        <div class='form-row'>
+                            <div class='form-group col-md-4'>
+                                <img src='dist/img/{$imagen}'>
+                            </div>";
+
+                            if(isset($_SESSION['idproveedor'])){
+
+                                if ($_SESSION['idproveedor'] == $registro['idproveedor'] || $_SESSION['nivelacceso'] == 'A'){
+                                    echo "
+                                        <li class='options btn-update-img' data-codigo='{$registro['idservicio']}' data-name='{$registro['servicio']}' data-img='{$registro['fotoportada']}'><i class='fas fa-camera' title='Cambiar imagen'></i></li>
+                                    ";
+                                }
+                            }
+    
+                echo "
+                        <div class='form-group col-md-8'>
+                            <div class='header-card'>
+                                <h4>{$registro['servicio']}</h4>
+                            <div class='options-icon'>";
+
+                            if(isset($_SESSION['idproveedor'])){
+
+                                // Mostrar icono (Eliminar) solo cuando el usuario lo haya registrado
+                                if ($_SESSION['idproveedor'] == $registro['idproveedor']){
+                                    echo "
+                                        <li class='options btn-eliminar' data-codigo='{$registro['idservicio']}'><i class='fas fa-trash-alt' title='' data-title='Eliminar'></i></li>
+                                    ";
+                                }
+                            }
+                        
+                            if(isset($_SESSION['idproveedor'])){
+
+                                // Mostrar icono (Editar) solo si es Administrador o el usuario que lo registro
+                                if ($_SESSION['nivelacceso'] == 'A' || $_SESSION['idproveedor'] == $registro['idproveedor']){
+                                    echo "
+                                        <li class='options btn-editar' data-codigo='{$registro['idservicio']}' data-nombreservicio='{$registro['servicio']}'data-descripcion='{$registro['descripcion']}' data-ubicacion='{$registro['ubicacion']}' data-nivel='{$registro['nivel']}'><i class='fa fa-edit' title='' data-title='Editar servicio'></i></li>           
+                                    ";
+                                }
+                            }
+    
+                    echo "    
+                        </div>                    
+                            </div>
+                            <div class='content-message-services'>
+                                <p>{$registro['descripcion']}</p>
+                                <hr>    
+                            </div>
+                            <div class='content-message-services'>
+                                <p>Ubicanos en: {$registro['ubicacion']}</p>
+                                
+                            </div>
+                            <div class='content-message' style='display: flex;'>
+                                    <span>Nivel: {$registro['nivel']}</span>
+                                    <div class='buttonService'>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btnContactoListar btn-sm btn-primary'>Contactar</button>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btn-comentario btn-sm btn-info'>Comentar</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+            }
+        }
+    }
+
+    //Lista los servicios por provincias
+    if($operacion == 'listarServiciosProvincia'){
+
+        $tabla = $servicio->listarServiciosProvincia(["idprovincia" => $_GET['idprovincia']]);
+
+        //Enviamos datos que se insertaran en la tabla
+        if($tabla){
+            
+            // Variable para saber si tiene imagen o no
+            $imagen = "";
+
+            foreach($tabla as $registro){
+                //Si existe una imagen en la BD
+                if ($registro['fotoportada'] == "" || $registro['fotoportada'] == "null"){
+                    //La imagen que se mostrara por defecto
+                    $imagen = "image-portada-default.png";
+                } 
+                else{
+                    //Se muestra la imagen que esta almacenada en la BD
+                    $imagen = $registro['fotoportada'];
+                }
+    
+                echo "<div class='card'>
+                        <div class='form-row'>
+                            <div class='form-group col-md-4'>
+                                <img src='dist/img/{$imagen}'>
+                            </div>";
+
+                            if(isset($_SESSION['idproveedor'])){
+
+                                if ($_SESSION['idproveedor'] == $registro['idproveedor'] || $_SESSION['nivelacceso'] == 'A'){
+                                    echo "
+                                        <li class='options btn-update-img' data-codigo='{$registro['idservicio']}' data-name='{$registro['servicio']}' data-img='{$registro['fotoportada']}'><i class='fas fa-camera' title='Cambiar imagen'></i></li>
+                                    ";
+                                }
+                            }
+    
+                echo "
+                        <div class='form-group col-md-8'>
+                            <div class='header-card'>
+                                <h4>{$registro['servicio']}</h4>
+                            <div class='options-icon'>";
+
+                            if(isset($_SESSION['idproveedor'])){
+
+                                // Mostrar icono (Eliminar) solo cuando el usuario lo haya registrado
+                                if ($_SESSION['idproveedor'] == $registro['idproveedor']){
+                                    echo "
+                                        <li class='options btn-eliminar' data-codigo='{$registro['idservicio']}'><i class='fas fa-trash-alt' title='' data-title='Eliminar'></i></li>
+                                    ";
+                                }
+                            }
+                        
+                            if(isset($_SESSION['idproveedor'])){
+
+                                // Mostrar icono (Editar) solo si es Administrador o el usuario que lo registro
+                                if ($_SESSION['nivelacceso'] == 'A' || $_SESSION['idproveedor'] == $registro['idproveedor']){
+                                    echo "
+                                        <li class='options btn-editar' data-codigo='{$registro['idservicio']}' data-nombreservicio='{$registro['servicio']}'data-descripcion='{$registro['descripcion']}' data-ubicacion='{$registro['ubicacion']}' data-nivel='{$registro['nivel']}'><i class='fa fa-edit' title='' data-title='Editar servicio'></i></li>           
+                                    ";
+                                }
+                            }
+    
+                    echo "    
+                        </div>                    
+                            </div>
+                            <div class='content-message-services'>
+                                <p>{$registro['descripcion']}</p>
+                                <hr>    
+                            </div>
+                            <div class='content-message-services'>
+                                <p>Ubicanos en: {$registro['ubicacion']}</p>
+                                
+                            </div>
+                            <div class='content-message' style='display: flex;'>
+                                    <span>Nivel: {$registro['nivel']}</span>
+                                    <div class='buttonService'>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btnContactoListar btn-sm btn-primary'>Contactar</button>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btn-comentario btn-sm btn-info'>Comentar</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+            }
+        }
+    }
+
+    //Lista los servicios por distritos
+    if($operacion == 'listarServiciosDistrito'){
+
+        $tabla = $servicio->listarServiciosDistrito(["iddistrito" => $_GET['iddistrito']]);
+
+        //Enviamos datos que se insertaran en la tabla
+        if($tabla){
+            
+            // Variable para saber si tiene imagen o no
+            $imagen = "";
+
+            foreach($tabla as $registro){
+                //Si existe una imagen en la BD
+                if ($registro['fotoportada'] == "" || $registro['fotoportada'] == "null"){
+                    //La imagen que se mostrara por defecto
+                    $imagen = "image-portada-default.png";
+                } 
+                else{
+                    //Se muestra la imagen que esta almacenada en la BD
+                    $imagen = $registro['fotoportada'];
+                }
+    
+                echo "<div class='card'>
+                        <div class='form-row'>
+                            <div class='form-group col-md-4'>
+                                <img src='dist/img/{$imagen}'>
+                            </div>";
+
+                            if(isset($_SESSION['idproveedor'])){
+
+                                if ($_SESSION['idproveedor'] == $registro['idproveedor'] || $_SESSION['nivelacceso'] == 'A'){
+                                    echo "
+                                        <li class='options btn-update-img' data-codigo='{$registro['idservicio']}' data-name='{$registro['servicio']}' data-img='{$registro['fotoportada']}'><i class='fas fa-camera' title='Cambiar imagen'></i></li>
+                                    ";
+                                }
+                            }
+    
+                echo "
+                        <div class='form-group col-md-8'>
+                            <div class='header-card'>
+                                <h4>{$registro['servicio']}</h4>
+                            <div class='options-icon'>";
+
+                            if(isset($_SESSION['idproveedor'])){
+
+                                // Mostrar icono (Eliminar) solo cuando el usuario lo haya registrado
+                                if ($_SESSION['idproveedor'] == $registro['idproveedor']){
+                                    echo "
+                                        <li class='options btn-eliminar' data-codigo='{$registro['idservicio']}'><i class='fas fa-trash-alt' title='' data-title='Eliminar'></i></li>
+                                    ";
+                                }
+                            }
+                        
+                            if(isset($_SESSION['idproveedor'])){
+
+                                // Mostrar icono (Editar) solo si es Administrador o el usuario que lo registro
+                                if ($_SESSION['nivelacceso'] == 'A' || $_SESSION['idproveedor'] == $registro['idproveedor']){
+                                    echo "
+                                        <li class='options btn-editar' data-codigo='{$registro['idservicio']}' data-nombreservicio='{$registro['servicio']}'data-descripcion='{$registro['descripcion']}' data-ubicacion='{$registro['ubicacion']}' data-nivel='{$registro['nivel']}'><i class='fa fa-edit' title='' data-title='Editar servicio'></i></li>           
+                                    ";
+                                }
+                            }
+    
+                    echo "    
+                        </div>                    
+                            </div>
+                            <div class='content-message-services'>
+                                <p>{$registro['descripcion']}</p>
+                                <hr>    
+                            </div>
+                            <div class='content-message-services'>
+                                <p>Ubicanos en: {$registro['ubicacion']}</p>
+                                
+                            </div>
+                            <div class='content-message' style='display: flex;'>
+                                    <span>Nivel: {$registro['nivel']}</span>
+                                    <div class='buttonService'>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btnContactoListar btn-sm btn-primary'>Contactar</button>
+                                        <button data-idcode='{$registro['idproveedor']}' class='btn-comentario btn-sm btn-info'>Comentar</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ";
+            }
+        }
+    }
+
     if($operacion == 'oneDataServicioProveedor'){
 
-        $tabla = $servicio->oneDataServicioProveedor(["idproveedor" => $_SESSION['idproveedor']]);
+        $idproveedor;
+        if($_GET['idproveedor'] == -1){
+            $idproveedor = $_SESSION['idproveedor'];
+        }else{
+            $idproveedor = $_GET['idproveedor'];
+        }
+
+        $tabla = $servicio->oneDataServicioProveedor(["idproveedor" => $idproveedor]);
 
         //Enviamos datos que se insertaran en la tabla
         if($tabla){
@@ -309,8 +585,34 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Listar las redes sociales por servicio
+    if($operacion == 'oneDataRedsocial'){
+
+        $tabla = $servicio->oneDataRedsocial(["idproveedor" => $_GET["idproveedor"]]);
+
+        if($tabla){
+            echo json_encode($tabla[0]);
+        }
+    }
+
+    if($operacion == 'oneDataRedSocialProveedor'){
+
+        $data = $servicio->oneDataRedSocialProveedor(["idproveedor" => $_GET['idproveedor']]);
+
+        if($data){
+            
+            foreach($data as $fila){
+                echo "
+                    
+                    <spam><a href='{$fila['link']}'><spam>{$fila['redsocial']}</spam></a></spam>
+                ";
+            }
+        }
+
+    }
+
     //PRUEBA
-    if($operacion == 'listarOneDataProveedor'){
+    /*if($operacion == 'listarOneDataProveedor'){
 
         $tabla = $servicio->listarOneDataProveedor(["idproveedor" => $_SESSION['idproveedor']]);
 
@@ -394,7 +696,7 @@ if (isset ($_GET['operacion'])){
                 ";
             }
         }
-    }
+    }*/
    
 }
 

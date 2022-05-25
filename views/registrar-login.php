@@ -154,7 +154,7 @@
             }); // Fin ajax
         }
             
-            //Cargar las provincias de acuerdo con lo que se seleccione en Departamentos
+        //Cargar las provincias de acuerdo con lo que se seleccione en Departamentos
         $("#txtDepartamento").change( function (){
                 
             var datos = {
@@ -174,7 +174,7 @@
             });
         });
             
-            //Cargar las provincias de acuerdo con lo que se seleccione en Provincias
+        //Cargar las provincias de acuerdo con lo que se seleccione en Provincias
         $("#txtProvincia").change( function (){
                 
             var datos = {

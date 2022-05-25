@@ -112,7 +112,15 @@ if (isset($_GET['operacion'])){
     if ($operacion == 'listarProveedores'){
 
         //$error = true;
-        $tabla = $proveedor->listarProveedores(["idproveedor" => $_SESSION['idproveedor']]);
+        $idproveedor;
+        if($_GET['idproveedor'] == -1){
+            $idproveedor = $_SESSION['idproveedor'];
+        }
+        else{
+            $idproveedor = $_GET['idproveedor'];
+        }
+
+        $tabla = $proveedor->listarProveedores(["idproveedor" => $idproveedor]);
 
         if(count($tabla[0]) > 0){
             echo json_encode($tabla[0]);
@@ -155,12 +163,26 @@ if (isset($_GET['operacion'])){
         }
     }
 
+    //Grafico estadistico
     if ($operacion == 'getProveedorDashboard'){
 
         $data = $proveedor->getProveedorDashboard();
         echo json_encode($data);
     }
 
+    //Grafico estadistico
+    if ($operacion == 'getProveedorDashboardLineal'){
+
+        $data = $proveedor->getProveedorDashboardLineal();
+        echo json_encode($data);
+    }
+
+    //Grafico estadistico
+    if ($operacion == 'getProveedorDashboardcircular'){
+
+        $data = $proveedor->getProveedorDashboardcircular();
+        echo json_encode($data);
+    }
 
 }
 

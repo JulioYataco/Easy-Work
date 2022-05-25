@@ -25,21 +25,27 @@ if(isset($_GET['operacion'])){
     //Listar contacto por proveedor
     if($operacion == 'listarContacto'){
 
-        $tabla = $contacto->listarContacto(["idproveedor" => $_SESSION['idproveedor']]);
+        $idproveedor;
+        if($_GET['idproveedor'] == -1){
+            $idproveedor = $_SESSION['idproveedor'];
+        }else{
+            $idproveedor = $_GET['idproveedor'];
+        }
+
+        $tabla = $contacto->listarContacto(["idproveedor" => $idproveedor]);
 
         if(count($tabla) > 0){
             foreach ($tabla as $registroContac){
                 echo "
                 <tr>
-                    <td class='col'> {$registroContac['celular']} </td>
-                    <td class='col'> {$registroContac['telefono']} </td>
-                    <td class='col'> {$registroContac['email']} </td>
+                    
                     <td class='col'>";
 
                     if(isset($_SESSION['idproveedor'])){
 
                         if ($_SESSION['idproveedor'] == $registroContac['idproveedor']){
                             echo "
+                                <button data-idcontacto='{$registroContac['idcontacto']}'  class='btn btn-sm btn-primary' data-toggle='modal' data-target='#ModalRegisContac'>Añadir Contacto <i class='nav-icon fas fa-address-book'></i></button>
                                 <button data-idcontacto='{$registroContac['idcontacto']}'  class='btn btn-sm btn-warning btnEditarContacto'><i class='nav-icon fas fa-edit'></i></button>
                                 <button data-idcontacto='{$registroContac['idcontacto']}'  class='btn btn-sm btn-danger btnDeleteContacto'><i class='nav-icon fas fa-trash'></i></button>
                             ";
@@ -48,9 +54,18 @@ if(isset($_GET['operacion'])){
                         
                 echo "
                     </td>
+                    <td class='col'> {$registroContac['celular']} </td>
+                    <td class='col'> {$registroContac['telefono']} </td>
+                    <td class='col'> {$registroContac['email']} </td>
                 </tr>";
             
             }
+        }else{
+            echo "
+            <tr>
+                <td colspan='4'>No tienes contactos agregadoss</td>
+            </tr>
+            ";
         }
     }
 

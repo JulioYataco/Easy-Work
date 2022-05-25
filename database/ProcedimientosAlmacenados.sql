@@ -220,7 +220,7 @@ BEGIN
 END $$
 
 -- Listar un servicio especifico
--- ---------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicios_listar_ondata(IN _idproveedor INT)
 BEGIN
@@ -233,6 +233,7 @@ BEGIN
 END $$
 
 -- Listar contactos al seleccionar un servicio
+-- ----------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicios_listar_ondata(IN _servicio INT)
 BEGIN
@@ -246,10 +247,12 @@ BEGIN
 		WHERE PROV.idproveedor = 2 ORDER BY idservicio DESC;
 END $$
 
+-- -----------------------------------------------------
+						-- FILTROS DE SERVICIO --
+-- -----------------------------------------------------
 
-
--- Listar servicioss por categoria
--- -------------------------------------------------------------------------------------
+-- Listar servicios por categoria
+-- ----------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicio_categoria_listar(IN _idcategoria INT)
 BEGIN
@@ -263,27 +266,53 @@ BEGIN
 			ORDER BY SERV.fechahora;
 END $$
 
-CALL spu_servicio_categoria_listar(1)
-
--- Listar Servicios por departamentos (PENDIENTE)
--- -------------------------------------------------------------------------------------
+-- Lista los servicios de acuerdo al departamento
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
-CREATE PROCEDURE spu_servicio_departamento_listar(IN _iddepartamento VARCHAR(2))
+CREATE PROCEDURE spu_servicio_departamentos_listar(IN _iddepartamento VARCHAR(2))
 BEGIN
-	SELECT SERV.idservicio, DPT.nombredepartamento, PROV.idproveedor, 
-					CONCAT(PROV.nombres, ' ', PROV.apellidos) AS 'proveedor',
-				 CAT.nombrecategoria, SERV.servicio, SERV.descripcion, SERV.ubicacion,
-				 SERV.nivel, SERV.fotoportada
-		  FROM servicios SERV
-			INNER JOIN proveedores PROV ON PROV.idproveedor = SERV.idproveedor
-			INNER JOIN categorias CAT ON CAT.idcategoria = SERV.idcategoria
-			INNER JOIN departamentos DPT ON DPT.iddepartamento = SERV.iddepartamento 
-			WHERE DPT.iddepartamento = _iddepartamento AND SERV.estado = '1'
-			ORDER BY SERV.fechahora;
+	SELECT proveedores.`iddistrito`, servicios.`idservicio`, proveedores.`iddistrito`, servicios.`idproveedor`,
+					servicios.`idcategoria`, servicios.`servicio`, servicios.`descripcion`, servicios.ubicacion,
+					servicios.`nivel`, servicios.`fotoportada`, servicios.`favorito`, servicios.`fechahora`,
+					servicios.`estado`, provincias.`iddepartamento`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN distritos ON distritos.`iddistrito` = proveedores.`iddistrito`
+	INNER JOIN provincias ON provincias.`idprovincia` = distritos.`idprovincia`
+	WHERE iddepartamento = _iddepartamento AND servicios.estado = '1';
+END $$
+
+-- Lista los servicios de acuerdo a la provincia
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_servicio_provincia_listar(IN _idprovincia VARCHAR(4))
+BEGIN
+	SELECT proveedores.`iddistrito`, servicios.`idservicio`, proveedores.`iddistrito`, servicios.`idproveedor`,
+					servicios.`idcategoria`, servicios.`servicio`, servicios.`descripcion`, servicios.ubicacion,
+					servicios.`nivel`, servicios.`fotoportada`, servicios.`favorito`, servicios.`fechahora`,
+					servicios.`estado`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN distritos ON distritos.`iddistrito` = proveedores.`iddistrito`
+	WHERE idprovincia = _idprovincia AND servicios.estado = '1';
+END $$
+
+-- Lista los servicios de acuerdo a los distritos
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_servicio_distrito_listar(IN _iddistrito VARCHAR(6))
+BEGIN
+	SELECT proveedores.`iddistrito`, servicios.`idservicio`, proveedores.`iddistrito`, servicios.`idproveedor`,
+					servicios.`idcategoria`, servicios.`servicio`, servicios.`descripcion`,
+					servicios.ubicacion, servicios.`nivel`, servicios.`fotoportada`,
+					servicios.`favorito`, servicios.`fechahora`, servicios.`estado`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	WHERE iddistrito = _iddistrito AND servicios.estado = '1';
 END $$
 
 -- Modificar servicio
--- ------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicios_modificar
 (
@@ -313,7 +342,7 @@ BEGIN
 END $$	
 
 -- Eliminar un servicio
--- ---------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicios_elimimar(IN _idservicio INT)
 BEGIN
@@ -323,7 +352,7 @@ BEGIN
 END $$
 
 -- Obtener un solo dato (PENDIENTE)
--- --------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicio_onedata(IN _idservicio INT)
 BEGIN
@@ -337,7 +366,7 @@ END $$
 CALL spu_servicio_onedata(7)
 
 -- Capturando id del comentario por proveedor
--- -------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicio_contacto_proveedor(IN _idproveedor INT)
 BEGIN
@@ -345,7 +374,7 @@ BEGIN
 END $$
 
 -- Capturando id del comentario por proveedor
--- -------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_servicio_redessociales_proveedor(IN _idproveedor INT)
 BEGIN
@@ -356,12 +385,12 @@ BEGIN
 	WHERE RDS.idproveedor = 2 AND RDS.`estado` = '1';
 END $$
 
--- ---------------------------------------------------------------------------------------------
-													-- CRUD DE REDES SOCIALES
--- ---------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------------------------
+														-- CRUD DE REDES SOCIALES
+-- ---------------------------------------------------------------------------------------------------------------------------
 
 -- Registrar Red social
--- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 
 DELIMITER $$
 CREATE PROCEDURE spu_redessociales_registrar
@@ -380,7 +409,7 @@ END $$
 
 
 -- Modificar una red social
--- ------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_redessociales_modificar
 (
@@ -403,13 +432,10 @@ BEGIN
 END $$
 
 
--- Listar Red social
--- ---------------------------------------------------------------------
+-- Listar Red social por proveedor (Funcional)
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
-CREATE PROCEDURE spu_redessociales_listar_onedata
-(
-	IN _idproveedor INT
-)
+CREATE PROCEDURE spu_redessociales_listar_onedata(IN _idproveedor INT)
 BEGIN
 		SELECT RDS.`idredsocial`, RDS.`idproveedor`, TRS.`redsocial`, RDS.`nombrecuenta`,
 						RDS.link
@@ -422,7 +448,7 @@ END $$
 CALL spu_redessociales_listar_onedata(2)
 
 -- Eliminar una red social
--- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_rededssociales_eliminar
 (
@@ -433,11 +459,8 @@ BEGIN
 		WHERE idredsocial	= _idredsocial;
 END $$
 
-
-
-
 -- listar redes sociales por proveedor
--- ------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_listar_redessociales(IN _idproveedor INT)
 BEGIN 
@@ -452,7 +475,7 @@ END $$
 CALL spu_listar_redessociales(2)
 
 -- Listar una sola red social
--- --------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_list_one_data_redsoci(IN _idredsocial INT)
 BEGIN 
@@ -463,11 +486,12 @@ CALL spu_list_one_data_redsoci(4)
 
 SELECT * FROM comentarios
 
--- ---------------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------------------------------------
 													-- CRUD DE HORARIOS
--- ---------------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------------------------------------
 
 -- Registrar Horarios
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_horario_registrar
 (
@@ -482,6 +506,7 @@ BEGIN
 END $$
 
 -- Listar horario
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_horario_listar(IN _idproveedor INT)
 BEGIN
@@ -490,7 +515,18 @@ BEGIN
 		WHERE idproveedor = _idproveedor;
 END $$
 
+
+-- Listar un horario
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_horario_onedata(IN _idhorario INT)
+BEGIN
+	SELECT * FROM horarios
+		WHERE idhorario = _idhorario;
+END $$
+
 -- Modificar horario
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_horario_modificar
 (
@@ -507,12 +543,12 @@ BEGIN
 		WHERE idproveedor = _idproveedor;
 END $$
 
--- ---------------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------
 													-- CRUD DE CONTACTOS
--- ---------------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------
 
 -- Registrar
--- -----------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_contactos_registrar
 (
@@ -530,7 +566,7 @@ BEGIN
 END $$
 
 -- Modificar
--- ------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_contactos_modificar
 (
@@ -552,16 +588,15 @@ END $$
 
 
 -- Listar (No se usa en las tablas)
--- -------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_contactos_listar()
 BEGIN 
 	SELECT * FROM contactos WHERE estado = '1';
 END $$
 
-
 -- Listar un solo contacto
--- --------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_list_one_data_contac
 (
@@ -575,7 +610,7 @@ CALL spu_list_one_data_contac(20)
 
 
 -- listar contacto
--- ------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_listar_contacto(IN _idproveedor INT)
 BEGIN 
@@ -583,9 +618,8 @@ BEGIN
 END $$
 
 
-
 -- LISTAR LOS CONTACTOS POR CADA SERVICIO (DE ACUERDO A SU PROVEEDOR)
--- -------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_contactos_onedata(IN _idproveedor INT)
 BEGIN 
@@ -594,7 +628,7 @@ END $$
 
 
 -- Listar oneData para obtener datos y poder modificar
--- -------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_contactos_listar_onecontacto_proveedor(IN _idproveedor INT)
 BEGIN 
@@ -604,7 +638,7 @@ END $$
 CALL spu_contactos_listar_onecontacto_proveedor(2)
 
 -- Eliminar contactos
--- -------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_eliminar_contacto
 (
@@ -616,7 +650,7 @@ BEGIN
 END $$
 
 -- Listar oneData por servicios
--- -------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_contactos_listar_servicio(IN _servicio INT)
 BEGIN
@@ -628,23 +662,20 @@ BEGIN
 END $$
 
 
--- ---------------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------------------------------
 													-- CRUD DE COMENTARIOS
--- ---------------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------------------------------
 
 -- Obtenemos un datos de proveedores
--- ------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
-CREATE PROCEDURE spu_proveedores_obtener_ondata
-(
-	IN _idproveedor INT
-)
+CREATE PROCEDURE spu_proveedores_obtener_ondata(IN _idproveedor INT)
 BEGIN
-	SELECT * FROM proveedores WHERE idproveedor = 2;
+	SELECT * FROM proveedores WHERE idproveedor = _idproveedor;
 END $$
 
 -- Registrar
--- --------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_comentarios_registrar
 (
@@ -658,13 +689,45 @@ BEGIN
 		VALUES (_idproveedor, _idusuariocomenta, _comentario, _puntuacion, NOW());
 END $$
 
-SELECT * FROM proveedores
 CALL spu_comentarios_registrar(2, 2, 'Excelente servicio', '5');
 
-SELECT * FROM comentarios
+-- Listar Comentarios por idcomentario
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_comentario_onedata_listar(IN _idcomentario INT)
+BEGIN
+	SELECT * FROM comentarios WHERE idcomentario = _idcomentario AND estado = '1';
+END $$
 
--- Listar Comentarios
--- --------------------------------------------------------------
+-- Listar Comentarios por idcomentario
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_comentario_modificar
+(
+	IN _idcomentario INT,
+	IN _comentario VARCHAR(250),
+	IN _puntuacion TINYINT
+)
+BEGIN 
+	UPDATE comentarios SET
+		comentario = _comentario,
+		puntuacion = _puntuacion,
+		fechahora = NOW()
+	WHERE idcomentario = _idcomentario;
+END $$
+
+-- Listar Comentarios por idcomentario
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_comentario_eliminar(IN _idcomentario INT)
+BEGIN
+	UPDATE comentarios SET estado = '0'
+		WHERE idcomentario = _idcomentario;
+END $$
+
+
+-- Listar Comentarios (/)
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_comentarios_listar(IN _idproveedor INT)
 BEGIN
@@ -673,17 +736,35 @@ BEGIN
         COM.comentario , COM.fechahora, COM.puntuacion
 	FROM comentarios COM
 	INNER JOIN proveedores PROV ON PROV.idproveedor = COM.idproveedor
-	WHERE PROV.estado = 1 AND COM.idproveedor = _idproveedor;
+	WHERE PROV.estado = 1 AND COM.estado = 1 AND COM.idproveedor = _idproveedor;
 END $$
 
 
--- ---------------------------------------------------------------------------------------------
+
+-- Listar Comentarios (PRUEBA)
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_comentarios_listar(IN _idservicio INT)
+BEGIN
+	SELECT PROV.idproveedor, COM.idcomentario, COM.idusuariocomenta,
+	CONCAT(PROV.nombres,' ',PROV.apellidos) AS nombreyapellido,
+        COM.comentario , COM.fechahora, COM.puntuacion
+	FROM comentarios COM
+	INNER JOIN proveedores PROV ON PROV.idproveedor = COM.idproveedor
+	INNER JOIN servicios ON servicios.`idservicio` = proveedores.
+	WHERE PROV.estado = 1 AND COM.idproveedor = _idproveedor;
+END $$
+
+SELECT * FROM servicios
+SELECT * FROM proveedores
+SELECT * FROM comentarios
+-- -----------------------------------------------------------------------------------------------------------------------
 													-- ADMINISTRADOR (Tipo red social)
--- ---------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------
 
 
 -- Listar
--- -----------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_tiporedessociales_listar()
 BEGIN
@@ -693,7 +774,7 @@ BEGIN
 END $$
 
 -- Registrar
--- -----------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_tiporedessociales_registrar
 ( 
@@ -705,7 +786,7 @@ BEGIN
 END $$
 
 -- Modificar
--- -----------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_tiporedessociales_modificar
 ( 
@@ -720,7 +801,7 @@ END $$
 
 
 -- OneData Tipo red
--- -----------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_tiporedessociales_onedata( IN _idtiporedsocial INT)
 BEGIN
@@ -730,7 +811,7 @@ BEGIN
 END $$
 
 -- Eliminar un Tipo red
--- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_tiporededssociales_eliminar
 (
@@ -742,12 +823,12 @@ BEGIN
 END $$
 
 
--- ---------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------
 													-- ADMINISTRADOR (Categorias)
--- ---------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------
 
 -- Registrar
--- -----------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_categorias_registrar( IN _nombrecategoria VARCHAR(50))
 BEGIN
@@ -758,7 +839,7 @@ END $$
 CALL spu_categorias_registrar('Albaliñeria');
 
 -- Listar 
--- -----------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_categorias_listar()
 BEGIN
@@ -768,7 +849,7 @@ END $$
 
 
 -- Listar un dato
--- -----------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_categorias_onedata(IN _idcategoria INT)
 BEGIN
@@ -776,7 +857,7 @@ BEGIN
 END $$
 
 -- Modificar
--- -----------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_categorias_modificar
 ( 
@@ -791,7 +872,7 @@ END $$
 
 
 -- Eliminar un Tipo red
--- ---------------------------------------------------------------------
+---- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_categorias_eliminar
 (
@@ -801,3 +882,40 @@ BEGIN
 	UPDATE categorias SET estado = '0'
 		WHERE idcategoria	= _idcategoria;
 END $$
+
+
+-- -----------------------------------------------------------------------------------------------------------------------
+													-- GRAFICOS ESTADISTICOS
+-- -----------------------------------------------------------------------------------------------------------------------
+
+-- Proveedores registrados por año
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_graficos_proveedores_listar()
+BEGIN
+	SELECT YEAR (fecharegistro) AS 'fecha',COUNT(*) AS 'cantidad' FROM proveedores
+	GROUP BY YEAR(fecharegistro);
+END $$
+
+-- Numero de publicaciones de servicios por cateogias
+DELIMITER $$
+CREATE PROCEDURE spu_graficos_categorias_servicios_listar()
+BEGIN
+	SELECT (nombrecategoria) AS 'Categoria',COUNT(nombrecategoria) AS 'Publicaciones' 
+	FROM servicios
+	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	GROUP BY (nombrecategoria);
+END $$
+
+-- Numero de publicaciones de servicios por cateogias
+DELIMITER $$
+CREATE PROCEDURE spu_graficos_categorias_servicios_listar()
+BEGIN
+	SELECT (nivel) AS 'Nivel',COUNT(nivel) AS 'Cantidad' 
+	FROM servicios
+	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	GROUP BY (nombrecategoria);
+END $$
+
+SELECT * FROM categorias
+SELECT * FROM servicios

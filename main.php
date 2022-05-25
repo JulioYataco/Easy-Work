@@ -37,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- <link href="dist/css/modals.css" rel="stylesheet"/> -->
 
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -105,8 +105,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="main.php?view=proveedor-vista" class="d-block">
-            <?php echo $_SESSION['nombres'] . ' ' . $_SESSION['apellidos'];  ?>
+          <a href="main.php?view=proveedor-vista" class="d-block" id="IdProveedorSession">
+            <?php echo $_SESSION['nombres'] . ' ' . $_SESSION['apellidos']; ?>
           </a>
         </div>
       </div>
@@ -206,6 +206,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
           ?>
 
+          <!--Opciones personalizadas -->
+          <?php
+            if ($_SESSION['nivelacceso'] == 'A'){
+              echo '
+                <li class="nav-item">
+                  <a href="main.php?view=graficosEstatico" class="nav-link">
+                    <i class="nav-icon fas fa-layer-group"></i>
+                    <p>
+                      Graficos Estadisticos
+                      <i class="fas fa-cog"></i>
+                    </p>
+                  </a>
+              </li>
+              ';
+            }
+          ?>
+
           
           
           <!-- / Opciones personalizadas-->
@@ -273,7 +290,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 
-<!--Fin de librerias JS para  DataTable -->
+<!-- ChartJS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
 <!-- Librería para formatear cajas de textos -->
 <script src="plugins/jquery-mask/jquery.mask.min.js"></script>
@@ -304,6 +322,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       //La variable/KEY "view" tiene un valor (nombre del archivo abrir)
       $("#contenido2").load('views/' + content + '.php');
     }
+
+    //Reseteo el localStorage
+    $("#IdProveedorSession").click(function (){
+      localStorage.removeItem("ObtenerID");
+    });
+    
 
   });
 </script>

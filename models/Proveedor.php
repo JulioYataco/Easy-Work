@@ -55,13 +55,32 @@ class Proveedor extends ModelMaster{
     //grafico
     public function getProveedorDashboard(){
         try{
-          return parent::getRows("spu_proveedores_grafico_listar");
+          return parent::getRows("spu_graficos_proveedores_listar");
         }
         catch(Exception $error){
           die($error->getMessage());
         }
     }
 
+    //grafico lineal (Numero de Publicaciones por categorias)
+    public function getProveedorDashboardLineal(){
+        try{
+          return parent::getRows("spu_graficos_categorias_servicios_listar");
+        }
+        catch(Exception $error){
+          die($error->getMessage());
+        }
+    }
+
+    public function getProveedorDashboardcircular(){
+        try{
+          return parent::getRows("spu_graficos_servicios_nivel_listar");
+        }
+        catch(Exception $error){
+          die($error->getMessage());
+        }
+    }
+    
 }
 
 ?>

@@ -34,9 +34,7 @@ if(isset($_GET['operacion'])){
             foreach($tabla as $registro){
             echo "
                 <tr>
-                    <td class='col'>{$registro['redsocial']}</td>
-                    <td class='col'>{$registro['nombrecuenta']}</td>
-                    <td class='col'><a href='{$registro['link']}'>Directo</a></td>";
+                    ";
 
                     if(isset($_SESSION['idproveedor'])){
 
@@ -51,7 +49,9 @@ if(isset($_GET['operacion'])){
                     }
                     
             echo "
-            
+                    <td class='col'>{$registro['redsocial']}</td>
+                    <td class='col'>{$registro['nombrecuenta']}</td>
+                    <td class='col'><a href='{$registro['link']}'>Directo</a></td>
                 </tr>";
             
             }
@@ -77,38 +77,46 @@ if(isset($_GET['operacion'])){
     //Listar redes sociales por proveedor
     if($operacion == 'listarRedessociales'){
 
-        $tabla = $redsocial->listarRedessociales(["idproveedor" => $_SESSION['idproveedor']]);
+        $idproveedor;
+        if($_GET['idproveedor'] == -1){
+            $idproveedor = $_SESSION['idproveedor'];
+        }else{
+            $idproveedor = $_GET['idproveedor'];
+        }
+
+        $tabla = $redsocial->listarRedessociales(["idproveedor" => $idproveedor]);
 
         if(count($tabla) > 0){
             // CONTINE DATOS QUE VAMOS A MOSTRAR
             foreach($tabla as $registro){
             echo "
                 <tr>
-                    <td class='col'>{$registro['redsocial']}</td>
-                    <td class='col'>{$registro['nombrecuenta']}</td>
-                    <td class='col'><a href='{$registro['link']}'>Directo</a></td>";
-
+                    <td class='col'>";
                     if(isset($_SESSION['idproveedor'])){
 
                         if ($_SESSION['idproveedor'] == $registro['idproveedor']){
                             echo "
-                            <td class='col'>
-                            <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-warning btnEditarRedSocial'><i class='nav-icon fas fa-edit'></i></button>
-                            <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-danger btnEliminarRedSocial'><i class='nav-icon fas fa-trash'></i></button>
-                            </td>
+                                <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#ModalRegisRedSocial'>Añadir Red Social <i class='far fa-plus-square'></i></button>
+                                <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-warning btnEditarRedSocial'><i class='nav-icon fas fa-edit'></i></button>
+                                <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-danger btnEliminarRedSocial'><i class='nav-icon fas fa-trash'></i></button>
+                            
                             ";
                         }
                     }
                     
             echo "
-            
+                    </td>
+                    <td class='col'>{$registro['redsocial']}</td>
+                    <td class='col'>{$registro['nombrecuenta']}</td>
+                    <td class='col'><a href='{$registro['link']}'>Directo</a></td>
                 </tr>";
             
             }
         }else{
             echo "
-                <td class='col'> Sin datos </td>
-                <td class='col'> Sin datos </td>
+            <tr>
+                <td colspan='4'>No tienes redes sociales agregadas</td>
+            </tr>
             ";
         }
     }

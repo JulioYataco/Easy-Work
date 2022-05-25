@@ -27,9 +27,19 @@ class Comentario extends ModelMaster{
     }
 
     //Listar
-    public function listarComentarios(array $idservicio){
+    public function listarComentarios(array $data){
         try{
-            return parent::execProcedure($idservicio, "spu_comentarios_listar", true);
+            return parent::execProcedure($data, "spu_comentarios_listar", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Listar un comentario
+    public function listarOneDataComentarios(array $idcomentario){
+        try{
+            return parent::execProcedure($idcomentario, "spu_comentario_onedata_listar", true);
         }
         catch(Exception $e){
             die($e->getMessage());
@@ -37,32 +47,23 @@ class Comentario extends ModelMaster{
     }
 
     //Modificar
-    public function modificarComentario($entidadComentario){
+    public function modificarComentario($datosEnviar){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(
-                array(
-                    $entidadComentario->__GET('idcomentario'),
-                    $entidadComentario->__GET('idproveedor'),
-                    $entidadComentario->__GET('comentario'),
-                    $entidadComentario->__GET('puntuacion')
-                )
-            );
+            parent::execProcedure($datosEnviar, "spu_comentario_modificar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
-            }
+        }
     }
 
     //Eliminar
-    public function eliminarComentario($idcomentario){
+    public function eliminarComentario(array $datosEnviar){
         try{
-            $comando = $this->pdo->prepare("");
-            $comando->execute(array($idcomentario));
+            parent::execProcedure($datosEnviar, "spu_comentario_eliminar", false);
         }
         catch(Exception $e){
             die($e->getMessage());
-        } 
+        }
     }
 }
 ?>

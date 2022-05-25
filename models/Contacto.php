@@ -57,14 +57,7 @@ class Contacto extends ModelMaster{
     }
 
 
-
-
-
-
-
-
-
-
+    //Funcional
     public function listarOneContacto(array $idcontacto){
         try{
             return parent::execProcedure($idcontacto, "spu_list_one_data_contac", true);

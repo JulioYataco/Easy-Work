@@ -1,6 +1,8 @@
 <?php
 session_start();
 ?>
+
+<!-- Lo que se muesta en la cabezera -->
 <div class="row content-header">
     <div class="col-xl-5 col-md-6 col-sm-12 form-group">
         <form class="form-inline">
@@ -8,8 +10,8 @@ session_start();
             <div class="input-group">
                 <select class="custom-select form-control" id="filtro-categorias">
                     <!-- Cargados de manera asincrónica -->
-                </select>
-
+                </select>   
+                    
                 <div class="input-group-append" id="button-addon4">
                     <button class="btn btn-outline-success" id="btn-registrar-servicio" type="button" title="Registrar nuevo servicio" data-toggle="modal" data-target="#modal-servicios"><i class="fas fa-plus-square"></i> Nuevo Publicación</button>
                     <!-- <button class="btn btn-outline-primary" id="btn-aviso-registro" type="button" title="Registrar nuevo servicio" data-toggle="modal" data-target="#modal-iniciarsesion" style="margin-top: 1em">Ingresar</button> -->
@@ -17,6 +19,23 @@ session_start();
             </div>
         </form>
     </div>  
+    <div class="col-xl-5 col-md-6 col-sm-12 form-group">
+        <form class="form-inline">
+            <label class="my-1 mr-2" for="filtro-departamentos">Filtrar:</label>
+            <div class="input-group">
+                <select class="custom-select form-control" id="filtro-departamentos">
+                    <!-- Cargados de manera asincrónica -->
+                </select>
+                <select class="custom-select form-control" id="filtro-provincias">
+                    <!-- Cargados de manera asincrónica -->
+                </select>
+                <select class="custom-select form-control" id="filtro-distritos">
+                    <!-- Cargados de manera asincrónica -->
+                </select>
+            </div>
+        </form>
+    </div> 
+    
 </div>
 <hr>
 
@@ -43,7 +62,6 @@ session_start();
                         <div class="form-group col-md-6">
                             <label for="Celular">Telefono</label>
                             <input class="form-control" type="text" id="txtTelefono" disabled="disabled">
-                            
                         </div>
                     </div>
                     <div class="form-group">
@@ -53,6 +71,10 @@ session_start();
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer" id="redesSocialesProveedor">
+                
+                <!-- Contenido se generara de manera asincrona -->
             </div>
         </div>
     </div>
@@ -99,6 +121,44 @@ session_start();
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para modificar comentario -->
+<div class="modal fade" id="ModalEditComentario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="ContEditComent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modificar Comentario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Comentarios</label>
+                        <input type="text" id='EditareaComent' class="form-control" id="agregar_nombre" name="agregar_nombre">
+                        <!-- <textarea style='padding: 10px;' readonly="no" wrap="hard" id='EditareaComent' cols='50' rows='2'placeholder='Comente algo ....'> </textarea> -->
+                    </div>
+                    <div class="form-group">
+                        <select class="custom-select form-control form-control-border" id="Edittxtpuntuacion">
+                            <option value="">Puntuación</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                       
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="btnModiComent">Modificar</button>
             </div>
         </div>
     </div>
@@ -318,9 +378,8 @@ session_start();
         var nivel = ""; 
         var fotoportada = "";
 
-        var idcontacto = "";
-
         //Para comentario
+        var idcontacto = "";
         var comentario = "";
         var puntuacion = "";
 
@@ -330,6 +389,7 @@ session_start();
         var serviciotmp = ""; 
         var imagenportadatmp = "";
 
+        //Lista todos los servicios
         function listarServicios(){
             $.ajax({
                 url: 'controllers/CServicio.php',
@@ -355,6 +415,121 @@ session_start();
                 }
             });
         }
+
+        //Cargar los departamentos en select (Para listar servicios por Departamentos)
+        function cargarDepartamentosSelect(){
+            //Enviar datos por ajax, usando el metodo GET
+            $.ajax({
+                url:    'controllers/CDepartamento.php',
+                type:   'GET',
+                data:   'operacion=ListarDepartamentos',
+                success: function (e){
+                    //Renderizar las etiquetas que vienen desde controllers
+                    $("#filtro-departamentos").html(e); //html e Inyecta nuenvas etiquetas e 
+                }
+            }); // Fin ajax
+        }
+
+        /** Cuando eliges un elemento del select se obtiene el ID de departamento
+        Se lista los servicios de acuerdo al elemento del select que elejiste*/
+        $("#filtro-departamentos").change( function (){
+                
+            var datos = {
+                'operacion'         : 'listarServiciosDepartamento',
+                'iddepartamento'    : $(this).val()
+            };
+            //console.log($(this).val());
+    
+            $.ajax({
+                url: 'controllers/CServicio.php',
+                type: 'GET',
+                data: datos,
+                success: function (e){
+                    //Renderizar etiquetas que vienen desde controllers
+                    $("#card-servicios").html(e);
+                }
+            });
+        });
+
+        /** Cuando eliges un elemento del select se obtiene el ID de provincia
+        Se lista los servicios de acuerdo al elemento del select que elejiste*/
+        $("#filtro-provincias").change( function (){
+                
+            var datos = {
+                'operacion'   : 'listarServiciosProvincia',
+                'idprovincia' : $(this).val()
+            };
+            //console.log($(this).val());
+        
+            $.ajax({
+                url: 'controllers/CServicio.php',
+                type: 'GET',
+                data: datos,
+                success: function (e){
+                    //Renderizar etiquetas que vienen desde controllers
+                    $("#card-servicios").html(e);
+                }
+            });
+        });
+
+        /** Cuando eliges un elemento del select se obtiene el ID de provincia
+        Se lista los servicios de acuerdo al elemento del select que elejiste*/
+        $("#filtro-distritos").change( function (){
+                
+            var datos = {
+                'operacion'  : 'listarServiciosDistrito',
+                'iddistrito' : $(this).val()
+            };
+            //console.log($(this).val());
+        
+            $.ajax({
+                url: 'controllers/CServicio.php',
+                type: 'GET',
+                data: datos,
+                success: function (e){
+                    //Renderizar etiquetas que vienen desde controllers
+                    $("#card-servicios").html(e);
+                }
+            });
+        });
+        
+        //Cargar las provincias de acuerdo con lo que se seleccione en Departamentos
+        $("#filtro-departamentos").change( function (){
+                
+            var datos = {
+                'operacion'         : 'ListarProvincias',
+                'iddepartamento'    : $(this).val()
+            };
+            console.log($(this).val());
+
+            $.ajax({
+                url: 'controllers/CProvincia.php',
+                type: 'GET',
+                data: datos,
+                success: function (e){
+                    //Renderizar etiquetas que vienen desde controllers
+                    $("#filtro-provincias").html(e);
+                }
+            });
+        });
+
+        //Cargar las provincias de acuerdo con lo que se seleccione en Provincias
+        $("#filtro-provincias").change( function (){
+                
+            var datos = {
+                'operacion' : 'ListarDistritos',
+                'idprovincia' : $(this).val()
+            };
+                
+            $.ajax({
+                url: 'controllers/CDistrito.php',
+                type: 'GET',
+                data: datos,
+                success: function (e){
+                    $("#filtro-distritos").html(e);
+                }
+            });
+        });
 
         // Cambiar aparaiencia del modal registrar servicio por actualizar si es true
         /*function aparienciaModificarServicio(modificar){
@@ -494,7 +669,7 @@ session_start();
                     formData.append("idservicio", idservicio);
                 }
 
-                if(confirm("Estas seguro de plublicar el servicio")){
+                if(confirm("Estas seguro de publicar el servicio")){
                     $("#modal-servicios").modal("hide");
                     registrarOActualizarServicio(formData);
                 }
@@ -639,7 +814,7 @@ session_start();
 
             idservicio = $(this).attr("data-codigo");
 
-            if(confirm("¡Estas seguro de eliminar este servicio?")){
+            if(confirm("¿Estas seguro de eliminar este servicio?")){
                 $.ajax({
                     url: 'controllers/CServicio.php',
                     type: 'GET',
@@ -657,7 +832,7 @@ session_start();
         $("#card-servicios").on("click", ".btnContactoListar", function(){
 
             let idproveedor = $(this).attr('data-idcode');
-            console.log(idcontacto);
+            //console.log(idcontacto);
             $.ajax({
                 url: 'controllers/CServicio.php',
                 type: 'GET',
@@ -677,6 +852,39 @@ session_start();
                     }
                 }
             });
+        });
+
+         //Listar contacto de servicio
+        $("#card-servicios").on("click", ".btnContactoListar", function(){
+
+            let idproveedor = $(this).attr('data-idcode');
+            //console.log(idproveedor);
+            $.ajax({
+                url: 'controllers/CServicio.php',
+                type: 'GET',
+                data: 'operacion=oneDataRedSocialProveedor&idproveedor=' + idproveedor,
+                success: function (e){
+
+                    console.log(e);
+                    
+                        
+
+                        $("#redesSocialesProveedor").html(e);
+
+                        //$("#modal-contacto").modal('show');
+                    
+                }
+            });
+        });
+
+        //OBTENER ID DE PROVEEDORES
+        $("#card-servicios").on("click", ".CapIdproveedor", function(){
+
+            let idproveedor = $(this).attr('data-idproveedores');
+
+            localStorage.setItem("ObtenerID", idproveedor);
+
+            window.location.href="main.php?view=proveedor-vista";
         });
 
         //Comentarios
@@ -801,9 +1009,10 @@ session_start();
             });
         });
 
+        //Listar comentarios de los servicios de cada proveedor
         function listarComentario(idproveedor){
+
             //Enviamos x ajax
-           
             var datos = {
                 'operacion'     : 'listarComentarios',
                 'idproveedor'   : idproveedor
@@ -820,6 +1029,62 @@ session_start();
             });
         }
 
+        //Listar un comentario en especifico
+        $("#tabComent").on("click", ".btnEditarComentario", function(){
+
+            idcomentario = $(this).attr("data-idcomentario");
+            
+            $.ajax({
+                url: 'controllers/CComentario.php',
+                type: 'GET',
+                data: 'operacion=listarOneDataComentarios&idcomentario=' + idcomentario,
+                success: function (e){
+                    //console.log(e);
+                    if(e != ""){
+                        var data = JSON.parse(e);
+                        datosNuevos = false;
+                        $("#EditareaComent").val(data.comentario);
+                        $("#Edittxtpuntuacion").val(data.puntuacion);
+
+                        $("#ModalEditComentario").modal("show");
+                    }
+                }
+            });
+        });
+
+        //Modificar un comentario
+        $("#ModalEditComentario").on("click", "#btnModiComent", function(){
+
+            console.log(idcomentario);
+            comentario = $("#EditareaComent").val();
+            puntuacion = $("#Edittxtpuntuacion").val();
+
+            //Array
+            var datos = {
+                'operacion'     : 'modificarComentario',
+                'idcomentario'  : idcomentario,
+                'comentario'    : comentario,
+                'puntuacion'    : puntuacion
+            };
+
+            $.ajax({
+                url: 'controllers/CComentario.php',
+                type: 'GET',
+                data: datos,
+                success: function (e){
+                    if(confirm("¿Estas seguro de modificar tu comentario?")){
+
+                        var datosServer = JSON.parse(e);
+
+                        $("#EditareaComent").val(datosServer.comentario);
+                        $("#Edittxtpuntuacion").val(datosServer.puntuacion);
+                        alert("Se modificó correctamente");
+                        listarComentario(idproveedor);
+                    }
+                }
+            });
+        });
+
         //Obtenemos los datos de un proveedor para poder hacer un comentario
         $("#card-servicios").on("click", ".btn-comentario", function(){
             //Capturamos el ID
@@ -832,8 +1097,7 @@ session_start();
                 success: function (e){
                     
                     var datos = JSON.parse(e);
-                    console.log(datos);
-
+                    //console.log(datos);
                     $("#ModalComentario").modal('show');
                 }
             })
@@ -856,7 +1120,7 @@ session_start();
                         'idproveedor'   : idproveedor,
                         'comentario'    : comentario,
                         'puntuacion'    : puntuacion
-                    }
+                    };
 
                     $.ajax({
                         url: 'controllers/CComentario.php',
@@ -876,6 +1140,8 @@ session_start();
         // Evento click, para guardar la nueva imagen
         $("#guardar-imagen").click(modificarFotoPortada);
 
+        //listares
+        cargarDepartamentosSelect();
         listarServicios();
         listarCategoriasModal();
         

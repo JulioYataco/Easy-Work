@@ -15,10 +15,21 @@ class Horario extends ModelMaster{
             die($e->getMessage());
         }
     }
+
     //Listar
     public function listarHorario(array $idproveedor){
         try{
             return parent::execProcedure($idproveedor, "spu_horario_listar", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Listar
+    public function listarOneDataHorario(array $idcontacto){
+        try{
+            return parent::execProcedure($idcontacto, "spu_horario_onedata", true);
         }
         catch(Exception $e){
             die($e->getMessage());

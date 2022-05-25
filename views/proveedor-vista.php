@@ -153,34 +153,25 @@ session_start();
   </div>
 </div>
 
-<!--  AQUI CARGAREMOS EL HORARIO TRAIDO DEL CONTROLLER -->
-<div class="">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalHorarioRegis">
-        Registrar Horario <i class="nav-icon fas fa-calendar-plus"></i>
-    </button>
-    <button type="button" class="btn btn-warning" id="btnModificarHorario" data-toggle="modal" data-target="#ModalHorarioModifi">
-        Modificar Horario <i class="nav-icon fas fa-edit"></i>
-    </button>
-    <br>
-    <h3 align="center">Mi Horario de Servicio</h3>
-</div>
+<h3 align="center">Mi Horario de Servicio</h3>
 
 <!-- TABLA DE HORARIOS del proveedor -->
 <div class="table-responsive-sm">
   <table border="1" class="table">
       <thead>
           <tr class="bg-success">
+              <th scope="col">Operaciones</th>
               <th scope="col">Dias Lavorables</th>
               <th scope="col">Hora de Inicio</th>
               <th scope="col">Hora Termino</th>
           </tr>
       </thead>
-    <tbody>
-      <tr>
-          <td align="center"><input type="text" id="txtListDias" style="border: none; background: transparent; width: 100%;" disabled> </td>
+    <tbody id="tab_horario">
+      
+          <!-- <td align="center"><input type="text" id="txtListDias" style="border: none; background: transparent; width: 100%;" disabled> </td> 
           <td align="center"> <input type="text" id="txtListHoraIni" style="border: none; background: transparent; width: 100%;" disabled></td>
-          <td align="center"><input type="text" id="txtListHoraFin" style="border: none; background: transparent; width: 100%;" disabled></td>
-      </tr>
+          <td align="center"><input type="text" id="txtListHoraFin" style="border: none; background: transparent; width: 100%;" disabled></td>-->
+      
     </tbody>
   </table>
 </div>
@@ -257,11 +248,10 @@ session_start();
 </div>
 <hr>
 
-<!-- Boton para agregar contacto -->
+<!-- Boton para agregar contacto 
 <button type="button" class="btn btn-primary" id="" data-toggle="modal" data-target="#ModalRegisContac">
     Añadir Contacto <i class="nav-icon fas fa-address-book"></i>
-</button>
-
+</button> -->
 
 <!-- TABLA PARA LISTAR CONTACTO-->
 <h3 align="center">Mis contactos</h3>
@@ -269,11 +259,10 @@ session_start();
   <table border="1" class="table">
     <thead class="thead-dark">
       <tr>
+        <th scope="col">Operaciones</th>
         <th scope="col">Celular</th>
         <th scope="col">Teléfono</th>
         <th scope="col">E-mail</th>
-        <th scope="col">Operación</th>
-        
       </tr>
     </thead>
     <tbody id="tab_contac">
@@ -348,17 +337,17 @@ session_start();
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnModRedSocial">Guardar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnModRedSocial">Guardar Cambio</button>
       </div>
     </div>
   </div>
 </div>
 <hr>
 
-<!-- Boton para agregar red social -->
-<button type="button" class="btn btn-primary" id="" data-toggle="modal" data-target="#ModalRegisRedSocial">
+<!-- Boton para agregar red social 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalRegisRedSocial">
         Añadir red Social <i class="nav-icon fas fa-edit"></i>
-</button>
+</button> -->
 
 
 <!-- Titulo de tabla -->
@@ -369,10 +358,10 @@ session_start();
   <table border="1" class="table">
     <thead class="bg-info">
       <tr>
-        <th scope="col">Redes Sociales</th>
-        <th>Cuenta</th>
-        <th>Link</th>
-        <th>Operación</th>
+        <th scope="col-3">Operaciones</th>
+        <th scope="col-3">Redes Sociales</th>
+        <th scope="col-3">Cuenta</th>
+        <th scope="col-3">Link</th>
       </tr>
     </thead>
     <tbody id="tab_redes">
@@ -393,6 +382,15 @@ session_start();
 
 <script>
     $(document).ready(function(){
+
+      //Recibo al proveedor que envio desde la vista servicios
+
+      var ObetenerID = localStorage.getItem("ObtenerID");
+      console.log(ObetenerID);
+
+      if(ObetenerID == null){
+        ObetenerID = -1;
+      }
         
         var idproveedor = "";
         var nombres = "";
@@ -422,7 +420,7 @@ session_start();
             $.ajax({
                 url : 'controllers/CProveedor.php',
                 type : 'GET',
-                data : 'operacion=listarProveedores',
+                data : 'operacion=listarProveedores&idproveedor=' + ObetenerID, //Le mando el ID
                 success : function(e){
 
                     // Convertir a JSON
@@ -439,6 +437,7 @@ session_start();
             });
         }
 
+        //Modificar proveedor
         function modificarProveedor(){
 
             nombres = $('#profNombres').val();
@@ -522,41 +521,60 @@ session_start();
             $.ajax({
                 url : 'controllers/CHorario.php',
                 type : 'GET',
-                data : 'operacion=listarHorario',
+                data : 'operacion=listarHorario&idproveedor=' + ObetenerID,
                 success : function(e) {
-                    //Convertimos a JSON
-                    var datosHora = JSON.parse(e);
-                    //console.log(datosHora);
-
-                    //Mostramos en el view tabla
-                    $("#txtListDias").val(datosHora.dialaborable);
-                    $("#txtListHoraIni").val(datosHora.horainicio);
-                    $("#txtListHoraFin").val(datosHora.horafinal);
-
-                    //Mostramos en el ModalHorarioModifi
-                    $("#txtDialaborableMod").val(datosHora.dialaborable);
-                    $("#txtHorainicioMod").val(datosHora.horainicio);
-                    $("#txtHorafinalMod").val(datosHora.horafinal);
+                  //Renderizar las etiquetas que vienen desde el controllers
+                  $("#tab_horario").html(e);
                 }
             });
         }
 
+        //Capturar id de horario
+        $("#tab_horario").on("click", "#btnModificarHorario", function(){
+
+          idhorario = $(this).attr("data-idhorario");
+          console.log(idhorario);
+
+          $.ajax({
+            url: 'controllers/CHorario.php',
+            type: 'GET',
+            data: 'operacion=listarOneDataHorario&idhorario=' + idhorario,
+            success: function(e){
+              console.log(e);
+
+              if(e != ""){
+                var data = JSON.parse(e);
+              
+                datosNuevos = false;
+              
+                $("#txtDialaborableMod").val(data.dialaborable);
+                $("#txtHorainicioMod").val(data.horainicio);
+                $("#txtHorafinalMod").val(data.horafinal);
+              
+                $("#ModalHorarioModifi").modal("show");
+              }
+            }
+          });
+        });
+
         //Modificar
-        function modificarHorario(){
+        $("#btnGuardarCambioHorario").click(function (){
 
-            //validamos los campos
-            let dialaborable = $('#txtDialaborableMod').val();
-            let horainicio = $('#txtHorainicioMod').val();
-            let horafinal = $('#txtHorafinalMod').val();
+          //validamos los campos
+          let dialaborable = $('#txtDialaborableMod').val();
+          let horainicio = $('#txtHorainicioMod').val();
+          let horafinal = $('#txtHorafinalMod').val();
 
-            //Enviamos la operacion en un array
-            var datos = {
-                'operacion'    : 'modificarHorario',
-                'dialaborable' : dialaborable,
-                'horainicio'   : horainicio,
-                'horafinal'    : horafinal
-            };
+          //Enviamos la operacion en un array
+          var datos = {
+              'operacion'    : 'modificarHorario',
+              'dialaborable' : dialaborable,
+              'horainicio'   : horainicio,
+              'horafinal'    : horafinal
+          };
 
+          //Confirma
+          if(confirm("¿Estas seguro que desea modificar el horario?")){
             $.ajax({
                 url: 'controllers/CHorario.php',
                 type: 'GET',
@@ -564,22 +582,14 @@ session_start();
                 success: function(e){
                     console.log(e);
 
-                    //Confirma
-                    if(confirm("¿Estas seguro que desea modificar el horario?")){
                       listarHorario()
-                        alert("Se modifico correctamente");
-
-                        var datosServer = JSON.parse(e);
-
-                        //Asignar
-                        $("#txtDialaborableMod").val(datosServer.dialaborable);
-                        $("#txtHorainicioMod").val(datosServer.horainicio);
-                        $("#txtHorafinalMod").val(datosServer.horafinal);
-                    }
+                      alert("Se modifico correctamente");
+                    
                 }
             });
-        }
-
+          }
+        });
+        
         /**CRUD DE REDES TIPO RED SOCIAL */
         function listarTipoRedSocialModal(){
           $.ajax({
@@ -636,7 +646,7 @@ session_start();
           $.ajax({
             url: 'controllers/CRedsocial.php',
             type: 'GET',
-            data: 'operacion=listarRedessociales',
+            data: 'operacion=listarRedessociales&idproveedor=' + ObetenerID,
             success: function (e){
               //Renderizar las etiquetas que vienen desde el controllers
               $("#tab_redes").html(e);
@@ -672,6 +682,7 @@ session_start();
           }
         })
 
+        //Modificar red social
         $("#tab_redes").on("click", ".btnEditarRedSocial", function(){
 
           idredsocial = $(this).attr("data-idredsocial");
@@ -770,7 +781,7 @@ session_start();
           $.ajax({
             url: 'controllers/CContacto.php',
             type: 'GET',
-            data: 'operacion=listarContacto',
+            data: 'operacion=listarContacto&idproveedor=' + ObetenerID,
             success: function(e){
               //console.log(e);
               $("#tab_contac").html(e);
@@ -784,7 +795,7 @@ session_start();
           $.ajax({
             url: 'controllers/CServicio.php',
             type: 'GET',
-            data: 'operacion=oneDataServicioProveedor',
+            data: 'operacion=oneDataServicioProveedor&idproveedor=' + ObetenerID,
             success: function(e){
               $("#card-one-servicios").html(e);
             }
@@ -882,7 +893,7 @@ session_start();
         $('#btnGuardarCambioProveedor').click(modificarProveedor);
 
         //Modifica los datos del horario
-        $('#btnGuardarCambioHorario').click(modificarHorario);
+        //$('#btnGuardarCambioHorario').click(modificarHorario);
 
         //Registrar horario
         $('#btnGuardarHorario').click(registrarHorario);

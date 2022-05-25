@@ -18,9 +18,9 @@ class Redsocial extends ModelMaster{
     }
 
     //Listar
-    public function listarRedSocialProveedor(array $data){
+    public function listarRedSocialProveedor(array $idproveedor){
         try{
-            return parent::execProcedure($data, "spu_redessociales_listar_onedata", true);
+            return parent::execProcedure($idproveedor, "spu_redessociales_listar_onedata", true);
         }
         catch(Exception $e){
             die($e->getMessage());
