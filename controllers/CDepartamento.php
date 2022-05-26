@@ -11,6 +11,7 @@ if (isset($_GET['operacion'])){
     //Almacenamos la variable operación en una variable
     $operacion = $_GET['operacion'];
 
+    //Lista departamentos
     if ($operacion == 'ListarDepartamentos'){
 
         // Alamcenar en un objeto

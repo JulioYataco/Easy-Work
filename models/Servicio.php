@@ -115,6 +115,7 @@ class Servicio extends ModelMaster{
         }
     }
 
+    //Listar contactos por proveedor
     public function listarOneDataProveedor(array $idproveedor){
         try{
             return parent::execProcedure($idproveedor, "spu_contactos_listar_onecontacto_proveedor", true);

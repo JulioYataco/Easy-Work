@@ -25,6 +25,7 @@ class Proveedor extends ModelMaster{
         }
     }
 
+    //Listar
     public function listarProveedores(array $data){
         try{
             return parent::execProcedure($data, "spu_proveedores_listar", true);
@@ -34,6 +35,7 @@ class Proveedor extends ModelMaster{
         }
     }
 
+    //Mofidicar proveedor
     public function modificarProveedor(array $data){
         try{
             parent::execProcedure($data, "spu_proveedores_modificar", false);
@@ -43,6 +45,7 @@ class Proveedor extends ModelMaster{
         }
     }
 
+    //Modificar clave
     public function modificarClaveProveedor(array $idproveedor){
         try{
             parent::execProcedure($idproveedor, "spu_proveedor_clave_modificar", false);
@@ -72,6 +75,7 @@ class Proveedor extends ModelMaster{
         }
     }
 
+    //Grafico ciruclar (Numero de servicios por nivel)
     public function getProveedorDashboardcircular(){
         try{
           return parent::getRows("spu_graficos_servicios_nivel_listar");

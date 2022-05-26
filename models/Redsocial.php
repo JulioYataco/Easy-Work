@@ -37,7 +37,6 @@ class Redsocial extends ModelMaster{
         }
     }
 
-
     //Listar redes sociales por cada proveedor
     public function listarRedessociales(array $idproveedor){
         try{
@@ -48,6 +47,7 @@ class Redsocial extends ModelMaster{
         }
     }
 
+    //Listar una red social
     public function listarOneRedessociales(array $idredsocial){
         try{
             return parent::execProcedure($idredsocial, "spu_list_one_data_redsoci", true);

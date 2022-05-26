@@ -11,6 +11,7 @@ if (isset($_GET['operacion'])){
     //Almacenamos la 'operacion' en una variable
     $operacion = $_GET['operacion'];
 
+    //Lista distritos de acuerdo a las provincias
     if ($operacion == 'ListarDistritos'){
 
         $tabla = $distrito->ListarDistritos(["idprovincia" => $_GET['idprovincia']]);

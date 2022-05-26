@@ -87,6 +87,7 @@
         // Aplicar mascaras RUC: 11 digitos
         $("#txtTelefono").mask('000 000 000');
             
+        //Registrar proveedor
         function registrarProveedor(){
             //1. Validación comprobar que se cuenta con la información mínima
             let iddistrito = $("#txtDistrito").val();
@@ -141,6 +142,7 @@
         }//Fin de registrarProveedor
             
 
+        //Cargar departamentos
         function cargarDepartamentos(){
             //Enviar datos por ajax, usando el metodo GET
             $.ajax({
@@ -192,7 +194,6 @@
             });
         });
             
-
         //Eventos asociados a botones
         $("#btnRegistrarProveedor").click(registrarProveedor);
 

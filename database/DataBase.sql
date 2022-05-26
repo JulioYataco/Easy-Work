@@ -60,9 +60,11 @@ CONSTRAINT uk_categoria_nombrecategoria UNIQUE (nombrecategoria)
 CREATE TABLE galerias
 (
 idgaleria		INT AUTO_INCREMENT PRIMARY KEY,
-idservicio 	INT 			NOT NULL, -- FK
-tiporecurso CHAR(1) 	NOT NULL, -- F (fotos), V (Videos)
-recurso			VARCHAR(100) 	NULL,
+idservicio 	INT 					NOT NULL, -- FK
+titulo			VARCHAR(30) 	NOT NULL,
+descripcion	VARCHAR(70)		NULL,
+imagen			VARCHAR(100) 	NULL,
+estado			CHAR(1) 			NOT NULL DEFAULT '1', -- 1(Activo) / 0 (inactivo)	
 CONSTRAINT fk_idservicio_srv FOREIGN KEY (idservicio) REFERENCES servicios (idservicio)
 )ENGINE = INNODB;
 

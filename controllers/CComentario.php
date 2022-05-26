@@ -69,7 +69,7 @@ if(isset($_GET['operacion'])){
                                 <i class='nav-icon fas fa-edit'></i>
                                 </button>
                                 <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-danger btnDeleteComentario'>
-                                    <i class='nav-icon fas fa-trash'></i>{$registroComent['idcomentario']}
+                                    <i class='nav-icon fas fa-trash'></i>
                                 </button>
                             </td>                            
                         </tr>

@@ -6,12 +6,36 @@ if(!$_SESSION['login']){
 }
 ?>
 <br><br>
+
+<!-- START LOCK SCREEN ITEM -->
+<div class="lockscreen-item">
+  <!-- lockscreen image -->
+  <div class="lockscreen-image">
+    <img src="dist/img/logo1.jpeg" alt="User Image">
+  </div>
+  <!-- /.lockscreen-image -->
+
+  <!-- lockscreen credentials (contains the form) 
+  <form class="lockscreen-credentials">
+    <div class="input-group">
+      <input type="password" class="form-control" placeholder="password">
+      <div class="input-group-append">
+        <button type="button" class="btn">
+          <i class="fas fa-arrow-right text-muted"></i>
+        </button>
+      </div>
+    </div>
+  </form>-->
+  <!-- /.lockscreen credentials -->
+</div>
+<!-- /.lockscreen-item -->
+
 <div class="container h-100">
 	<div class="d-flex justify-content-center h-100">
 		<div class="user_card">
 			<div class="d-flex justify-content-center">
 				<div class="brand_logo_container">
-					<img src="dist/img/Smith.jpg" class="brand_logo" alt="Logo">
+					<img src="dist/img/Julio-developerss.jpeg" class="brand_logo" alt="Logo">
 				</div>
 			</div>
 			<div class="d-flex justify-content-center form_container">
@@ -56,10 +80,12 @@ if(!$_SESSION['login']){
 
     $(document).ready(function (){
 
+        //Resetea las cajas
         function borrarCajas(){
             $("#form-update-pass")[0].reset();
         }
 
+        //Modifica clave
         function modificarClave(){
             const clave1 = $("#txtClave1").val();
             const clave2 = $("#txtClave2").val();

@@ -10,6 +10,7 @@ if (isset($_GET['operacion'])){
 
     $operacion = $_GET['operacion'];
 
+    //Listar provincias de acuerdo a departamentos
     if ($operacion == 'ListarProvincias'){
 
         $tabla = $provincia->ListarProvincias(["iddepartamento" => $_GET['iddepartamento']]);

@@ -79,6 +79,7 @@
 
     var idtiporedsocial = "";
 
+    //Listar tipo de red
     function listarTipoRed(){
       $.ajax({
         url: 'controllers/CTiporedsocial.php',
@@ -90,6 +91,7 @@
       });
     }
 
+    //Registrar tipo de red
     function registrarTipoRed(){
 
       //Capturamos al input
@@ -202,6 +204,7 @@
     //Boton que ejecuta la funcion registrar tipo red
     $("#btnRegistrarRedSocial").click(registrarTipoRed);
 
+    //Listar
     listarTipoRed();
 
   });

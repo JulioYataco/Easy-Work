@@ -37,6 +37,7 @@ class Contacto extends ModelMaster{
         }
     }
 
+    //Modificar contacto
     public function modificarContacto(array $idproveedor){
         try{
             parent::execProcedure($idproveedor, "spu_contactos_modificar", false);
@@ -56,7 +57,6 @@ class Contacto extends ModelMaster{
         }
     }
 
-
     //Funcional
     public function listarOneContacto(array $idcontacto){
         try{
@@ -67,6 +67,7 @@ class Contacto extends ModelMaster{
         }
     }
 
+    //Listar contactos por proveedor
     public function listarContacto(array $idproveedor){
         try{
             return parent::execProcedure($idproveedor, "spu_listar_contacto", true);

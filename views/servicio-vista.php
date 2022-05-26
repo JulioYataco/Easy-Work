@@ -41,7 +41,6 @@ session_start();
 
 <!-- <span class="badge badge-primary">Primary</span> -->
 
-
 <!-- Modal de contactos -->
 <div class="modal fade" id="modal-contacto" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -368,6 +367,7 @@ session_start();
 <script>
     $(document).ready(function (){
 
+        //Para registro de proveedor
         var datosNuevos = true;
         var idcategoria = "";
         var idservicio = -1;
@@ -675,6 +675,7 @@ session_start();
                 }
         });
 
+        //Para modificar o registrar
         function registrarOActualizarServicio(formData){
             $.ajax({
                 url: 'controllers/CServicio.php',

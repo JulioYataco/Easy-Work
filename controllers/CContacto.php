@@ -38,14 +38,15 @@ if(isset($_GET['operacion'])){
             foreach ($tabla as $registroContac){
                 echo "
                 <tr>
-                    
-                    <td class='col'>";
+                    <td> {$registroContac['celular']} </td>
+                    <td> {$registroContac['telefono']} </td>
+                    <td> {$registroContac['email']} </td>
+                    <td>";
 
                     if(isset($_SESSION['idproveedor'])){
 
                         if ($_SESSION['idproveedor'] == $registroContac['idproveedor']){
                             echo "
-                                <button data-idcontacto='{$registroContac['idcontacto']}'  class='btn btn-sm btn-primary' data-toggle='modal' data-target='#ModalRegisContac'>Añadir Contacto <i class='nav-icon fas fa-address-book'></i></button>
                                 <button data-idcontacto='{$registroContac['idcontacto']}'  class='btn btn-sm btn-warning btnEditarContacto'><i class='nav-icon fas fa-edit'></i></button>
                                 <button data-idcontacto='{$registroContac['idcontacto']}'  class='btn btn-sm btn-danger btnDeleteContacto'><i class='nav-icon fas fa-trash'></i></button>
                             ";
@@ -54,9 +55,7 @@ if(isset($_GET['operacion'])){
                         
                 echo "
                     </td>
-                    <td class='col'> {$registroContac['celular']} </td>
-                    <td class='col'> {$registroContac['telefono']} </td>
-                    <td class='col'> {$registroContac['email']} </td>
+                    
                 </tr>";
             
             }
@@ -69,6 +68,7 @@ if(isset($_GET['operacion'])){
         }
     }
 
+    //Lista contactos por error
     if($operacion == 'listarOneDataProveedor'){
 
         $tabla = $contacto->listarOneDataProveedor(["idproveedor" => $_SESSION['idproveedor']]);

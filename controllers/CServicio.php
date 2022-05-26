@@ -13,7 +13,8 @@ if (isset ($_GET['operacion'])){
     //capturo la operacion dentro de una variable
     $operacion = $_GET['operacion'];
 
-    if($operacion == 'listarServicios'){   
+    //Listar servicios en general
+    if($operacion == 'listarServicios'){
 
         $tabla = $servicio->listarServicios();    
 
@@ -26,8 +27,6 @@ if (isset ($_GET['operacion'])){
             $imagen = "";
 
             foreach($tabla as $registro){
-
-                $data = $servicio->oneDataRedSocialProveedor(["idproveedor" => $registro->idproveedor]);
 
                 //Si existe una imagen en la BD
                 if ($registro->fotoportada == "" || $registro->fotoportada == "null"){
@@ -93,17 +92,10 @@ if (isset ($_GET['operacion'])){
                                 </div>
                                 <div class='content-message-services'>
                                     <p>Ubicanos en: {$registro->ubicacion}</p>";
-                                    
-                                foreach($data as $fila){
-                                    echo "
-                                        
-                                        <spam><a href='{$fila['link']}'><spam>{$fila['redsocial']}</spam></a></spam>
-                                    ";
-                                }
 
-                                    echo "
+                echo "
                                 </div>
-                                <div class='content-message' style='display: flex;'>
+                                <div class='content-message-services' style='display: flex;'>
                                     <span>Nivel: {$registro->nivel}</span>
                                     <div class='buttonService'>
                                         <button data-idcode='{$registro->idproveedor}' class='btnContactoListar btn-sm btn-primary'>Contactar</button>
@@ -158,6 +150,7 @@ if (isset ($_GET['operacion'])){
                         <div class='form-group col-md-8'>
                             <div class='header-card'>
                                 <h4>{$registro['servicio']}</h4>
+                                <h4 data-idproveedores='{$registro['idproveedor']}' class='CapIdproveedor'>{$registro['proveedor']}</h4>
                             <div class='options-icon'>";
 
                             if(isset($_SESSION['idproveedor'])){
@@ -473,6 +466,7 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Capturar un servicio por proveedor
     if($operacion == 'oneDataServicioProveedor'){
 
         $idproveedor;
@@ -563,6 +557,7 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Listar un servicio
     if($operacion == 'oneDataServicio'){
 
         $tabla = $servicio->oneDataServicio(["idservicio" => $_GET['idservicio']]);
@@ -572,10 +567,12 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Elimianr un servicio
     if($operacion == 'eliminarServicio'){
         $data = $servicio->eliminarServicio(["idservicio" => $_GET['idservicio']]);
     }
 
+    //Listar los contactos por cada proveedor
     if($operacion == 'oneDataContacto'){
 
         $tabla = $servicio->oneDataContacto(["idproveedor" => $_GET["idproveedor"]]);
@@ -595,6 +592,7 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Listar la red social de un proveedor
     if($operacion == 'oneDataRedSocialProveedor'){
 
         $data = $servicio->oneDataRedSocialProveedor(["idproveedor" => $_GET['idproveedor']]);

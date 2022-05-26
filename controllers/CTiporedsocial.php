@@ -8,6 +8,7 @@ if(isset($_GET['operacion'])){
 
     $operacion = $_GET['operacion'];
 
+    //listar redes en un select
     function mostrarTipoRedSocialSelect($datos, $optiondefault){
         //Comprobamos si existen datos
         if (count($datos) > 0){
@@ -22,6 +23,7 @@ if(isset($_GET['operacion'])){
         }
     }
 
+    //Listar tipo de redes sociales
     if($operacion == 'listarTiporedsocial'){
 
         $tabla = $tiporedsocial->listarTiporedsocial();
@@ -47,6 +49,7 @@ if(isset($_GET['operacion'])){
         }
     }
 
+    //Listar tipo de redes sociales en un modal
     if($operacion == 'listarTiporedsocialModal'){
 
         $datos = $tiporedsocial->listarTiporedsocialModal();
@@ -57,6 +60,7 @@ if(isset($_GET['operacion'])){
 
     }
 
+    //Registrar
     if($operacion == 'registrarTiporedsocial'){
 
         $datos = [
@@ -66,6 +70,7 @@ if(isset($_GET['operacion'])){
         $tiporedsocial->registrarTiporedsocial($datos);
     }
 
+    //Modificar
     if($operacion == 'ModificarTiporedsocial'){
 
         $datos = [

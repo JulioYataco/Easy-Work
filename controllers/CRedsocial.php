@@ -25,6 +25,7 @@ if(isset($_GET['operacion'])){
         $redsocial->registrarRedSocial($datos);
     }
 
+    //Listar redes sociales de cada proveedor
     if($operacion == 'listarRedSocialProveedor'){
 
         $tabla = $redsocial->listarRedSocialProveedor(["idproveedor" => $_SESSION['idproveedor']]);
@@ -73,7 +74,6 @@ if(isset($_GET['operacion'])){
         $redsocial->eliminarRedSocial($data);
     }
 
-
     //Listar redes sociales por proveedor
     if($operacion == 'listarRedessociales'){
 
@@ -91,12 +91,14 @@ if(isset($_GET['operacion'])){
             foreach($tabla as $registro){
             echo "
                 <tr>
-                    <td class='col'>";
+                    <td>{$registro['redsocial']}</td>
+                    <td>{$registro['nombrecuenta']}</td>
+                    <td><a href='{$registro['link']}'>Directo</a></td>
+                    <td>";
                     if(isset($_SESSION['idproveedor'])){
 
                         if ($_SESSION['idproveedor'] == $registro['idproveedor']){
                             echo "
-                                <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-primary' data-toggle='modal' data-target='#ModalRegisRedSocial'>Añadir Red Social <i class='far fa-plus-square'></i></button>
                                 <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-warning btnEditarRedSocial'><i class='nav-icon fas fa-edit'></i></button>
                                 <button data-idredsocial='{$registro['idredsocial']}' class='btn btn-sm btn-danger btnEliminarRedSocial'><i class='nav-icon fas fa-trash'></i></button>
                             
@@ -106,9 +108,7 @@ if(isset($_GET['operacion'])){
                     
             echo "
                     </td>
-                    <td class='col'>{$registro['redsocial']}</td>
-                    <td class='col'>{$registro['nombrecuenta']}</td>
-                    <td class='col'><a href='{$registro['link']}'>Directo</a></td>
+                    
                 </tr>";
             
             }

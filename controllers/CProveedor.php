@@ -163,21 +163,21 @@ if (isset($_GET['operacion'])){
         }
     }
 
-    //Grafico estadistico
+    //Grafico estadistico para saber la cantida de usuarios por año
     if ($operacion == 'getProveedorDashboard'){
 
         $data = $proveedor->getProveedorDashboard();
         echo json_encode($data);
     }
 
-    //Grafico estadistico
+    //Grafico estadistico para saber el numero de publicaciones por categorias
     if ($operacion == 'getProveedorDashboardLineal'){
 
         $data = $proveedor->getProveedorDashboardLineal();
         echo json_encode($data);
     }
 
-    //Grafico estadistico
+    //Grafico estadistico para saber el servicio de acuerdo al nivel
     if ($operacion == 'getProveedorDashboardcircular'){
 
         $data = $proveedor->getProveedorDashboardcircular();

@@ -904,18 +904,19 @@ BEGIN
 	SELECT (nombrecategoria) AS 'Categoria',COUNT(nombrecategoria) AS 'Publicaciones' 
 	FROM servicios
 	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	WHERE servicios.`estado` = 1
 	GROUP BY (nombrecategoria);
 END $$
 
 -- Numero de publicaciones de servicios por cateogias
 DELIMITER $$
-CREATE PROCEDURE spu_graficos_categorias_servicios_listar()
+CREATE PROCEDURE spu_graficos_servicios_nivel_listar()
 BEGIN
-	SELECT (nivel) AS 'Nivel',COUNT(nivel) AS 'Cantidad' 
+	SELECT (nivel) AS 'Nivel',COUNT(nivel) AS 'Servicios' 
 	FROM servicios
-	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
-	GROUP BY (nombrecategoria);
+	GROUP BY (nivel);
 END $$
 
 SELECT * FROM categorias
-SELECT * FROM servicios
+SELECT * FROM proveedores
+

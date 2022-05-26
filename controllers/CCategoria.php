@@ -9,6 +9,7 @@ if (isset($_GET['operacion'])){
     
     $operacion = $_GET['operacion'];
 
+    //Muestra las categorias en un select
     function mostrarCategoriasSelect($datos, $optiondefault){
         //Comprobamos si existen datos
         if (count($datos) > 0){
@@ -23,6 +24,7 @@ if (isset($_GET['operacion'])){
         }
     }
 
+    //Lista las categorias
     if($operacion == 'listarCategorias'){
 
         $tabla = $categoria->listarCategorias();
@@ -49,6 +51,7 @@ if (isset($_GET['operacion'])){
         }
     }
 
+    //Lista las categorias en el select del modal
     if ($operacion == 'listarCategoriasModalSelect'){
 
         $datos = $categoria->listarCategorias();
@@ -58,6 +61,7 @@ if (isset($_GET['operacion'])){
         mostrarCategoriasSelect($datos, $option);
     }
 
+    //Lista una categoria 
     if ($operacion == 'onDataCategoria'){
 
         $tabla = $categoria->onDataCategoria(["idcategoria" => $_GET['idcategoria']]);
@@ -67,6 +71,7 @@ if (isset($_GET['operacion'])){
         }
     }
     
+    //Registra una categoria
     if($operacion == 'registrarCategoria'){
 
         $datos = [
@@ -76,6 +81,7 @@ if (isset($_GET['operacion'])){
         $categoria->registrarCategoria($datos);
     }
 
+    //Modificar una categoria
     if($operacion == 'modificarCategoria'){
 
         $datos = [
@@ -86,7 +92,7 @@ if (isset($_GET['operacion'])){
         $categoria->modificarCategoria($datos);
     }
 
-    //Eliminar 
+    //Eliminar categoria
     if($operacion == 'eliminarCategoria'){
 
         $data = [
