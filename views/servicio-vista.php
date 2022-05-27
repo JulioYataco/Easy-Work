@@ -80,28 +80,28 @@ session_start();
 </div>
 
 <!-- Modal Comentario -->
-<div class='modal fade' id='ModalComentario' tabindex='-1' role='dialog' aria-labelledby='exampleModalCenterTitle' aria-hidden='true'>
-    <div class='modal-dialog modal-dialog-centered' role='document'>
+<div class='modal fade' id='ModalComentario' data-backdrop="static" data-keyboard="false" tabindex='-1' role='dialog' aria-labelledby='exampleModalCenterTitle' aria-hidden="true" data-animation="slideInOutDown">
+    <div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'>
         <div class='modal-content'>
             <div class='modal-header'>
-                <h5 class='modal-title' id='exampleModalLongTitle'>Comentarios</h5>
+                <h5 class='modal-title' id='exampleModalLongTitle'>Comentarios de proveedor</h5>
                 <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
             </div>
-            <div class='modal-body'>
-                <div class='col-md'>
-                    <div class='inputs'>
-                        <label>Lista de Comentarios</label><br>
-                            <div id="div-coment" style='border : 1px solid; width: 100%; height: 230px; padding: 10px;'>
-                                
-                                    <table border="0" id="tabComent">
-                                        <!-- Aqui se cargaran los datos de forma asincrona -->
-                                    </table>
-                            </div>
+                <div class='modal-body'>
+                    <div class='col-md'>
+                        <div class='inputs'>
+                            <label>Lista de Comentarios</label><br>
+                                <div class="comment-text" id="tabComent" style="heigth: 300px">
+                                    <!-- Aqui se cargaran los datos de forma asincrona -->
+                                </div>
                         </div>
                         <hr>
                     </div>
+                    
+                </div>
+                <div class="footer" style="padding: 1em">
                     <div class='inputs'>
                         <label>Escriba un comentario</label>
                         <div style='display:flex;'>
@@ -383,6 +383,8 @@ session_start();
         var comentario = "";
         var puntuacion = "";
 
+
+        var idcomentario = "";
 
         // Variables temporales
         var idcategoriatmp = "";
@@ -1023,7 +1025,7 @@ session_start();
                 type : 'GET',
                 data : datos,
                 success : function (e){
-                    console.log(e);
+                    //console.log(e);
                     //Renderizar las etiquetas que vienen
                     $("#tabComent").html(e);
                 }
@@ -1135,6 +1137,31 @@ session_start();
                         }
                     });
                 }
+            }
+        });
+
+        // Eliminar comentario
+        $("#tabComent").on("click", ".btnDeleteComentario", function(){
+
+            idcomentario = $(this).attr("data-idcomentario");
+            //console.log(idcomentario);
+            var datos = {
+                'operacion'     :'eliminarComentario',
+                'idcomentario'  : idcomentario
+            };
+            if (confirm("¿Esta segurro de eliminar este comentario?")) {
+                $.ajax({
+                    url : 'controllers/CComentario.php',
+                    type : 'GET',
+                    data : datos,
+                    success : function (e){
+                        console.log(e);
+                        if (e == "") {
+                            listarComentario(idproveedor);
+                            alert("Se elimino correctamente");
+                        }
+                    }
+                });
             }
         });
 

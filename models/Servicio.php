@@ -144,6 +144,26 @@ class Servicio extends ModelMaster{
             die($e->getMessage());
         }
     }
+    
+    //Listar servicios activos
+    public function listarServiciosActivos(){
+        try{
+            return parent::getRows("spu_servicios_activos_listar");
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Listar servicios inactivos
+    public function listarServiciosInactivos(){
+        try{
+            return parent::getRows("spu_servicios_inactivo_listar");
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
 
     /*public function oneDataContactoProveedor(array $data){
         try{

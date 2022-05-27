@@ -2,12 +2,12 @@ USE EasyWork;
 
 -- PROCEDIMIENTOS ALMACENADOS
 
--- ----------------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------------------------------------------------
 														-- CRUD DE PROVEEDORES --
--- ----------------------------------------------------------------------------------------------
+-- -------------------------------------------------------------------------------------------------------------------------------------
 
 -- Registrar
--- ----------------------------------------------------
+-- ----------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_proveedores_registrar
 (
@@ -32,7 +32,7 @@ END $$
 CALL spu_proveedores_registrar('021207', 'Julio Smith', 'Yataco herrera', '16/11/2001', '993212855', 'juliosmithyataco@gmail.com', '$2y$10$XqAbF2NvJF63qsMqUxLYL.Iu1uqejHjcXrLguQ0snpjECIND6yW0S', NULL, 'A');
 SELECT * FROM distritos
 -- Listar proveedores
--------------------------------------------------------------
+------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_proveedores_listar
 (
@@ -86,7 +86,7 @@ END $$
 
 
 -- Login para proveedor (Usuario)
--- --------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_proveedor_login
 (
@@ -103,6 +103,7 @@ BEGIN
 END $$
 
 -- Modificar calve de accesos
+-- ----------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_proveedor_clave_modificar
 (
@@ -121,6 +122,7 @@ SELECT * FROM proveedores
 
 
 -- Mostrar grafico
+-- -----------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_proveedores_grafico_listar()
 BEGIN
@@ -128,12 +130,103 @@ BEGIN
 		GROUP BY YEAR(fecharegistro);
 END $$
 
--- -------------------------------------------------------------------------------------------
+
+-- Listar proveedores activos
+-- ----------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_listar_proveedor_activo()
+BEGIN
+  SELECT PROV.idproveedor, DIST.nombredistrito, PROV.nombres,
+         PROV.apellidos, PROV.correo  
+  FROM proveedores PROV
+  INNER JOIN distritos DIST ON DIST.iddistrito = PROV.iddistrito 
+   WHERE PROV.estado = 1 AND nivelacceso = 'U';
+END $$
+
+-- Listar proveedores que no estas activos
+-- ----------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_listar_proveedor_inactivo()
+BEGIN
+ SELECT PROV.idproveedor, DIST.nombredistrito, PROV.nombres,
+         PROV.apellidos, PROV.correo  
+  FROM proveedores PROV
+  INNER JOIN distritos DIST ON DIST.iddistrito = PROV.iddistrito 
+  WHERE PROV.estado = 0;
+END $$
+
+-- Dar de baja a un proveedor
+-- ----------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_eliminar_proveedores
+(
+	IN _idproveedor INT
+)
+ BEGIN
+   UPDATE proveedores SET 
+		estado = 0 WHERE 
+		idproveedor = _idproveedor;
+END $$
+
+-- Dar de alta a un proveedor
+-- ----------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_reactivar_proveedor
+(
+	IN _idproveedor INT
+)
+ BEGIN
+  UPDATE proveedores SET 
+		estado = 1 
+	WHERE idproveedor = _idproveedor;
+END $$
+
+-- Convertir a un proveedor en Administrador
+-- ----------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_hacer_administrador
+(
+	IN _idproveedor INT
+)
+BEGIN
+	UPDATE proveedores SET 
+		nivelacceso = 'A' 
+	WHERE idproveedor = _idproveedor;
+END $$
+
+-- Convertir Administrador a un proveedor
+-- ----------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_convert_administrador
+(
+  IN _idproveedor INT
+)
+BEGIN
+  UPDATE proveedores SET 
+		nivelacceso = 'U' 
+	WHERE idproveedor = _idproveedor;
+END $$
+
+-- Listar Administradores
+-- ----------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_listar_admin()
+BEGIN
+  SELECT PROV.idproveedor, DIST.nombredistrito, PROV.nombres,
+         PROV.apellidos, PROV.correo  
+  FROM proveedores PROV
+  INNER JOIN distritos DIST ON DIST.iddistrito = PROV.iddistrito 
+   WHERE PROV.estado = 1 AND nivelacceso = 'A';
+END $$
+
+SELECT * FROM comentarios
+SELECT * FROM proveedores
+-- -----------------------------------------------------------------------------------------------------------------------------------------
 													-- LISTAR UBIGEO
--- -------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------------------------------------
 
 -- Listar departamentos
--- ------------------------------------------------------------------
+-- ---------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_departamentos_listar()
 BEGIN
@@ -384,6 +477,36 @@ BEGIN
 	INNER JOIN tiporedessociales TRDS ON TRDS.`idtiporedsocial` = RDS.`idtiporedsocial` 
 	WHERE RDS.idproveedor = 2 AND RDS.`estado` = '1';
 END $$
+
+
+-- REPORTE DE SERVICIOS ACTIVOS
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_servicios_activos_listar()
+BEGIN
+	SELECT servicios.`idservicio`, categorias.`nombrecategoria`, servicios.`servicio`, 
+					CONCAT(proveedores.`apellidos`, ' ', proveedores.`nombres`) AS 'proveedor',
+					servicios.`ubicacion`, servicios.`nivel`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	WHERE servicios.`estado` = 1;
+END $$
+
+-- REPORTE DE SERVICIOS INACTIVOS
+-- ---------------------------------------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_servicios_inactivo_listar()
+BEGIN
+	SELECT servicios.`idservicio`, categorias.`nombrecategoria`, servicios.`servicio`,
+					CONCAT(proveedores.`apellidos`, ' ', proveedores.`nombres`) AS 'proveedor',
+					servicios.`ubicacion`, servicios.`nivel`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	WHERE servicios.`estado` = 0;
+END $$
+
 
 -- ---------------------------------------------------------------------------------------------------------------------------
 														-- CRUD DE REDES SOCIALES
@@ -716,7 +839,7 @@ BEGIN
 	WHERE idcomentario = _idcomentario;
 END $$
 
--- Listar Comentarios por idcomentario
+-- Eliminar comentario
 -- ---------------------------------------------------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_comentario_eliminar(IN _idcomentario INT)
@@ -732,32 +855,14 @@ DELIMITER $$
 CREATE PROCEDURE spu_comentarios_listar(IN _idproveedor INT)
 BEGIN
 	SELECT PROV.idproveedor, COM.idcomentario, COM.idusuariocomenta,
-	CONCAT(PROV.nombres,' ',PROV.apellidos) AS nombreyapellido,
+	CONCAT(PROV.nombres,' ',PROV.apellidos) AS 'nombreyapellido',
         COM.comentario , COM.fechahora, COM.puntuacion
 	FROM comentarios COM
-	INNER JOIN proveedores PROV ON PROV.idproveedor = COM.idproveedor
-	WHERE PROV.estado = 1 AND COM.estado = 1 AND COM.idproveedor = _idproveedor;
+	INNER JOIN proveedores PROV ON PROV.`idproveedor` = COM.`idusuariocomenta`
+	WHERE PROV.estado = 1 AND COM.estado = 1;
 END $$
 
 
-
--- Listar Comentarios (PRUEBA)
--- ---------------------------------------------------------------------------------------------------------
-DELIMITER $$
-CREATE PROCEDURE spu_comentarios_listar(IN _idservicio INT)
-BEGIN
-	SELECT PROV.idproveedor, COM.idcomentario, COM.idusuariocomenta,
-	CONCAT(PROV.nombres,' ',PROV.apellidos) AS nombreyapellido,
-        COM.comentario , COM.fechahora, COM.puntuacion
-	FROM comentarios COM
-	INNER JOIN proveedores PROV ON PROV.idproveedor = COM.idproveedor
-	INNER JOIN servicios ON servicios.`idservicio` = proveedores.
-	WHERE PROV.estado = 1 AND COM.idproveedor = _idproveedor;
-END $$
-
-SELECT * FROM servicios
-SELECT * FROM proveedores
-SELECT * FROM comentarios
 -- -----------------------------------------------------------------------------------------------------------------------
 													-- ADMINISTRADOR (Tipo red social)
 -- -----------------------------------------------------------------------------------------------------------------------

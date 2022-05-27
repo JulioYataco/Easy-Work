@@ -41,40 +41,35 @@ if(isset($_GET['operacion'])){
     //Lista los comentarios
     if ($operacion == 'listarComentarios'){
 
-        $tabla = $comentario->listarComentarios(["idproveedor" => $_GET['idproveedor']]);
+        $idproveedor;
+        if($_GET['idproveedor'] == -1){
+            $idproveedor = $_SESSION['idproveedor'];
+        }else{
+            $idproveedor = $_GET['idproveedor'];
+        }
+
+        $tabla = $comentario->listarComentarios(["idproveedor" => $idproveedor]);
 
         if (count($tabla) > 0) {
             // Contiene los datos que podemos mostrar
             foreach ($tabla as $registroComent){
                 echo "
-                    <thead>
-                        <tr>
-                            <th scope='col'>{$registroComent['nombreyapellido']}</th>
-                            <th scope='col'></th>
-                            <th scope='col'></th>
-                            <th scope='col'>{$registroComent['fechahora']}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th></th>
-                            <td colspan='3'>{$registroComent['comentario']}  </td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope='row' colspan='2'>Puntuacion :</th>
-                            <td colspan='1'>{$registroComent['puntuacion']}</td>
-                            <td>
-                                <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-warning btnEditarComentario'>
+                    <span class='username'>
+                        <b>{$registroComent['nombreyapellido']}</b>
+                        <span class='text-muted float-right'> {$registroComent['fechahora']}
+                            <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-warning btnEditarComentario'>
                                 <i class='nav-icon fas fa-edit'></i>
-                                </button>
+                            </button>
                                 <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-danger btnDeleteComentario'>
-                                    <i class='nav-icon fas fa-trash'></i>
-                                </button>
-                            </td>                            
-                        </tr>
-                    </tbody>
-                    <hr> <hr>
+                            <i class='nav-icon fas fa-trash'></i>
+                            </button>
+                        </span>
+                    </span>
+                    <br>
+                    {$registroComent['comentario']}
+                    <p><b>Puntuación:</b> {$registroComent['puntuacion']}</p>
+                    <hr>
+                    
                 ";
             }
         }

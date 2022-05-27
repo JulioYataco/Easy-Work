@@ -26,6 +26,7 @@ session_start();
     <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Contactos</a>
     <a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Redes sociales</a>
     <a class="nav-link" id="nav-perfil-tab" data-toggle="tab" href="#nav-perfil" role="tab" aria-controls="nav-perfil" aria-selected="false">Editar Perfil</a>
+    <a class="nav-link" id="nav-calificar-tab" data-toggle="tab" href="#nav-calificar" role="tab" aria-controls="nav-calificar" aria-selected="false">Calificar Proveedor</a>
   </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
@@ -190,6 +191,72 @@ session_start();
                 <button class="btn btn-sm btn-danger" id="btnEliminar">Eliminar Cuenta</button> 
             </div>
         </div>
+    </div>
+  </div>
+  <!-- Comentarios para proveedor -->
+  <div class="tab-pane fade" id="nav-calificar" role="tabpanel" aria-labelledby="nav-calificar-tab">
+    <br>
+    <button class="btn btn-md btn-primary">Comentar</button>
+    <hr>
+    <div class="row" style="aling-items: center; justify-content: center;">
+    <div class="col-md-6" >
+            <!-- Box Comment -->
+            <div class="card card-widget">
+              <div class="card-header">
+                <!-- Nombre de usuario -->
+                <div class="user-block">
+                  <img class="img-circle" src="dist/img/0305202271301.png" alt="User Image">
+                  <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
+                  <span class="description">Shared publicly - 7:30 PM Today</span>
+                </div>
+                <!-- /.user-block -->
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" title="Mark as read">
+                    <i class="far fa-circle"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <!-- /.card-tools -->
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer card-comments">
+                <div class="card-comment">
+                  <!-- User image -->
+                    
+                  <!-- <img class="img-circle img-sm" src="dist/img/0305202271301.png" alt="User Image"> -->
+                  <!-- Usuario comenta -->
+                  <div class="comment-text" id="tabComent">
+                      <!-- Cargaran de forma asincrona -->
+                  </div>
+                  <!-- /.comment-text -->
+                </div>
+                <!-- /.card-comment -->
+              </div>
+              <!-- /.card-footer -->
+              <div class="card-footer">
+                <form action="#" method="post">
+                  <!-- Aqui el usuario comenta -->
+                  <div class="img-push">
+                    <div style='display:flex;'>
+                      <input type="text" class="form-control form-control-sm" placeholder="Escribe un comentario">
+                      <button class='btn btn-sm btn-primary' id='btnComentarRegis'><i class='nav-icon fas fa-paper-plane'></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
     </div>
   </div>
 </div>
@@ -443,7 +510,7 @@ session_start();
       //Recibo al proveedor que envio desde la vista servicios
 
       var ObetenerID = localStorage.getItem("ObtenerID");
-      console.log(ObetenerID);
+      //console.log(ObetenerID);
 
       if(ObetenerID == null){
         ObetenerID = -1;
@@ -964,7 +1031,49 @@ session_start();
         //Boton activa la funcion registrarContactos
         $('#btnRegisContac').click(registrarContactos);
 
+        //Listar comentarios
+        //Listar comentarios de los servicios de cada proveedor
+        function listarComentario(){
+          $.ajax({
+              url  : 'controllers/CComentario.php',
+              type : 'GET',
+              data : 'operacion=listarComentarios$idproveedor=' + ObetenerID,
+              success : function (e){
+                  console.log(e);
+                  //Renderizar las etiquetas que vienen
+                  $("#tabComent").html(e);
+              }
+          });
+        }
+
+        //Eliminamos un contacto
+        $("#tabComent").on("click", ".btnDeleteComentario", function(){
+          idcomentario = $(this).attr('data-idcontacto');
+
+          var datos = {
+            'operacion'   : 'eliminarContacto',
+            'idcontacto'  : idcontacto
+          };
+
+          if(confirm("¿Estas seguro de eliminar este contacto?")){
+
+            $.ajax({
+              url: 'controllers/CContacto.php',
+              type: 'GET',
+              data: datos,
+              success: function(e){
+                console.log(e);
+                if(e == ""){
+                  listarContacto();
+                  alert("Contacto Eliminado");
+                }
+              }
+            });
+          }
+        });
+
         //Listares
+        listarComentario();
         listarServicioOneData()
         listarContacto();
         listarTipoRedSocialModal();

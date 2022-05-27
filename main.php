@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Favicon para mi app web -->
   <link rel="shortcut icon" sizes="32x32" href="dist/img/icono-pagina.png" type="image/x-icon">
 
-  <!-- Inputs deslisables con buscador incluido-->
+  <!-- Inputs deslisables con buscador incluido -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
   <!-- MIS CSS -->
@@ -35,6 +35,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="dist/css/adminlte.css" rel="stylesheet"/>
   <!-- Estilos de modales -->
   <!-- <link href="dist/css/modals.css" rel="stylesheet"/> -->
+
+  <!-- DATATABLE -->
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+
+  <!-- DATABALE 2 CSS (Francia)-->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css"> -->
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
@@ -223,6 +233,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
           ?>
 
+          <!--Opciones personalizadas -->
+          <?php
+            if ($_SESSION['nivelacceso'] == 'A'){
+              echo '
+                <li class="nav-item">
+                  <a href="main.php?view=reporte-servicio-vista" class="nav-link">
+                    <i class="nav-icon fas fa-layer-group"></i>
+                    <p>
+                      Reporte servicios
+                      <i class="fas fa-cog"></i>
+                    </p>
+                  </a>
+              </li>
+              ';
+            }
+          ?>
+          <!--Opciones personalizadas -->
+          <?php
+            if ($_SESSION['nivelacceso'] == 'A'){
+              echo '
+                <li class="nav-item">
+                  <a href="main.php?view=reporte-proveedor-vista" class="nav-link">
+                    <i class="nav-icon fas fa-layer-group"></i>
+                    <p>
+                      Reporte de proveedores
+                      <i class="fas fa-cog"></i>
+                    </p>
+                  </a>
+              </li>
+              ';
+            }
+          ?>
+
           
           
           <!-- / Opciones personalizadas-->
@@ -307,6 +350,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/loadweb.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script> 
+
+<!-- Incorporando DATABL2 (Francia) -->
+<!-- <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
+<!-- <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script> -->
 
 <script>
   //Evento ready = Página lista/cargá por completo

@@ -601,12 +601,62 @@ if (isset ($_GET['operacion'])){
             
             foreach($data as $fila){
                 echo "
-                    
                     <spam><a href='{$fila['link']}'><spam>{$fila['redsocial']}</spam></a></spam>
                 ";
             }
         }
 
+    }
+
+    //Listar los servicios activos
+    if($operacion == 'listarServiciosActivos'){
+
+        $datos = $servicio->listarServiciosActivos();
+
+        if(count($datos) > 0){
+
+            foreach ($datos as $fila){
+                echo "
+                    <tr>
+                        <td>{$fila->idservicio}</td>
+                        <td>{$fila->nombrecategoria}</td>
+                        <td>{$fila->servicio}</td>
+                        <td>{$fila->proveedor}</td>
+                        <td>{$fila->ubicacion}</td>
+                        <td>{$fila->nivel}</td>
+                        <td> 
+                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-warning btnEditarContacto'><i class='nav-icon fas fa-edit'></i></button>
+                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-danger btnDeleteContacto'><i class='nav-icon fas fa-trash'></i></button>
+                        </td>
+                    </tr>
+                ";
+            }
+        }
+    }
+
+    if($operacion == 'listarServiciosInactivos'){
+
+        $datos = $servicio->listarServiciosInactivos();
+
+        if(count($datos) > 0){
+
+            foreach ($datos as $fila){
+                echo "
+                    <tr>
+                        <td>{$fila->idservicio}</td>
+                        <td>{$fila->nombrecategoria}</td>
+                        <td>{$fila->servicio}</td>
+                        <td>{$fila->proveedor}</td>
+                        <td>{$fila->ubicacion}</td>
+                        <td>{$fila->nivel}</td>
+                        <td> 
+                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-warning btnEditarContacto'><i class='nav-icon fas fa-edit'></i></button>
+                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-danger btnDeleteContacto'><i class='nav-icon fas fa-trash'></i></button>
+                        </td>
+                    </tr>
+                ";
+            }
+        }
     }
 
     //PRUEBA
