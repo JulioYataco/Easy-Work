@@ -165,6 +165,32 @@ class Servicio extends ModelMaster{
         }
     }
 
+    // ELIMINAR SERVICIOS
+    public function eliminarServiciosActivos(array $datosEnviar){
+        try{
+            parent::execProcedure($datosEnviar, "spu_servicio_eliminar", false);
+        }catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    // Activar SERVICIOS
+    public function ActivarServiciosActivos(array $datosEnviar){
+        try{
+            parent::execProcedure($datosEnviar, "spu_servicio_reactivar", false);
+        }catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Buscador de servicios
+    /**public function buscarServicio(array $datosEnviar){
+        try{
+            return parent::execProcedure($datosEnviar, "spu_servicios_buscar_nombrecategoria", true);
+        }catch(Exception $e){
+            die($e->getMessage());
+        }
+    }*/
     /*public function oneDataContactoProveedor(array $data){
         try{
             return parent::execProcedure($data, "spu_servicio_contacto_proveedor", true);

@@ -184,6 +184,49 @@ if (isset($_GET['operacion'])){
         echo json_encode($data);
     }
 
+    //Lista los servicios por categorias
+    if($operacion == 'onDataproveedores'){
+
+        $idproveedor;
+        if($_GET['idproveedor'] == -1){
+            $idproveedor = $_SESSION['idproveedor'];
+        }else{
+            $idproveedor = $_GET['idproveedor'];
+        }
+
+        $tabla = $proveedor->onDataproveedores(["idproveedor" => $idproveedor]);
+
+        //Enviamos datos que se insertaran en la tabla
+        if($tabla[0]){
+            
+            // Variable para saber si tiene imagen o no
+            $imagen = "";
+
+            foreach($tabla as $registro){
+                //Si existe una imagen en la BD
+                if ($registro['fotoperfil'] == "" || $registro['fotoperfil'] == "null"){
+                    //La imagen que se mostrara por defecto
+                    $imagen = "logo1.jpeg";
+                } 
+                else{
+                    //Se muestra la imagen que esta almacenada en la BD
+                    $imagen = $registro['fotoperfil'];
+                }
+
+                echo "
+                    <div class='d-flex flex-row'>
+                        <img src='dist/img/protadawork.jpg' class='img-fluid' width='100%' style='height: 350px; border-radius:0 0 0.5rem 0.5rem;'>
+                    </div>
+                    <div class='text-center' id='cardfotoperfil'>
+                        <img class='profile-user-img img-fluid img-circle'
+                            src='dist/img/{$imagen}'>
+                        <button data-codigo='{$registro['idproveedor']}' data-img='{$registro['fotoperfil']}' class='btn-update-fotoperofil btn-sm btn'><i class='fas fa-camera' title='Cambiar imagen'></i></button>
+                    </div>
+                ";
+            }
+        }
+    }
+
 }
 
 
@@ -192,40 +235,42 @@ if (isset($_POST['operacion'])){
     //Variable operacion
     $operacion = $_POST['operacion'];
 
-    /*if ($_POST['operacion'] == 'registrarProveedor'){
+    if ($operacion == 'actualizarFotoperfil'){
 
-        // Almacenar en un Array Asociativo
-        $datos = [
-            "iddistrito"    =>  $_POST["iddistrito"],
-            "nombres"       =>  $_POST["nombres"],
-            "apellidos"     =>  $_POST["apellidos"],
-            "fechanac"      =>  $_POST["fechanac"],
-            "telefono"      =>  $_POST["telefono"],   
-            "correo"        =>  $_POST["correo"],
-            "clave"         =>  $_POST["clave"],
-            "fotoperfil"    =>  "",
-            "nivelacceso"   =>  "U"
+        // para guardar la imagen se necesita gnerar un nombre aleatorio
+        $nombreImagen = "";
+        $nombre = date('dmY') . date('Gis');
+        $error = false;
+
+        //Comprobamos si contiene imagen
+        if (isset($_FILES['fotoperfil'])){
+
+            $nombreImagen = $_FILES['fotoperfil']['name'];
+            $nombreImagen = explode(".", $nombreImagen);
+            $nombreImagen = end($nombreImagen);
+            $nombreImagen = $nombre.".".$nombreImagen;
+
+            //Movemos
+            if (!move_uploaded_file($_FILES['fotoperfil']['tmp_name'], '../dist/img/' . $nombreImagen)){
+                $error = true;
+            }
+
+        }else{
+            $nombreImagen = null;
+        }
+
+        $data = [
+            "idproveedor"   =>  $_SESSION['idproveedor'],
+            "fotoperfil"   =>  $nombreImagen
         ];
 
-        $nombreimg = "";
-
-        // Comprobar img vacio
-        if (!isset($_FILES['fotoperfil'])){
-            $nombreimg = "";
+        if(!$error){
+            //Enviamos los datos a la base de datos mediante el metodo registrar
+            $proveedor->actualizarFotoperfil($data);
         }else{
-            $nombreimg = date(""). ".jpg";
+            echo "Ocurrio un errorCtrl";
         }
-
-        // Asignando la foto
-        $_FILES['fotoperfil']->__SET($nombreimg);
-
-        // Con el método registrar enviamos los datos a la base de datos
-        $proveedor->registrarProveedor($datos);
-
-        if (move_uploaded_file($_FILES['fotoperfil']['tmp_name'], "../dist/img/" .$nombreimg)){
-            //Archivo subido correctamente
-        }
-    }*/
+    }//Fin de la operación
 }
 
 ?>

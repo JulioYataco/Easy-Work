@@ -84,6 +84,26 @@ class Proveedor extends ModelMaster{
           die($error->getMessage());
         }
     }
+
+    //Registrar foto perfil
+    public function actualizarFotoperfil(array $datosEnviar){
+        try{
+            parent::execProcedure($datosEnviar, "spu_proveedor_agregarfoto", false);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    //Lista los proveedores por provedor
+    public function onDataproveedores(array $idproveedor){
+        try{
+            return parent::execProcedure($idproveedor, "spu_proveedores_onedata_listar", true);
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
     
 }
 

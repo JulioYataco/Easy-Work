@@ -588,7 +588,12 @@ if (isset ($_GET['operacion'])){
         $tabla = $servicio->oneDataRedsocial(["idproveedor" => $_GET["idproveedor"]]);
 
         if($tabla){
-            echo json_encode($tabla[0]);
+            
+            foreach($tabla as $fila){
+                echo "
+                    <spam><a href='{$fila['link']}'><spam>{$fila['redsocial']}</spam></a></spam>
+                ";
+            }
         }
     }
 
@@ -624,9 +629,10 @@ if (isset ($_GET['operacion'])){
                         <td>{$fila->proveedor}</td>
                         <td>{$fila->ubicacion}</td>
                         <td>{$fila->nivel}</td>
-                        <td> 
-                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-warning btnEditarContacto'><i class='nav-icon fas fa-edit'></i></button>
-                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-danger btnDeleteContacto'><i class='nav-icon fas fa-trash'></i></button>
+                        <td>
+                            <button data-idservicio='{$fila->idservicio}' title='Inabilitar Servicio' type='button' class='btn btn-danger btnElimServ'>
+                                <i class='nav-icon fas fa-user-minus'></i>
+                            </button>
                         </td>
                     </tr>
                 ";
@@ -634,6 +640,7 @@ if (isset ($_GET['operacion'])){
         }
     }
 
+    //Listar los servicios inactivos
     if($operacion == 'listarServiciosInactivos'){
 
         $datos = $servicio->listarServiciosInactivos();
@@ -649,15 +656,39 @@ if (isset ($_GET['operacion'])){
                         <td>{$fila->proveedor}</td>
                         <td>{$fila->ubicacion}</td>
                         <td>{$fila->nivel}</td>
-                        <td> 
-                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-warning btnEditarContacto'><i class='nav-icon fas fa-edit'></i></button>
-                            <button data-idservicio='{$fila->idservicio}' class='btn btn-sm btn-danger btnDeleteContacto'><i class='nav-icon fas fa-trash'></i></button>
+                        <td>
+                            <button data-idservicio='{$fila->idservicio}' title='Inabilitar Servicio' type='button' class='btn btn-info btnActivarServ'>
+                            <i class='fas fa-undo'></i>
+                            </button>
                         </td>
                     </tr>
                 ";
             }
         }
     }
+
+    // Dar de baja a un servicio
+    if ($operacion == 'eliminarServiciosActivos'){
+
+        // almacenamos en un array
+        $data = [
+            "idservicio"   =>  $_GET['idservicio']
+        ];
+        // enviamos a la bd mediante el metodo 
+        $servicio->eliminarServiciosActivos($data);
+    }
+
+    // Dar de alta a un servicio
+    if ($operacion == 'ActivarServiciosActivos'){
+
+        // almacenamos en un array
+        $data = [
+            "idservicio"   =>  $_GET['idservicio']
+        ];
+        // enviamos a la bd mediante el metodo 
+        $servicio->ActivarServiciosActivos($data);
+    }
+
 
     //PRUEBA
     /*if($operacion == 'listarOneDataProveedor'){
@@ -827,8 +858,8 @@ if (isset($_POST['operacion'])){
             "fotoportada" => $nombreImagen
         ]);   
     }//Fin de la operación Modificar
-}
 
+}
 
 
 ?>

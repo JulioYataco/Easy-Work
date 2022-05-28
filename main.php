@@ -26,7 +26,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
   <!-- MIS CSS -->
-  <link href="dist/css/slider.css" rel="stylesheet" />
+  <!-- Parte para landing page -->
+  <link href="dist/css/landingpage.css" rel="stylesheet"/>
+  <!-- Parte para cambio de clave -->
+  <link href="dist/css/moficarclave.css" rel="stylesheet"/>
   <!-- Card para los servicios publicados -->
   <link href="dist/css/cards.css" rel="stylesheet" />
   <!-- Portafolio -->
@@ -73,7 +76,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="navbar-search-block">
           <form class="form-inline">
             <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <input class="form-control form-control-navbar" type="search" id="documento" placeholder="Search" aria-label="Search">
               <div class="input-group-append">
                 <button class="btn btn-navbar" type="submit">
                   <i class="fas fa-search"></i>
@@ -111,8 +114,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        <div class="user-block">
+          <img src="dist/img/<?php echo $_SESSION['fotoperfil']?>" class="img-circle elevation-3" alt="..">
         </div>
         <div class="info">
           <a href="main.php?view=proveedor-vista" class="d-block" id="IdProveedorSession">
@@ -138,7 +141,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
+          <li class="nav-item menu-close">
             <a href="#" class="nav-link active">
               <i class="fas fa-sign-in-alt nav-icon"></i>
               <p>
@@ -182,90 +185,95 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
           </li>
 
-          <!--Opciones personalizadas para administrador-->
-          <?php
-            if ($_SESSION['nivelacceso'] == 'A'){
-              echo '
-                <li class="nav-item">
-                  <a href="main.php?view=categoria-vista" class="nav-link">
-                    <i class="nav-icon fas fa-layer-group"></i>
-                    <p>
-                      Categorias
-                      <i class="fas fa-cog"></i>
-                    </p>
-                  </a>
-                </li>
-              ';
-            }
-          ?>
+          <li class="nav-item menu-close">
+            <a href="#" class="nav-link">
+              <i class="fas fa-sign-in-alt nav-icon"></i>
+              <p>
+                Configuración
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <!--Opciones personalizadas para administrador-->
+              <?php
+                if ($_SESSION['nivelacceso'] == 'A'){
+                  echo '
+                    <li class="nav-item">
+                      <a href="main.php?view=categoria-vista" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                          Categorias
+                        </p>
+                      </a>
+                    </li>
+                  ';
+                }
+              ?>
 
-          <!--Opciones personalizadas -->
-          <?php
-            if ($_SESSION['nivelacceso'] == 'A'){
-              echo '
-                <li class="nav-item">
-                  <a href="main.php?view=tiporedsocial-vista" class="nav-link">
-                    <i class="nav-icon fas fa-layer-group"></i>
-                    <p>
-                      Tipo de red social
-                      <i class="fas fa-cog"></i>
-                    </p>
-                  </a>
-              </li>
-              ';
-            }
-          ?>
+              <!--Opciones personalizadas -->
+              <?php
+                if ($_SESSION['nivelacceso'] == 'A'){
+                  echo '
+                    <li class="nav-item">
+                      <a href="main.php?view=tiporedsocial-vista" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                          Tipo de red social
+                        </p>
+                      </a>
+                  </li>
+                  ';
+                }
+              ?>
 
-          <!--Opciones personalizadas -->
-          <?php
-            if ($_SESSION['nivelacceso'] == 'A'){
-              echo '
-                <li class="nav-item">
-                  <a href="main.php?view=graficosEstatico" class="nav-link">
-                    <i class="nav-icon fas fa-layer-group"></i>
-                    <p>
-                      Graficos Estadisticos
-                      <i class="fas fa-cog"></i>
-                    </p>
-                  </a>
-              </li>
-              ';
-            }
-          ?>
+              <!--Opciones personalizadas -->
+              <?php
+                if ($_SESSION['nivelacceso'] == 'A'){
+                  echo '
+                    <li class="nav-item">
+                      <a href="main.php?view=graficosEstatico" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                          Graficos Estadisticos
+                        </p>
+                      </a>
+                  </li>
+                  ';
+                }
+              ?>
 
-          <!--Opciones personalizadas -->
-          <?php
-            if ($_SESSION['nivelacceso'] == 'A'){
-              echo '
-                <li class="nav-item">
-                  <a href="main.php?view=reporte-servicio-vista" class="nav-link">
-                    <i class="nav-icon fas fa-layer-group"></i>
-                    <p>
-                      Reporte servicios
-                      <i class="fas fa-cog"></i>
-                    </p>
-                  </a>
-              </li>
-              ';
-            }
-          ?>
-          <!--Opciones personalizadas -->
-          <?php
-            if ($_SESSION['nivelacceso'] == 'A'){
-              echo '
-                <li class="nav-item">
-                  <a href="main.php?view=reporte-proveedor-vista" class="nav-link">
-                    <i class="nav-icon fas fa-layer-group"></i>
-                    <p>
-                      Reporte de proveedores
-                      <i class="fas fa-cog"></i>
-                    </p>
-                  </a>
-              </li>
-              ';
-            }
-          ?>
-
+              <!--Opciones personalizadas -->
+              <?php
+                if ($_SESSION['nivelacceso'] == 'A'){
+                  echo '
+                    <li class="nav-item">
+                      <a href="main.php?view=reporte-servicio-vista" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                          Reporte servicios
+                        </p>
+                      </a>
+                  </li>
+                  ';
+                }
+              ?>
+              <!--Opciones personalizadas -->
+              <?php
+                if ($_SESSION['nivelacceso'] == 'A'){
+                  echo '
+                    <li class="nav-item">
+                      <a href="main.php?view=reporte-proveedor-vista" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                          Reporte de proveedores
+                        </p>
+                      </a>
+                  </li>
+                  ';
+                }
+              ?>
+            </ul>
+          </li>
           
           
           <!-- / Opciones personalizadas-->
@@ -375,8 +383,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       localStorage.removeItem("ObtenerID");
     });
     
-
   });
+
 </script>
 
 </body>

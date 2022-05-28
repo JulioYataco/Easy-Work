@@ -35,7 +35,6 @@ session_start();
             </div>
         </form>
     </div> 
-    
 </div>
 <hr>
 
@@ -72,7 +71,6 @@ session_start();
                 </form>
             </div>
             <div class="modal-footer" id="redesSocialesProveedor">
-                
                 <!-- Contenido se generara de manera asincrona -->
             </div>
         </div>
@@ -110,7 +108,7 @@ session_start();
                         </div>
                         <div class="input-group">
                             <select class="custom-select form-control form-control-border" id="txtpuntuacion">
-                                <option value="">Puntuación</option>
+                                <option value="">Calificación</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -361,7 +359,6 @@ session_start();
         </div>
     </div>
 </div>-->
-
 
 
 <script>
@@ -857,24 +854,26 @@ session_start();
             });
         });
 
-         //Listar contacto de servicio
+         //Listar red de servicio
         $("#card-servicios").on("click", ".btnContactoListar", function(){
 
-            let idproveedor = $(this).attr('data-idcode');
+            idproveedor = $(this).attr('data-idcode');
             //console.log(idproveedor);
             $.ajax({
                 url: 'controllers/CServicio.php',
                 type: 'GET',
-                data: 'operacion=oneDataRedSocialProveedor&idproveedor=' + idproveedor,
+                data: 'operacion=oneDataRedsocial&idproveedor=' + idproveedor,
                 success: function (e){
 
                     console.log(e);
-                    
-                        
+
+                    if(e != ""){
+                        datosNuevos = false;
 
                         $("#redesSocialesProveedor").html(e);
 
-                        //$("#modal-contacto").modal('show');
+                        $("#modal-contacto").modal('show');
+                    }
                     
                 }
             });
@@ -1069,23 +1068,25 @@ session_start();
                 'comentario'    : comentario,
                 'puntuacion'    : puntuacion
             };
-
-            $.ajax({
-                url: 'controllers/CComentario.php',
-                type: 'GET',
-                data: datos,
-                success: function (e){
-                    if(confirm("¿Estas seguro de modificar tu comentario?")){
-
-                        var datosServer = JSON.parse(e);
-
-                        $("#EditareaComent").val(datosServer.comentario);
-                        $("#Edittxtpuntuacion").val(datosServer.puntuacion);
-                        alert("Se modificó correctamente");
-                        listarComentario(idproveedor);
+            if(confirm("¿Estas seguro de modificar tu comentario?")){
+                $.ajax({
+                    url: 'controllers/CComentario.php',
+                    type: 'GET',
+                    data: datos,
+                    success: function (e){
+                        if (e == "") {
+                            listarComentario(idproveedor);
+                            alert("Se elimino correctamente");
+                            var datosServer = JSON.parse(e);
+    
+                            $("#EditareaComent").val(datosServer.comentario);
+                            $("#Edittxtpuntuacion").val(datosServer.puntuacion);
+                        }
+                        
+                        
                     }
-                }
-            });
+                });
+            }
         });
 
         //Obtenemos los datos de un proveedor para poder hacer un comentario
@@ -1100,7 +1101,7 @@ session_start();
                 success: function (e){
                     
                     var datos = JSON.parse(e);
-                    //console.log(datos);
+                    console.log(datos);
                     $("#ModalComentario").modal('show');
                 }
             })

@@ -35,9 +35,9 @@ if (isset($_GET['operacion'])){
             foreach($tabla as $registro){
                 echo "
                     <tr>
-                        <td class='col'>{$registro->idcategoria}</td>
-                        <td class='col'>{$registro->nombrecategoria}</td>
-                        <td class='col'>
+                        <td>{$registro->idcategoria}</td>
+                        <td>{$registro->nombrecategoria}</td>
+                        <td>
                             <button data-idcategoria='{$registro->idcategoria}' class='btn btn-sm btn-warning btnEditarCat'><i class='nav-icon fas fa-edit'></i></button>
                             <button data-idcategoria='{$registro->idcategoria}' class='btn btn-sm btn-danger btnEliminarCat'><i class='nav-icon fas fa-trash'></i></button>
                         </td>

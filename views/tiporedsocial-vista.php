@@ -59,20 +59,30 @@
 </button>
 <hr>
 
-<div class="table-responsive-sm">
-  <table border="1" class="table">
-    <thead class="bg-info">
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Red social</th>
-        <th scope="col">Operación</th>
-      </tr>
-    </thead>
-    <tbody id="tabla-tipoRed">
-        <!-- SE CARGARAN DE FORMA ASINCRONA -->
-    </tbody>
-  </table>
+<!-- /.col -->
+<div class="col-md-12">
+  <div class="card">
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Red social</th>
+            <th>Operación</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-tipoRed">
+          <!-- SE CARGARAN DE FORMA ASINCRONA -->
+        </tbody>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
 </div>
+<!-- /.col -->
+
 
 <script>
   $(document).ready(function(){

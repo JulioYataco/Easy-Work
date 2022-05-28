@@ -34,7 +34,7 @@ if (isset($_SESSION['login'])){
 
   <!-- MIS CSS -->
     <!-- Parte para landing page -->
-    <link href="dist/css/slider.css" rel="stylesheet"/>
+    <link href="dist/css/landingpage.css" rel="stylesheet"/>
 
     <!-- Card para los servicios publicados -->
     <link href="dist/css/cards.css" rel="stylesheet"/>
@@ -48,7 +48,6 @@ if (isset($_SESSION['login'])){
     <!-- Estilos de modales -->
     <!-- <link href="dist/css/modals.css" rel="stylesheet"/> -->
 
-    
   <!-- /MIS CSS -->
 </head>
 

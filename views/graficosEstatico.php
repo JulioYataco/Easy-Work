@@ -288,7 +288,7 @@
   const grafico3 = new Chart(contexto2, {
     type: 'pie',
     data: {
-      labels: ["Muy mal", "Mal", "Bueno", "Muy Bueno", "Excelente"],
+      labels: ["", "", "", "o", ""],
       datasets: [
         {
           label:'Publicaciones',
@@ -297,12 +297,14 @@
             'rgba(39,174,96, 0.5)',
             'rgba(211,84,0, 0.5)',
             'rgba(231,76,60,0.5)',
+            'rgba(123,101,852, 0.5)',
             'rgba(86,101,115, 0.5)'
           ],
           borderColor: [ 
             'rgba(39,174,96,0.5)',
             'rgba(211,84,0,1)',
             'rgba(231,76,60,1)',
+            'rgba(123,101,852, 0.5)',
             'rgba(86,101,115,1)'
           ],
           borderWidth: 2

@@ -104,6 +104,8 @@
 <script>
   $(document).ready(function () {
 
+    var idservicio = "";
+
       function renderDataTable(){
 
         $("#example1").DataTable({
@@ -154,9 +156,65 @@
         });
     }
     
+    // DESABILITAR SERVICIOS
+    $("#example1").on("click", ".btnElimServ", function(){
+
+        idservicio = $(this).attr("data-idservicio");
+
+        var datos = {
+            'operacion'  : 'eliminarServiciosActivos',
+            'idservicio' : idservicio
+        };
+        if (confirm ("¿Estas seguro de inabilitar este servicio?")) {
+
+            $.ajax({
+                url : 'controllers/CServicio.php',
+                type : 'GET',
+                data : datos,
+                success : function(e){
+                    console.log(e);
+                    if (e == "") {
+                        listarServicios();
+                        listarServiciosInactivos();
+                        alert("se eliminino Correctamente");                        
+                    }
+                }
+            });
+        }
+    });
+
+    // DESABILITAR SERVICIOS
+    $("#example2").on("click", ".btnActivarServ", function(){
+
+        idservicio = $(this).attr("data-idservicio");
+
+        var datos = {
+            'operacion'  : 'ActivarServiciosActivos',
+            'idservicio' : idservicio
+        };
+        if (confirm ("¿Estas seguro de HABILITAR este servicio?")) {
+
+            $.ajax({
+                url : 'controllers/CServicio.php',
+                type : 'GET',
+                data : datos,
+                success : function(e){
+                    console.log(e);
+                    if (e == "") {
+                        listarServicios();
+                        listarServiciosInactivos();
+                        alert("se Habilito Correctamente");                        
+                    }
+                }
+            });
+        }
+    });
+
+
     listarServicios();
     listarServiciosInactivos();
     renderDataTable();
+
 
   });
 </script>

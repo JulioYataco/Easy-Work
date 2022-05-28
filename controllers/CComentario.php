@@ -54,22 +54,33 @@ if(isset($_GET['operacion'])){
             // Contiene los datos que podemos mostrar
             foreach ($tabla as $registroComent){
                 echo "
-                    <span class='username'>
-                        <b>{$registroComent['nombreyapellido']}</b>
-                        <span class='text-muted float-right'> {$registroComent['fechahora']}
-                            <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-warning btnEditarComentario'>
-                                <i class='nav-icon fas fa-edit'></i>
-                            </button>
-                                <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-danger btnDeleteComentario'>
-                            <i class='nav-icon fas fa-trash'></i>
-                            </button>
+                    <div class='card-comment'>
+                        <span class='username'>
+                            <b>{$registroComent['nombreyapellido']}</b>
+                            <span class='text-muted float-right'> {$registroComent['fechahora']}";
+
+                            if(isset($_SESSION['idproveedor'])){
+
+                                if ($_SESSION['idproveedor'] == $idproveedor){
+
+                                    echo "
+                                        <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-warning btnEditarComentario'>
+                                            <i class='nav-icon fas fa-edit'></i>
+                                        </button>
+                                            <button data-idcomentario='{$registroComent['idcomentario']}'  class='btn btn-sm btn-danger btnDeleteComentario'>
+                                        <i class='nav-icon fas fa-trash'></i>
+                                        </button>
+                                    ";
+                                }
+                            }
+                echo "
+                            </span>
                         </span>
-                    </span>
-                    <br>
-                    {$registroComent['comentario']}
-                    <p><b>Puntuación:</b> {$registroComent['puntuacion']}</p>
-                    <hr>
-                    
+                        <br>
+                        {$registroComent['comentario']}
+                        <p><b>Puntuación:</b> {$registroComent['puntuacion']}</p>
+                        <hr>
+                </div> 
                 ";
             }
         }

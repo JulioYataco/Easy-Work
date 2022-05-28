@@ -34,9 +34,9 @@ if(isset($_GET['operacion'])){
             foreach($tabla as $registro){
                 echo "
                     <tr>
-                        <td class='col'>{$registro->idtiporedsocial}</td>
-                        <td class='col'>{$registro->redsocial}</td>
-                        <td class='col'>
+                        <td>{$registro->idtiporedsocial}</td>
+                        <td>{$registro->redsocial}</td>
+                        <td>
                             <button data-idtiporedsocial='{$registro->idtiporedsocial}' class='btn btn-sm btn-warning btnEditarTipoRed'><i class='nav-icon fas fa-edit'></i></button>
                             <button data-idtiporedsocial='{$registro->idtiporedsocial}' class='btn btn-sm btn-danger btnEliminarTipoRed'><i class='nav-icon fas fa-trash'></i></button>
                         </td>
