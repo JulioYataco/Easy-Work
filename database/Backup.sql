@@ -27,7 +27,7 @@ CREATE TABLE `categorias` (
   `estado` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idcategoria`),
   UNIQUE KEY `uk_categoria_nombrecategoria` (`nombrecategoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `categorias` */
 
@@ -38,7 +38,9 @@ insert  into `categorias`(`idcategoria`,`nombrecategoria`,`fechacategoria`,`esta
 (4,'Deporte','2022-05-23 14:07:20','1'),
 (5,'Salud','2022-05-23 14:07:30','1'),
 (6,'Asistente','2022-05-23 14:07:41','1'),
-(7,'Seguridad','2022-05-23 14:07:58','1');
+(7,'Seguridad','2022-05-23 14:07:58','1'),
+(8,'Evento','2022-05-27 12:48:29','0'),
+(9,'Fiesta Eventos','2022-05-27 12:49:28','0');
 
 /*Table structure for table `comentarios` */
 
@@ -57,9 +59,38 @@ CREATE TABLE `comentarios` (
   KEY `fk_idusuariocomenta_com` (`idusuariocomenta`),
   CONSTRAINT `fk_idproveedor_com` FOREIGN KEY (`idproveedor`) REFERENCES `proveedores` (`idproveedor`),
   CONSTRAINT `fk_idusuariocomenta_com` FOREIGN KEY (`idusuariocomenta`) REFERENCES `proveedores` (`idproveedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `comentarios` */
+
+insert  into `comentarios`(`idcomentario`,`idproveedor`,`idusuariocomenta`,`comentario`,`puntuacion`,`fechahora`,`estado`) values 
+(1,4,9,'MUY MUY malo',1,'2022-05-25 12:13:39','0'),
+(2,4,2,'Ya no me ',1,'2022-05-27 01:30:24','0'),
+(3,10,2,'Recomendadisimo ',4,'2022-05-27 11:51:02','1'),
+(4,4,2,'Hola soy julio',3,'2022-05-27 01:12:23','0'),
+(5,4,2,'Por favor info',4,'2022-05-27 01:20:02','0'),
+(6,4,10,'Le recomiendo vender',2,'2022-05-27 02:16:42','0'),
+(7,4,10,'Cuanto demora?',1,'2022-05-27 02:17:43','0'),
+(8,4,10,'Cuanto demora?',2,'2022-05-27 02:17:55','0'),
+(9,4,10,'Cuanto demora?',2,'2022-05-27 02:17:58','0'),
+(10,4,9,'Hola soy una prueba',3,'2022-05-27 09:31:29','1'),
+(11,4,9,'Hola soy una prueba2',3,'2022-05-27 09:31:35','1'),
+(15,10,10,'Lista mi comentario?',2,'2022-05-27 10:50:35','0'),
+(17,10,10,'Excelente servicio',1,'2022-05-27 11:08:26','0'),
+(18,10,10,'No me gusta nada',1,'2022-05-27 11:08:52','0'),
+(19,9,2,'Morales bien ahí',5,'2022-05-27 11:18:56','1'),
+(20,10,2,'Queda por los molinos',4,'2022-05-27 11:49:06','0'),
+(21,13,13,'Que buen servicio',4,'2022-05-27 13:47:48','1'),
+(22,13,13,'Recomentadismo',5,'2022-05-27 13:48:02','1'),
+(23,11,8,'Muy caro esta',2,'2022-05-27 14:49:52','1'),
+(24,9,2,'Muy malo',1,'2022-05-27 17:22:37','1'),
+(25,9,10,'Hola yo comente',4,'2022-05-27 18:00:29','1'),
+(26,11,9,'sdsd',3,'2022-05-27 18:14:34','0'),
+(31,11,9,'puedo registrar comentario?',1,'2022-05-27 18:22:48','0'),
+(32,11,9,'Hola soy prueba de brick',5,'2022-05-27 18:24:25','0'),
+(35,11,2,'Creo que tambien deberias ofrecer descuentos pro cantidad',3,'2022-05-27 18:37:44','1'),
+(37,11,4,'Muy bien trabajo amigo',4,'2022-05-27 23:28:33','1'),
+(38,8,4,'Hola julio, saludos',4,'2022-05-28 00:36:50','0');
 
 /*Table structure for table `contactos` */
 
@@ -75,7 +106,7 @@ CREATE TABLE `contactos` (
   PRIMARY KEY (`idcontacto`),
   KEY `fk_idproveedor_cnt` (`idproveedor`),
   CONSTRAINT `fk_idproveedor_cnt` FOREIGN KEY (`idproveedor`) REFERENCES `proveedores` (`idproveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `contactos` */
 
@@ -83,7 +114,7 @@ insert  into `contactos`(`idcontacto`,`idproveedor`,`celular`,`telefono`,`email`
 (1,2,'123456789','475242424','Juliocesaryataco@gmail.com','0'),
 (2,4,'946556464','365244225','juanca@gmail.com','0'),
 (3,4,'995562615','266454614','Juliocesaryataco@gmail.com','0'),
-(4,4,'995562615','444444444','JuanCa@gmail.com','1'),
+(4,4,'995562615','752366556','JuanCa@gmail.com','1'),
 (15,2,'987654321',NULL,'julio@sds','0'),
 (16,2,'987654232',NULL,'sdddd@sds','0'),
 (17,2,'945654321',NULL,'sssss@sds','0'),
@@ -91,7 +122,15 @@ insert  into `contactos`(`idcontacto`,`idproveedor`,`celular`,`telefono`,`email`
 (19,2,'987954321',NULL,'vvvvv@sds','0'),
 (20,2,'987654321','123456888','Juliocesaryataco@gmail.com','0'),
 (21,8,'995562615','662432676','Juliocesaryataco@gmail.com','0'),
-(22,2,'946556464','111111111','Juliocesaryataco@gmail.com','1');
+(22,2,'987654321','456221455','Juliocesar@gmail.com','0'),
+(23,2,'978484651','746262626','Jullsaravia21@gmail.com','0'),
+(24,11,'922511514','457566666','jeancyto@gmail.com','0'),
+(25,10,'963696369','453654564','jorgeloco@gmail.com','1'),
+(26,9,'988987552','455545554','moralejas@gmail.com','1'),
+(27,2,'985265555','445578521','Juliocesaryataco@gmail.com','0'),
+(28,2,'987332111','455221366','Juliocesaryataco@gmail.com','0'),
+(29,2,'946556464','457512233','Juliocesaryataco@gmail.com','1'),
+(30,13,'999215211','462555555','robertomartines21@gmail.com','1');
 
 /*Table structure for table `departamentos` */
 
@@ -2030,8 +2069,10 @@ DROP TABLE IF EXISTS `galerias`;
 CREATE TABLE `galerias` (
   `idgaleria` int(11) NOT NULL AUTO_INCREMENT,
   `idservicio` int(11) NOT NULL,
-  `tiporecurso` char(1) NOT NULL,
-  `recurso` varchar(100) DEFAULT NULL,
+  `titulo` varchar(30) NOT NULL,
+  `descripcion` varchar(70) DEFAULT NULL,
+  `imagen` varchar(100) DEFAULT NULL,
+  `estado` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idgaleria`),
   KEY `fk_idservicio_srv` (`idservicio`),
   CONSTRAINT `fk_idservicio_srv` FOREIGN KEY (`idservicio`) REFERENCES `servicios` (`idservicio`)
@@ -2052,13 +2093,17 @@ CREATE TABLE `horarios` (
   PRIMARY KEY (`idhorario`),
   UNIQUE KEY `uk_idproveedor_hor` (`idproveedor`),
   CONSTRAINT `fk_idproveedor_hor` FOREIGN KEY (`idproveedor`) REFERENCES `proveedores` (`idproveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `horarios` */
 
 insert  into `horarios`(`idhorario`,`idproveedor`,`dialaborable`,`horainicio`,`horafinal`) values 
-(1,2,'Lunes - Viernes','08:00:00','19:00:00'),
-(2,4,'Lunes - Viernes','09:00:00','20:00:00');
+(1,2,'Lunes - Viernes','09:00:00','21:00:00'),
+(2,4,'Sabados - Domingos','05:00:00','12:00:00'),
+(4,11,'Interdiario','06:00:00','20:00:00'),
+(5,10,'Lunes - Viernes','08:00:00','21:00:00'),
+(6,8,'Lunes - Viernes','07:00:00','20:00:00'),
+(7,13,'Todos los Días','10:00:00','20:00:00');
 
 /*Table structure for table `proveedores` */
 
@@ -2080,17 +2125,22 @@ CREATE TABLE `proveedores` (
   `fechabaja` datetime DEFAULT NULL,
   PRIMARY KEY (`idproveedor`),
   UNIQUE KEY `uk_usu_correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `proveedores` */
 
 insert  into `proveedores`(`idproveedor`,`iddistrito`,`nombres`,`apellidos`,`fechanac`,`telefono`,`correo`,`clave`,`fotoperfil`,`nivelacceso`,`estado`,`fecharegistro`,`fechabaja`) values 
-(2,'110201','Julio Cesar','Yataco Saravia','1991-07-02','987654321','juliocesar@gmail.com','$2y$10$XqAbF2NvJF63qsMqUxLYL.Iu1uqejHjcXrLguQ0snpjECIND6yW0S',NULL,'U','1','2022-04-04 23:25:11',NULL),
-(3,'110107','Josue Alberto','Pachas Bartolo','0000-00-00','51987654321','pachasjosue@gmail.com','pachas123',NULL,'U','1','2022-04-05 21:25:47',NULL),
-(4,'110205','Juan Carlos','Saravia Torres','1990-07-19','987535325','juancarlos@gmail.com','$2y$10$PPy56M5X.hVWLoD5ZlL8UeUoQY85QLPvaGLGr/N5ZjNpr3tCGKY6i',NULL,'U','1','2022-04-09 13:32:42',NULL),
+(2,'110201','Julio Cesar','Yataco Saravia','1992-07-19','987535444','juliocesar@gmail.com','$2y$10$DP8vmN5iblK5FxCV6h2ZOOMCLC2YQxyYcVsEVGaeBasQczzU6mLGK','2805202224803.jpg','U','1','2022-04-04 23:25:11',NULL),
+(3,'110107','Josue Alberto','Pachas Bartolo','0000-00-00','51987654321','pachasjosue@gmail.com','pachas123',NULL,'U','0','2022-04-05 21:25:47',NULL),
+(4,'110205','Juan Carlos','Álvarez Remires','2001-10-17','956 147 852','juancarlos@gmail.com','$2y$10$PPy56M5X.hVWLoD5ZlL8UeUoQY85QLPvaGLGr/N5ZjNpr3tCGKY6i','27052022231829.jpeg','U','1','2022-04-09 13:32:42',NULL),
 (5,'110207','Smith','Morales Jeri','2002-06-13','(51) 987 65','papitosmith@gmail.com','$2y$10$WZ5WXV7OpFTyh5cY0EtKl.Br618WJiiMCUO5.aatjgNJMJ1BtwAu6',NULL,'U','1','2022-04-09 20:40:06',NULL),
 (7,'110207','Jair Josué','Avalos Alcarraz','2001-07-26','985 231 456','jairjosue@gmail.com','$2y$10$s4P2Egb2c6Xhf/b7jKXHOum.DfHYs7FLNnINnaMvhFkSHYyqD3HnK',NULL,'U','1','2022-05-16 13:40:44',NULL),
-(8,'021207','Julio Smith','Yataco Herrera','2001-11-16','993212855','juliosmithyataco@gmail.com','$2y$10$XqAbF2NvJF63qsMqUxLYL.Iu1uqejHjcXrLguQ0snpjECIND6yW0S',NULL,'A','1','2022-05-16 13:59:14',NULL);
+(8,'021207','Julio Smith','Yataco Herrera','2001-11-16','993212844','juliosmithyataco@gmail.com','$2y$10$DlNuNGJjti8XxN23VPBjZu5B0.5eT8Qfy6HOizVRAKDt9kKO7vQr.','2805202205448.jpg','A','1','2022-05-16 13:59:14',NULL),
+(9,'110210','Smith','Morales Albites','2001-10-17','956 147 852','moralessmith@gmail.com','$2y$10$zHXRyODzYmG116Y7iZnLqeLfVJj.cQ6Jk4PCq3h9RbClY9VWDtxV6',NULL,'U','1','2022-05-23 14:52:56',NULL),
+(10,'010101','Jorge Dilan','Gavilán Artues','1996-11-20','983 699 966','jorgegavilan@gmail.com','$2y$10$klV343tNSG.ho/kmDNl1ju78e3diEQ4BUO2x782B6H/m89bHPEYlO',NULL,'U','1','2022-05-24 17:12:54',NULL),
+(11,'110102','Jean Carlos','Felix Castilla','1992-01-29','987 456 123','jeancarlos@gmail.com','$2y$10$yCDtGHsW8bVtI.6XD4eibOxUtZrCKWBpE5bJaZlrqiOH2jwJ4TPiW',NULL,'U','1','2022-05-25 12:56:58',NULL),
+(12,'110502','Mario Jose','Ochoa Carshul','1990-04-12','982 100 145','mariojose@gmail.com','$2y$10$lqZhgqNEE4Nzf8.f3/T98Oj1Mih4WBEj/VzitVObqzEDJxq0NxSay',NULL,'U','0','2022-05-25 13:50:49',NULL),
+(13,'110301','Roberto Martin','Avalos Rosales','1999-11-12','999553223','robertomartin@gmail.com','$2y$10$tbvPu6nI/Wdy7.yHLSZN/.PHx1S7oX9f2Hy1rTAAc3uCXjNncdy0u',NULL,'U','1','2022-05-27 13:38:46',NULL);
 
 /*Table structure for table `provincias` */
 
@@ -2321,7 +2371,7 @@ CREATE TABLE `redessociales` (
   KEY `fk_idtiporedsocial_rds` (`idtiporedsocial`),
   CONSTRAINT `fk_idproveedor_rds` FOREIGN KEY (`idproveedor`) REFERENCES `proveedores` (`idproveedor`),
   CONSTRAINT `fk_idtiporedsocial_rds` FOREIGN KEY (`idtiporedsocial`) REFERENCES `tiporedessociales` (`idtiporedsocial`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `redessociales` */
 
@@ -2329,8 +2379,25 @@ insert  into `redessociales`(`idredsocial`,`idproveedor`,`idtiporedsocial`,`nomb
 (1,2,5,'Mendez','https://www.youtube.com/c/LosM%C3%A9ndez/featured','0'),
 (2,2,2,'Julio Cesar',NULL,'0'),
 (3,2,3,'julio.YS','https://www.youtube.com/c/LosM%C3%A9ndez/featured','0'),
-(4,4,2,'Carlos.www','https://www.facebook.com/dante.yataco','1'),
-(5,2,5,'Mendez','https://www.youtube.com/c/LosM%C3%A9ndez/featured','1');
+(4,4,2,'Carlos','https://www.facebook.com/dante.yataco','1'),
+(5,2,5,'Mendez','https://www.youtube.com/c/LosM%C3%A9ndez/featured','0'),
+(6,2,2,'Julio','https://www.facebook.com/search/top?q=julio%20cesar%20yataco%20saravia','0'),
+(7,9,5,'Remix',NULL,'0'),
+(8,9,2,'sssssssssssssssssssssssssssssssssssssssss',NULL,'0'),
+(9,2,5,'Mendez','https://www.youtube.com/c/LosM%C3%A9ndez','0'),
+(10,2,5,'sJULIO','sd','0'),
+(11,10,2,'Jorge','https://www.youtube.com/c/LosM%C3%A9ndez/featured','1'),
+(12,9,1,'Moralejas','https://www.facebook.com/dante.yataco','1'),
+(13,2,2,'Mendez',' facebook : https://www.facebook.com/losmendez ','0'),
+(14,2,5,'JULIO',' youtube: https://www.youtube.com/c/EDteam','0'),
+(15,2,4,'Holquetalsoylapruebadeque estamal',' facebook : https://www.facebook.com/losmendez ','0'),
+(16,8,1,'Mendez','https://www.youtube.com/c/LosM%C3%A9ndez','0'),
+(17,2,4,'Moralejas','https://www.youtube.com/c/LosM%C3%A9ndez','0'),
+(18,2,2,'Julitos','https://www.facebook.com/search/top?q=julio%20cesar%20yataco%20saravia','1'),
+(19,13,5,'Roberto Martin','https://www.youtube.com/watch?v=Y-OhzQpsRwI','0'),
+(20,13,2,'Roberto','https://www.facebook.com/dante.yataco','1'),
+(21,13,4,'Robertuto',' facebook : https://www.facebook.com/losmendez ','1'),
+(22,9,4,'sd',' facebook : https://www.facebook.com/losmendez ','1');
 
 /*Table structure for table `servicios` */
 
@@ -2353,29 +2420,45 @@ CREATE TABLE `servicios` (
   KEY `fk_idcategoria_srv` (`idcategoria`),
   CONSTRAINT `fk_idcategoria_srv` FOREIGN KEY (`idcategoria`) REFERENCES `categorias` (`idcategoria`),
   CONSTRAINT `fk_idproveedor_srv` FOREIGN KEY (`idproveedor`) REFERENCES `proveedores` (`idproveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `servicios` */
 
 insert  into `servicios`(`idservicio`,`idproveedor`,`idcategoria`,`servicio`,`descripcion`,`ubicacion`,`nivel`,`fotoportada`,`favorito`,`fechahora`,`estado`) values 
-(1,2,1,'Maderita','Realizamos todo tipos de: Puertas, ventanas, sillas, etc. de la mejor calidad y con los mejores precios.','Girón ubire 303',4,NULL,NULL,'2022-04-24 22:32:13','0'),
-(2,2,2,'Armando Casas','Especialista en todos los procedimientos de construcción, etc resaltante en maestro de obra. A muy comodo precio y de buena calidad','En tu casa',3,NULL,NULL,'2022-04-25 16:09:08','1'),
-(3,2,2,'Prueba','Especialista en todos los procedimientos de construcción, resaltante en maestro de obra. A muy comodo precio y de buena calidad','En tu casa',3,NULL,NULL,'2022-04-27 18:54:29','1'),
-(4,2,2,'Prueba','Especialista en todos los procedimientos de construcción, resaltante en maestro de obra. A muy comodo precio y de buena calidad','En tu casa',3,NULL,NULL,'2022-04-27 19:23:02','1'),
-(5,2,2,'Holaaa','que hace?','sssss',4,'2804202222846.jpeg',NULL,'2022-04-27 19:28:46','1'),
-(6,2,2,'QUIENEEESEEEHOMBREEEEE','XD','....',5,'2804202223203.jpeg',NULL,'2022-04-27 19:32:03','1'),
-(7,2,2,'Papi Smith','Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas','en clases',2,'2804202234011.PNG',NULL,'2022-04-27 20:40:11','1'),
+(1,2,1,'Maderita','Realizamos todo tipos de: Puertas, ventanas, sillas, etc. de la mejor calidad y con los mejores precios.','Girón ubire 303',4,'20220528021741.jpg',NULL,'2022-04-24 22:32:13','0'),
+(2,2,2,'Armando Casas','Especialista en todos los procedimientos de construcción, etc resaltante en maestro de obra. A muy comodo precio y de buena calidad','En tu casa',3,'20220528094624.jpeg','2022-05-27 12:19:45','2022-04-25 16:09:08','1'),
+(3,2,2,'Prueba','Especialista en todos los procedimientos de construcción, resaltante en maestro de obra. A muy comodo precio y de buena calidad','En tu casa',3,'20220523105615.jpg',NULL,'2022-04-27 18:54:29','0'),
+(4,2,2,'Prueba','Especialista en todos los procedimientos de construcción, resaltante en maestro de obra. A muy comodo precio y de buena calidad','En tu casa',3,NULL,NULL,'2022-04-27 19:23:02','0'),
+(5,2,2,'Holaaa','que hace?','sssss',4,'2804202222846.jpeg',NULL,'2022-04-27 19:28:46','0'),
+(6,2,2,'QUIENEEESEEEHOMBREEEEE','XD','....',5,'2804202223203.jpeg',NULL,'2022-04-27 19:32:03','0'),
+(7,2,2,'Papi Smith','Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas Prueba de pruebas','en clases',2,'2804202234011.PNG',NULL,'2022-04-27 20:40:11','0'),
 (8,2,2,'Maestro de obras','armando casas','tu casa',5,NULL,NULL,'2022-05-02 16:30:15','0'),
 (9,2,1,'Sillas CSS','Hacemos todo tipo de sillas amuebladas a un muy buen precio, ¡APROVECHA!','La villa central 230',5,NULL,NULL,'2022-05-03 00:13:01','0'),
 (10,4,1,'Mr. Madera','Ofrecemos todo tipo de amueblado, sillas, carpetas, mesas, camas, puertas, ventanas, cuadros, etc. Aprovecha nuestros descuentos y sobre todo nuestra calidad','Calle urlaola, #202 costado de mercadito',5,'1105202213750.jpg',NULL,'2022-05-10 18:37:50','1'),
-(11,2,2,'Maestro de obra','Especialista en todos los paso/capas de la contrucción','Psj. Primara #322',3,NULL,NULL,'2022-05-16 15:27:04','1'),
+(11,2,2,'Maestro de obra','Especialista en todos los paso/capas de la contrucción','Psj. Primara #322',3,NULL,NULL,'2022-05-16 15:27:04','0'),
 (42,2,1,'Leñol 1.0','Se hacen mesas','Av. Prado',4,NULL,NULL,'2022-05-19 01:19:49','0'),
-(43,2,1,'Leñol 2.0','Se hacen mesas pros y sillas para tu casita ...','Av. Castillas #s1212',5,'20220520090608.PNG',NULL,'2022-05-19 01:21:23','1'),
-(44,2,2,'Don Cajon PROMAX','Se hacen cajonsitos A buen precio y de la mejor calidad 2.0','Av. Primavera #111',4,'20220523091108.png',NULL,'2022-05-19 01:25:47','1'),
+(43,2,1,'Leñol 2.0','Se hacen mesas css.','Av. Castillas #1212, costado de colegio Prado',5,'20220528094944.jpg',NULL,'2022-05-19 01:21:23','1'),
+(44,2,2,'Don Cajon PROMAX','Se hacen cajonsitos A buen precio y de la mejor calidad 2.0','Av. Primavera #111',4,'20220523105243.jpg',NULL,'2022-05-19 01:25:47','0'),
 (45,2,2,'ProyectoX','Armamos simplificaciones sobre planos postRen y Getrun','Av.linaers',3,NULL,NULL,'2022-05-20 01:59:33','0'),
 (46,4,7,'GuachiMan','Especialista en camuflaje, apto para toda la noche. 100% Siempre atento con todo lo que pasa','Domicilio',5,NULL,NULL,'2022-05-23 14:10:26','1'),
 (47,4,5,'Enfermera Lucila','Se realizan todo tipo de vacuanciones, cuidados a ancianos y mucho más. 100% seguro','Domicilio',3,'23052022211247.jpg',NULL,'2022-05-23 14:12:47','1'),
-(48,4,4,'Malting Power','Entrenador de fulbtol, para academias y con una alta experiencia en campeonatos','Campo deportivo. Balconcito',4,'23052022211514.jpg',NULL,'2022-05-23 14:15:14','1');
+(48,4,4,'Malting Power','Entrenador de fulbtol, para academias y con una alta experiencia en campeonatos','Campo deportivo. Balconcito',4,'23052022211514.jpg',NULL,'2022-05-23 14:15:14','1'),
+(49,2,2,'sds','sds','sd',2,NULL,NULL,'2022-05-23 15:09:06','0'),
+(50,4,5,'Terapea Cds','Especialista en terapeas intensivas con una mejora continua','Domicilio',4,'23052022221105.jpg',NULL,'2022-05-23 15:11:05','1'),
+(51,9,7,'Ojo de Alcón ','Cuida tu casasa!! con las unas camaras de seguridad que ofrecemos, las 24 horas.','Calle Los angeles Av. Rosario #211.',3,'23052022221745.jpg',NULL,'2022-05-23 15:17:45','1'),
+(52,9,6,'Ventas Voladoras','Especialista en ventas de cualquier producto, eleva tus ventas con nuestros asesores y has que tu negocio crezca','Calle Bernaola, costado del banco BCP',4,'23052022222539.jpg',NULL,'2022-05-23 15:25:39','1'),
+(53,4,7,'OJITO JITO','Salir de casa sin preocuparse por la seguridad de tu casa, es nuestra especialidad. ¡APROVECHA!','Urb. Loaysa, costado de libreria \"Mayi\"',3,'23052022230042.jpg',NULL,'2022-05-23 16:00:42','1'),
+(55,4,7,'sdsds','Ofrecemos camaras de seguridad activas las 24/7, despreocupate al salir de casa que nosotros nos encargamos. Todo en la palma de tu mano. ¡INSTALACIÓN INMEDIATA!\r\n','sds',2,'23052022231004.jpg',NULL,'2022-05-23 16:10:04','0'),
+(56,10,4,'Arbitraje Gabilan','Se entrena a personas con alta complejidad en el futbol ','Campo deportivo',4,NULL,NULL,'2022-05-24 17:14:17','0'),
+(57,10,4,'Arbitraje Lur','Esta es una prueba para verificar si los departamentos funcionan','Donde sea mano',5,'2505202203944.png',NULL,'2022-05-24 17:39:44','1'),
+(58,11,5,'Old cuidados','Nos especializamos en el cuidado de personas ancianas en todo lo que corresponda salud y estado','Av. garcia #322',4,'25052022202819.jpg',NULL,'2022-05-25 13:28:19','1'),
+(59,8,4,'Full Libre','Especialistas en llevar a equipos de bajo nivel a un nivel muy muy superior. compromiso, sacrificio entrega es todo lo que se requiere para el exito, aprovecha!','Calle Manonguita #211 al costado de brosteria',4,'20220527094811.jpg',NULL,'2022-05-25 14:05:44','1'),
+(60,2,7,'Monky Avisa','Despreocupate que nosotros te avisamo, con nuestras camaras de alta resolución. 100% Siempre atento con todo lo que pasa. ESTAMOS ALERTA LAS 24 HORAS\r\n','Calle. los marfiles. psj. Benito #217',4,'20220525115128.jpg',NULL,'2022-05-25 16:51:05','0'),
+(61,2,4,'Arbitraje Lateral','Especialista en bandas laterales, con alta experiencia en diferentes campeonatos','Campo Balconcito,  Av. Progreso',5,'27052022195740.jpg',NULL,'2022-05-27 12:57:40','0'),
+(62,2,2,'sd','sd','sd',1,'27052022195925.jpg',NULL,'2022-05-27 12:59:25','0'),
+(63,13,1,'Camaras','Estamos alerta a todo lo que ocurre','Av. chavez',4,'20220527085101.jpg',NULL,'2022-05-27 13:47:25','0'),
+(64,13,2,'sdsd','sd','sd',2,'27052022205151.jpg',NULL,'2022-05-27 13:51:51','0'),
+(65,8,2,'Prueba','PruebaPrueba Prueba Prueba Prueba Prueba Prueba Prueba Prueba PruebaPrueba PruebaPruebaPruebaPrueba','Prueba',2,NULL,NULL,'2022-05-28 01:32:58','1');
 
 /*Table structure for table `tiporedessociales` */
 
@@ -2387,17 +2470,18 @@ CREATE TABLE `tiporedessociales` (
   `fechahora` datetime NOT NULL DEFAULT current_timestamp(),
   `estado` char(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idtiporedsocial`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `tiporedessociales` */
 
 insert  into `tiporedessociales`(`idtiporedsocial`,`redsocial`,`fechahora`,`estado`) values 
 (1,'WhatsApp','2022-05-20 21:51:46','1'),
 (2,'Facebook','2022-05-20 21:52:00','1'),
-(3,'Instagram','2022-05-20 21:52:33','1'),
+(3,'Instagram','2022-05-20 21:52:33','0'),
 (4,'TikTok','2022-05-20 21:52:50','1'),
 (5,'YouTube','2022-05-21 20:42:07','1'),
-(6,'Gmail','2022-05-23 01:02:58','0');
+(6,'Gmail','2022-05-23 01:02:58','0'),
+(7,'Gmail','2022-05-27 12:51:15','0');
 
 /* Procedure structure for procedure `spu_categorias_eliminar` */
 
@@ -2490,12 +2574,12 @@ DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_comentarios_listar`(IN _idproveedor INT)
 BEGIN
-	SELECT PROV.idproveedor, COM.idcomentario, COM.idusuariocomenta,
-	CONCAT(PROV.nombres,' ',PROV.apellidos) AS nombreyapellido,
-        COM.comentario , COM.fechahora, COM.puntuacion
-	FROM comentarios COM
-	INNER JOIN proveedores PROV ON PROV.idproveedor = COM.idproveedor
-	WHERE PROV.estado = 1 AND COM.idproveedor = _idproveedor;
+	SELECT comentarios.`idcomentario`, comentarios.`idproveedor`, comentarios.`idusuariocomenta`,
+				CONCAT(proveedores.nombres,' ',proveedores.apellidos) AS 'nombreyapellido',  comentarios.`comentario`,
+				comentarios.`fechahora`, comentarios.`puntuacion`
+	FROM comentarios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = comentarios.`idusuariocomenta`
+	WHERE comentarios.estado = 1 AND comentarios.`idproveedor` = _idproveedor;
 END */$$
 DELIMITER ;
 
@@ -2514,6 +2598,51 @@ DELIMITER $$
 BEGIN
 	INSERT INTO comentarios (idproveedor, idusuariocomenta, comentario, puntuacion, fechahora)
 		VALUES (_idproveedor, _idusuariocomenta, _comentario, _puntuacion, NOW());
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_comentario_eliminar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_comentario_eliminar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_comentario_eliminar`(in _idcomentario int)
+begin
+	update comentarios set estado = '0'
+		where idcomentario = _idcomentario;
+end */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_comentario_modificar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_comentario_modificar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_comentario_modificar`(
+	in _idcomentario int,
+	in _comentario varchar(250),
+	in _puntuacion tinyint
+)
+begin 
+	update comentarios set
+		comentario = _comentario,
+		puntuacion = _puntuacion,
+		fechahora = now()
+	where idcomentario = _idcomentario;
+end */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_comentario_onedata_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_comentario_onedata_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_comentario_onedata_listar`(IN _idcomentario INT)
+BEGIN
+	SELECT * FROM comentarios WHERE idcomentario = _idcomentario AND estado = '1';
 END */$$
 DELIMITER ;
 
@@ -2598,6 +2727,22 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_convert_administrador` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_convert_administrador` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_convert_administrador`(
+  IN _idproveedor INT
+)
+BEGIN
+  UPDATE proveedores SET 
+		nivelacceso = 'U' 
+	WHERE idproveedor = _idproveedor;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_departamentos_listar` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_departamentos_listar` */;
@@ -2641,6 +2786,82 @@ begin
 end */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_eliminar_proveedores` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_eliminar_proveedores` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_eliminar_proveedores`(
+	IN _idproveedor INT
+)
+BEGIN
+   UPDATE proveedores SET 
+		estado = 0 WHERE 
+		idproveedor = _idproveedor;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_graficos_categorias_servicios_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_graficos_categorias_servicios_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_graficos_categorias_servicios_listar`()
+BEGIN
+	SELECT (nombrecategoria) AS 'Categoria',COUNT(nombrecategoria) AS 'Publicaciones' 
+	FROM servicios
+	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	where servicios.`estado` = 1
+	GROUP BY (nombrecategoria);
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_graficos_proveedores_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_graficos_proveedores_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_graficos_proveedores_listar`()
+begin
+	select year (fecharegistro) as 'fecha',count(*) AS 'cantidad' from proveedores
+	group by year(fecharegistro);
+end */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_graficos_servicios_nivel_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_graficos_servicios_nivel_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_graficos_servicios_nivel_listar`()
+BEGIN
+	SELECT (nivel) AS 'Nivel',COUNT(nivel) AS 'Servicios' 
+	FROM servicios
+	where `estado` = '1'
+	GROUP BY (nivel);
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_hacer_administrador` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_hacer_administrador` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_hacer_administrador`(
+	IN _idproveedor INT
+)
+BEGIN
+	UPDATE proveedores SET 
+		nivelacceso = 'A' 
+	WHERE idproveedor = _idproveedor;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_horario_listar` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_horario_listar` */;
@@ -2676,6 +2897,19 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_horario_onedata` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_horario_onedata` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_horario_onedata`(IN _idhorario INT)
+BEGIN
+	SELECT * FROM horarios
+		WHERE idhorario = _idhorario;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_horario_registrar` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_horario_registrar` */;
@@ -2694,6 +2928,22 @@ begin
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_listar_admin` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_listar_admin` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_listar_admin`()
+BEGIN
+  SELECT PROV.idproveedor, DIST.nombredistrito, PROV.nombres,
+         PROV.apellidos, PROV.correo  
+  FROM proveedores PROV
+  INNER JOIN distritos DIST ON DIST.iddistrito = PROV.iddistrito 
+   WHERE PROV.estado = 1 AND nivelacceso = 'A';
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_listar_contacto` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_listar_contacto` */;
@@ -2703,6 +2953,38 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_listar_contacto`(IN _idproveedor INT)
 BEGIN 
 	SELECT * FROM contactos WHERE idproveedor = _idproveedor AND estado = '1';
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_listar_proveedor_activo` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_listar_proveedor_activo` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_listar_proveedor_activo`()
+BEGIN
+  SELECT PROV.idproveedor, DIST.nombredistrito, PROV.nombres,
+         PROV.apellidos, PROV.correo  
+  FROM proveedores PROV
+  INNER JOIN distritos DIST ON DIST.iddistrito = PROV.iddistrito 
+   WHERE PROV.estado = 1 AND nivelacceso = 'U';
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_listar_proveedor_inactivo` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_listar_proveedor_inactivo` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_listar_proveedor_inactivo`()
+BEGIN
+ SELECT PROV.idproveedor, DIST.nombredistrito, PROV.nombres,
+         PROV.apellidos, PROV.correo  
+  FROM proveedores PROV
+  INNER JOIN distritos DIST ON DIST.iddistrito = PROV.iddistrito 
+  WHERE PROV.estado = 0;
 END */$$
 DELIMITER ;
 
@@ -2825,12 +3107,22 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_proveedores_obtener_ondata`(
-	in _idproveedor int
-)
-begin
-	select * from proveedores where idproveedor	= _idproveedor;
-end */$$
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_proveedores_obtener_ondata`(IN _idproveedor INT)
+BEGIN
+	SELECT * FROM proveedores WHERE idproveedor = _idproveedor;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_proveedores_onedata_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_proveedores_onedata_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_proveedores_onedata_listar`(IN _idproveedor INT)
+BEGIN
+	SELECT * FROM proveedores where idproveedor = _idproveedor;
+END */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `spu_proveedores_registrar` */
@@ -2857,6 +3149,23 @@ BEGIN
 	INSERT INTO proveedores (iddistrito, nombres, apellidos, fechanac, telefono, correo, clave, fotoperfil, nivelacceso, estado, fecharegistro, fechabaja)
 		VALUES (_iddistrito, _nombres, _apellidos, _fechanac, _telefono, _correo, _clave, _fotoperfil, _nivelacceso, '1', NOW(), NULL);
 END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_proveedor_agregarfoto` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_proveedor_agregarfoto` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_proveedor_agregarfoto`(
+	in _idproveedor int,
+	in _fotoperfil varchar(100)
+)
+begin
+	update proveedores set
+		fotoperfil = _fotoperfil
+	where idproveedor = _idproveedor;
+end */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `spu_proveedor_clave_modificar` */
@@ -2923,6 +3232,22 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_reactivar_proveedor` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_reactivar_proveedor` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_reactivar_proveedor`(
+	IN _idproveedor INT
+)
+BEGIN
+  UPDATE proveedores SET 
+		estado = 1 
+	WHERE idproveedor = _idproveedor;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_rededssociales_eliminar` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_rededssociales_eliminar` */;
@@ -2944,15 +3269,13 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_redessociales_listar_onedata`(
-	in _idproveedor int
-)
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_redessociales_listar_onedata`(IN _idproveedor INT)
 BEGIN
 		SELECT RDS.`idredsocial`, RDS.`idproveedor`, TRS.`redsocial`, RDS.`nombrecuenta`,
 						RDS.link
 			FROM redessociales RDS
 			INNER JOIN tiporedessociales TRS ON TRS.`idtiporedsocial` = RDS.`idtiporedsocial`
-			WHERE idproveedor = 2 and RDS.estado = '1' 
+			WHERE idproveedor = _idproveedor AND RDS.estado = '1' 
 			ORDER BY RDS.idredsocial DESC;
 END */$$
 DELIMITER ;
@@ -3020,6 +3343,42 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_servicios_activos_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicios_activos_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicios_activos_listar`()
+begin
+	SELECT servicios.`idservicio`, categorias.`nombrecategoria`, servicios.`servicio`, 
+					CONCAT(proveedores.`apellidos`, ' ', proveedores.`nombres`) AS 'proveedor',
+					servicios.`ubicacion`, servicios.`nivel`
+	from servicios 
+	inner join proveedores on proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	where servicios.`estado` = 1;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_servicios_buscar_nombrecategoria` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicios_buscar_nombrecategoria` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicios_buscar_nombrecategoria`(IN _nombrecategoria VARCHAR(50))
+BEGIN
+ SELECT servicios.idservicio,
+        categorias.`idcategoria`,servicios.servicio, proveedores.nombres, proveedores.apellidos, servicios.descripcion, servicios.ubicacion, servicios.nivel,
+        CONCAT(categorias.`nombrecategoria`, '')  AS 'categori'
+ FROM servicios
+ INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+  INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+ WHERE nombrecategoria = _nombrecategoria;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_servicios_elimimar` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_servicios_elimimar` */;
@@ -3031,6 +3390,24 @@ begin
 		update servicios set
 			estado = '0'
 			Where idservicio = _idservicio;
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_servicios_inactivo_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicios_inactivo_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicios_inactivo_listar`()
+BEGIN
+	SELECT servicios.`idservicio`, categorias.`nombrecategoria`, servicios.`servicio`,
+					CONCAT(proveedores.`apellidos`, ' ', proveedores.`nombres`) AS 'proveedor',
+					servicios.`ubicacion`, servicios.`nivel`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN categorias ON categorias.`idcategoria` = servicios.`idcategoria`
+	WHERE servicios.`estado` = 0;
 END */$$
 DELIMITER ;
 
@@ -3062,11 +3439,11 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicios_listar_ondata`(IN _idproveedor INT)
 BEGIN
 	SELECT SERV.idservicio, PROV.idproveedor, PROV.nombres, PROV.apellidos, CAT.nombrecategoria,
-					SERV.servicio, SERV.descripcion, SERV.ubicacion, SERV.nivel, SERV.fotoportada
+					SERV.servicio, SERV.descripcion, SERV.ubicacion, SERV.nivel, SERV.fotoportada, SERV.estado
 		FROM servicios SERV 
 		INNER JOIN proveedores PROV ON PROV.idproveedor = SERV.idproveedor
 		INNER JOIN categorias CAT ON CAT.idcategoria = SERV.idcategoria
-		WHERE PROV.idproveedor = _idproveedor order by idservicio desc;
+		WHERE PROV.idproveedor = _idproveedor and SERV.estado = '1' ORDER BY idservicio DESC;
 END */$$
 DELIMITER ;
 
@@ -3158,6 +3535,60 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `spu_servicio_departamentos_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicio_departamentos_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicio_departamentos_listar`(IN _iddepartamento VARCHAR(2))
+BEGIN
+	SELECT proveedores.`iddistrito`, servicios.`idservicio`, proveedores.`iddistrito`, servicios.`idproveedor`,
+					servicios.`idcategoria`, servicios.`servicio`, servicios.`descripcion`, servicios.ubicacion,
+					servicios.`nivel`, servicios.`fotoportada`, servicios.`favorito`, servicios.`fechahora`,
+					servicios.`estado`, provincias.`iddepartamento`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN distritos ON distritos.`iddistrito` = proveedores.`iddistrito`
+	INNER JOIN provincias ON provincias.`idprovincia` = distritos.`idprovincia`
+	WHERE iddepartamento = _iddepartamento AND servicios.estado = '1';
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_servicio_distrito_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicio_distrito_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicio_distrito_listar`(IN _iddistrito VARCHAR(6))
+BEGIN
+	select proveedores.`iddistrito`, servicios.`idservicio`, proveedores.`iddistrito`, servicios.`idproveedor`,
+					servicios.`idcategoria`, servicios.`servicio`, servicios.`descripcion`,
+					servicios.ubicacion, servicios.`nivel`, servicios.`fotoportada`,
+					servicios.`favorito`, servicios.`fechahora`, servicios.`estado`
+	from servicios 
+	inner join proveedores on proveedores.`idproveedor` = servicios.`idproveedor`
+	where iddistrito = _iddistrito AND servicios.estado = '1';
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_servicio_eliminar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicio_eliminar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicio_eliminar`(
+	IN _idservicio INT
+)
+BEGIN
+   UPDATE servicios SET 
+		estado = 0 WHERE 
+		idservicio = _idservicio;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `spu_servicio_onedata` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `spu_servicio_onedata` */;
@@ -3169,6 +3600,41 @@ begin
 	Select * from servicios
 		where idservicio = _idservicio and estado = '1';
 end */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_servicio_provincia_listar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicio_provincia_listar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicio_provincia_listar`(IN _idprovincia VARCHAR(4))
+BEGIN
+	SELECT proveedores.`iddistrito`, servicios.`idservicio`, proveedores.`iddistrito`, servicios.`idproveedor`,
+					servicios.`idcategoria`, servicios.`servicio`, servicios.`descripcion`, servicios.ubicacion,
+					servicios.`nivel`, servicios.`fotoportada`, servicios.`favorito`, servicios.`fechahora`,
+					servicios.`estado`
+	FROM servicios 
+	INNER JOIN proveedores ON proveedores.`idproveedor` = servicios.`idproveedor`
+	INNER JOIN distritos ON distritos.`iddistrito` = proveedores.`iddistrito`
+	WHERE idprovincia = _idprovincia AND servicios.estado = '1';
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `spu_servicio_reactivar` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `spu_servicio_reactivar` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_servicio_reactivar`(
+	IN _idservicio INT
+)
+BEGIN
+  UPDATE servicios SET 
+		estado = 1 
+	WHERE idservicio = _idservicio;
+END */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `spu_servicio_redessociales_proveedor` */

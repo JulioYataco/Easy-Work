@@ -689,7 +689,6 @@ if (isset ($_GET['operacion'])){
         $servicio->ActivarServiciosActivos($data);
     }
 
-
     //PRUEBA
     /*if($operacion == 'listarOneDataProveedor'){
 
